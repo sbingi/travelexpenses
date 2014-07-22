@@ -1,0 +1,59 @@
+<apex:page controller="TravelOverviewMobileCtrl" standardStylesheets="false" docType="html-5.0" showHeader="false" sidebar="false" >
+   
+	 <head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/> 
+		<apex:stylesheet value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/css/app.min.css')}"/>
+		<apex:includeScript value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/js/jQuery2.0.2.min.js')}"/>
+		<apex:includeScript value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/js/jquery.touchwipe.min.js')}"/>
+		<apex:includeScript value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/js/main.min.js')}"/>    
+	</head>
+
+    <div id="tabbed-list-view-nav" class="tabbed-list-view-nav">
+		<a href="" class="span-50 on">Open Travels</a>
+		<a href="" class="span-50">Submitted Travels</a>
+		<div id="tabbed-list-view-nav-arrow" class="tabbed-list-view-nav-arrow">&nbsp;</div>
+    </div>
+    
+    <body>
+        <ul id="openTravels" class="tabbed-list-view">
+            <li>
+                <ul class="list-view right-thumbs right-one-icons">
+                    <apex:dataList value="{!opentravels}" var="element">                        
+                        <a href="javascript:sforce.one.navigateToSObject('{!element.travel.Id}');" class="content">
+                            <h2><apex:outputField value="{!element.travel.Name}" /></h2>
+                            <apex:outputField value="{!element.travel.Owner.FirstName}"/>&nbsp;<apex:outputField value="{!element.travel.Owner.LastName}"/>
+                            <br/>
+                            <apex:outputField value="{!element.travel.dtm_Start__c}"/>&nbsp;-&nbsp;<apex:outputField value="{!element.travel.dtm_End__c}"/>
+                            <br/>
+                            <strong><apex:outputText escape="false" value="{!element.recordStatus}" style="{!IF(element.recordStatus =='Rejected','color:Red;','color:CornflowerBlue')}"/></strong>
+                            <div class="list-view-icons">
+                                <span class="icon-right-arrow">&nbsp;</span>
+                            </div>
+                        </a>
+                    </apex:dataList>
+                </ul>
+            </li>
+            <li>
+                <ul class="list-view right-thumbs right-one-icons">
+                    <apex:dataList value="{!submittedtravels}" var="element">                        
+                        <a href="javascript:sforce.one.navigateToSObject('{!element.travel.Id}');" class="content">
+                            <h2><apex:outputField value="{!element.travel.Name}" /></h2>
+                            <apex:outputField value="{!element.travel.Owner.FirstName}"/>&nbsp;<apex:outputField value="{!element.travel.Owner.LastName}"/>
+                            <br/>
+                            <apex:outputField value="{!element.travel.dtm_Start__c}"/>&nbsp;-&nbsp;<apex:outputField value="{!element.travel.dtm_End__c}"/>
+                            <br/>
+                            <strong><apex:outputText escape="false" value="{!element.recordStatus}" style="{!IF(element.recordStatus=='Pending','color:Orange;','color:LimeGreen;')}"/></strong>
+                            <div class="list-view-icons">
+                                <span class="icon-right-arrow">&nbsp;</span>
+                            </div>
+                        </a>
+                    </apex:dataList>
+                </ul>
+            </li>
+        </ul>
+
+
+    </body>
+    
+</apex:page>

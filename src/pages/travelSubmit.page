@@ -1,0 +1,56 @@
+<apex:page standardController="Travel__c" extensions="TravelCtrlExt" title="Travel Submit" action="{!doGeneratePerDiemsAndLists}">
+    
+    <apex:sectionHeader title="{!Travel__c.Name}" subtitle="Submit Travel"/>
+     
+    <apex:form >
+        <apex:pageBlock >
+        
+            <apex:pageBlockButtons location="bottom" >
+                    <apex:commandButton value="Submit for Reimbursement" action="{!URLFOR($Action.Travel__c.Submit, Id)}"/>
+                    <apex:commandButton value="Back" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+        
+            <apex:pageBlockSection collapsible="true" columns="1" title="Travel Details">
+                <apex:outputField value="{!Travel__c.name}"/>           
+                <apex:outputField value="{!Travel__c.txt_Reason__c}"/>           
+                <apex:outputField value="{!Travel__c.txa_Description__c}"/>        
+                <apex:outputField value="{!Travel__c.dtm_Start__c}"/>
+                <apex:outputField value="{!Travel__c.dtm_End__c}"/>
+            </apex:pageBlockSection>
+               
+            <apex:pageBlockSection collapsible="true" columns="1" title="Expenses" >
+                <apex:pageBlockTable value="{!expensesgroupedbydate}" var="expense">
+                    <apex:column headerValue="Expense Date" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}">
+                    	<apex:outputField value="{!expense.dat_ExpenseDate__c}" />
+                    	<apex:outputText >&nbsp;</apex:outputText>
+                    </apex:column>
+                    <apex:column value="{!expense.RecordTypeId}" headerValue="Record Type" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>
+                    <apex:column value="{!expense.dtm_DepartureTime__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/> 
+                    <apex:column value="{!expense.dtm_ArrivalTime__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>  
+                    <apex:column value="{!expense.dat_CheckInDate__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>  
+                    <apex:column value="{!expense.dat_CheckOutDate__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/> 
+                    <apex:column value="{!expense.lkp_Location__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>
+                    <apex:column value="{!expense.cur_Amount__c}" headerValue="Amount" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>         
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection collapsible="true" columns="2" title="Daily Expenses" >
+                <apex:pageBlockTable value="{!dailyexpenses}" var="day">
+                    <apex:column value="{!day.dat_ExpenseDate__c}" headerValue="Date" />
+                    <apex:column value="{!day.cur_Amount__c}" headerValue="Amount"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection collapsible="true" columns="1" title="Reimbursement">
+                <apex:outputField value="{!Travel__c.rsum_TotalExpenses__c}"/>
+                <apex:outputField value="{!Travel__c.rsum_ReimbursableExpenses__c}"/>
+                <apex:pageBlockSectionItem />
+                <apex:outputField value="{!Travel__c.rsum_PerDiems__c}"/>
+                <apex:pageBlockSectionItem />
+                <apex:outputField value="{!Travel__c.fcur_Reimbursement__c}"/>
+            </apex:pageBlockSection>
+           
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

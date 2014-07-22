@@ -1,0 +1,84 @@
+<apex:page standardController="Travel__c" extensions="TravelCtrlExt" showHeader="false" standardStylesheets="false" docType="html-5.0" applyHtmlTag="false" applyBodyTag="false" action="{!doInitializeLists}" >
+
+    <head>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/> 
+      <apex:stylesheet value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/css/app.min.css')}"/>
+      <apex:includeScript value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/js/jQuery2.0.2.min.js')}"/>
+      <apex:includeScript value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/js/jquery.touchwipe.min.js')}"/>
+      <apex:includeScript value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/js/main.min.js')}"/>    
+   </head>
+    
+    <body>   
+       
+        <div class="detail-view-header left-thumb">
+            <div class="content">
+                <img class="thumb" src='/img/icon/plane32.png'/>
+                <h1><apex:outputField value="{!Travel__c.Name}" /></h1> <br/>
+                <h2><apex:outputField value="{!Travel__c.Owner.Name}" /></h2>
+            </div>
+        </div>
+        
+        <section class="border-bottom">
+            <div class="content">
+                <h3>Reason</h3>
+                <p>
+                    <apex:outputField value="{!Travel__c.txt_Reason__c}" />
+                </p>
+            </div>
+        </section>
+        
+        <section class="border-bottom">
+            <div class="content">
+                <h3>Travel Duration</h3>
+                <table>
+                    <tr>
+                        <td>Begin:</td>
+                        <td>&nbsp;&nbsp;<apex:outputField value="{!Travel__c.dtm_Start__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td>End:</td>
+                        <td>&nbsp;&nbsp;<apex:outputField value="{!Travel__c.dtm_End__c}"/></td>
+                    </tr>
+                </table>              
+            </div>
+        </section>
+        
+        <ul class="list-view right-one-icons large-padding">
+            <li>              
+                <h3>Reimbursement</h3>             
+                <table>
+                    <tr>
+                        <th>Total Expenses:</th>
+                        <th>&nbsp;&nbsp;<apex:outputField value="{!Travel__c.rsum_TotalExpenses__c}"/></th>
+                    </tr>
+                    <tr>
+                        <td>Reimbursable Expenses:</td>
+                        <td>&nbsp;&nbsp;<apex:outputField value="{!Travel__c.rsum_ReimbursableExpenses__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Total per Diems:</td>
+                        <td>&nbsp;&nbsp;<apex:outputField value="{!Travel__c.rsum_PerDiems__c}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Total Reimbursement:</td>
+                        <td>&nbsp;&nbsp;<apex:outputField value="{!Travel__c.fcur_Reimbursement__c}"/></td>
+                    </tr>
+                </table>              
+            </li>
+        </ul>
+        
+        <section class="border-top">
+            <div class="content">
+                <a href="javascript:sforce.one.navigateToRelatedList('{!relatedListId}','{!travelId}');" class="content">                  
+                    <h3>Expenses</h3>                  
+                    <div class="list-view-icons">
+                        <span class="icon-right-arrow">&nbsp;</span>
+                    </div>
+                </a>
+            </div>
+        </section>       
+    
+    </body>
+
+</apex:page>
