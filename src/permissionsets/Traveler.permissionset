@@ -582,6 +582,10 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>expenseEditMobile</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>expenseViewMobile</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
@@ -684,6 +688,10 @@
     <tabSettings>
         <tab>CompensationRate__c</tab>
         <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Expense_Edit_Mobile_Test</tab>
+        <visibility>None</visibility>
     </tabSettings>
     <tabSettings>
         <tab>Travel_Overview</tab>

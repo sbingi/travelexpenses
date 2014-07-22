@@ -8,4 +8,5 @@
     <tab>CompensationRate__c</tab>
     <tab>standard-Contact</tab>
     <tab>standard-report</tab>
+    <tab>Expense_Edit_Mobile_Test</tab>
 </CustomApplication>

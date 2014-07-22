@@ -70,6 +70,7 @@
         <members>compensationRateEdit</members>
         <members>entertainmentExpensesReport</members>
         <members>expenseEdit</members>
+        <members>expenseEditMobile</members>
         <members>expenseViewMobile</members>
         <members>expenseViewMobileLongDistanceRides</members>
         <members>longDistanceRideEdit</members>
@@ -194,6 +195,7 @@
     </types>
     <types>
         <members>CompensationRate__c</members>
+        <members>Expense_Edit_Mobile_Test</members>
         <members>Travel_Overview</members>
         <members>Travel__c</members>
         <name>CustomTab</name>

@@ -12,6 +12,7 @@ private class PerDiemCalculator_Test {
 	
 	private static final DateTime TODAY_START = dateTime(DAY_TODAY, Time.newInstance(00,00,00,00));
 	private static final DateTime TODAY_SEVEN_AM = dateTime(DAY_TODAY, Time.newInstance(07,00,00,00));
+	private static final DateTime TODAY_TEN_AM = dateTime(DAY_TODAY, Time.newInstance(10,00,00,00));
 	private static final DateTime TODAY_TWELVE_AM = dateTime(DAY_TODAY,Time.newInstance(12,00,00,00));
 	private static final DateTime TODAY_FOUR_PM = dateTime(DAY_TODAY, Time.newInstance(16,00,00,00));
 	private static final DateTime TODAY_EIGHT_PM = dateTime(DAY_TODAY, Time.newInstance(20,00,00,00));
@@ -43,9 +44,9 @@ private class PerDiemCalculator_Test {
 		CompensationRate__c start = insertCustomLocation('Startland','Startland',null,'sl',50,25,60);
 		CompensationRate__c destination = insertDefaultLocation();
 		
-		Travel__c travel = new TravelBuilder(TODAY_SEVEN_AM,TODAY_FOUR_PM)
-									.addCustomFlightWithLocation(TODAY_SEVEN_AM,TODAY_TWELVE_AM,start,destination)
-									.addCustomFlightWithLocation(TODAY_TWELVE_AM.addHours(1),TODAY_FOUR_PM,destination,start)
+		Travel__c travel = new TravelBuilder(TODAY_SEVEN_AM,TODAY_TWELVE_AM)
+									.addCustomFlightWithLocation(TODAY_SEVEN_AM,TODAY_TEN_AM,start,destination)
+									.addCustomFlightWithLocation(TODAY_TEN_AM.addHours(1),TODAY_TWELVE_AM,destination,start)
 									.create();
 					
 		
@@ -57,7 +58,7 @@ private class PerDiemCalculator_Test {
 		// Verify
 		Decimal expectedAmount = 0.00;
 		
-		Expense__c expectedPerDiem = perDiemExpense(TODAY_SEVEN_AM, TODAY_FOUR_PM, destination, expectedAmount);
+		Expense__c expectedPerDiem = perDiemExpense(TODAY_SEVEN_AM, TODAY_TWELVE_AM, destination, expectedAmount);
 		
 		actualPerDiems = getActualPerDiems(travel);
 		
@@ -66,7 +67,7 @@ private class PerDiemCalculator_Test {
 	}
 
 	
-	/*@isTest
+	@isTest
 	private static void succeedsWhenNoReimbursementForOvernightTravelShorterThanEightHours() {
 		// Setup 
 		CompensationRate__c start = insertCustomLocation('Startland', 'Startland', null, 'SL', 50, 25, 60);
@@ -280,17 +281,12 @@ private class PerDiemCalculator_Test {
 		System.assertEquals(20.00, actualPerDiems.get(DAY_TODAY).cur_Amount__c);
 		System.assertEquals(40.00, actualPerDiems.get(DAY_AFTER_TOMORROW).cur_Amount__c);
 		System.assertEquals(20.00, actualPerDiems.get(ONE_WEEK_FROM_TODAY).cur_Amount__c);			
-	}*/
+	}
 	
 	
 	// TEST HELPER
 	private static void assertHaveEqualValues(Expense__c expected, Expense__c generated) {
 		Boolean isEqual = false;
-		
-System.debug('Begin expected: '+expected.dtm_Begin__c+' generated: '+generated.dtm_Begin__c );	
-System.debug('End expected: '+expected.dtm_End__c+' generated: '+generated.dtm_End__c );	
-System.debug('Amount expected: '+expected.cur_Amount__c+' generated: '+generated.cur_Amount__c );	
-System.debug('Location expected: '+expected.lkp_Location__c+' generated: '+generated.lkp_Location__c );	
 		
 		if( (generated.dtm_Begin__c == expected.dtm_Begin__c)
 			&& (generated.dtm_End__c == expected.dtm_End__c )
