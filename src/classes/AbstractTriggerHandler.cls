@@ -2,7 +2,6 @@ public abstract class AbstractTriggerHandler {
 	
 	private static Boolean alreadyRunning = false;
 	
-	// WEG DSMI
 	// PUBLIC METHODS
 	
 	public void delegate() {
