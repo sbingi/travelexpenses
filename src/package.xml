@@ -32,13 +32,9 @@
         <members>ExpensesTriggerHandler_Test</members>
         <members>LocationFinder</members>
         <members>LocationFinder_Test</members>
-        <members>LongDistanceRideCannotBeOutsideOfRental</members>
-        <members>LongDistanceRideCannotEndBeforeStart</members>
         <members>LongDistanceRideCtrlExt</members>
-        <members>LongDistanceRideHasValidLocation</members>
         <members>LongDistanceRideRule</members>
         <members>LongDistanceRideValidator_Test</members>
-        <members>LongDistanceRidesDontOverlap</members>
         <members>LongDistanceRidesTriggerHandler</members>
         <members>MealInvitationCannotBeOutOfTravelPeriod</members>
         <members>MealInvitationRule</members>
@@ -48,6 +44,12 @@
         <members>MealInvitationsTriggerHandler_Test</members>
         <members>PerDiemCalculator</members>
         <members>PerDiemCalculator_Test</members>
+        <members>RideCannotBeOutsideOfRental</members>
+        <members>RideCannotEndBeforeStart</members>
+        <members>RideHasValidLocation</members>
+        <members>RideNeedsReturnInfoWhenRoundTripChecked</members>
+        <members>RidesCannotBeOutsideOfTravel</members>
+        <members>RidesDontOverlap</members>
         <members>RuleType</members>
         <members>RuleValidator</members>
         <members>SaveTravelRule</members>
@@ -67,6 +69,18 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>alert</members>
+        <members>column</members>
+        <members>formblock</members>
+        <members>formgroup</members>
+        <members>importvisualstrap</members>
+        <members>navbar</members>
+        <members>panel</members>
+        <members>visualstrapblock</members>
+        <name>ApexComponent</name>
+    </types>
+    <types>
+        <members>ExpenseEditBootstrapRobert</members>
         <members>compensationRateEdit</members>
         <members>entertainmentExpensesReport</members>
         <members>expenseEdit</members>
@@ -154,10 +168,14 @@
         <members>Expense__c.txt_PlaceOfEntertainment__c</members>
         <members>Expense__c.txt_Reason__c</members>
         <members>Expense__c.txt_To__c</members>
+        <members>LongDistanceRide__c.chk_RoundTrip__c</members>
         <members>LongDistanceRide__c.dtm_ArrivalTime__c</members>
         <members>LongDistanceRide__c.dtm_DepartureTime__c</members>
+        <members>LongDistanceRide__c.dtm_ReturnArrival__c</members>
+        <members>LongDistanceRide__c.dtm_ReturnDeparture__c</members>
         <members>LongDistanceRide__c.lkp_LocationFrom__c</members>
         <members>LongDistanceRide__c.lkp_LocationTo__c</members>
+        <members>LongDistanceRide__c.lkp_ReturnTrip__c</members>
         <members>LongDistanceRide__c.mdr_RentalVehicle__c</members>
         <members>LongDistanceRide__c.txt_From__c</members>
         <members>LongDistanceRide__c.txt_To__c</members>
@@ -172,7 +190,6 @@
         <members>TravelContact__c.mdr_Contact__c</members>
         <members>TravelContact__c.mdr_Travel__c</members>
         <members>Travel__c.chk_Approved__c</members>
-        <members>Travel__c.chk_RecalculatePerDiems__c</members>
         <members>Travel__c.dtm_End__c</members>
         <members>Travel__c.dtm_Start__c</members>
         <members>Travel__c.fcur_Reimbursement__c</members>
@@ -195,7 +212,6 @@
     </types>
     <types>
         <members>CompensationRate__c</members>
-        <members>Expense_Edit_Mobile_Test</members>
         <members>Travel_Overview</members>
         <members>Travel__c</members>
         <name>CustomTab</name>
@@ -268,6 +284,7 @@
     </types>
     <types>
         <members>Mobile_Design_Templates</members>
+        <members>VisualStrap_Resources</members>
         <members>up2go_Logo</members>
         <name>StaticResource</name>
     </types>
