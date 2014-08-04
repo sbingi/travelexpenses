@@ -11,8 +11,8 @@ public with sharing class CompensationRateType {
 		for(RecordType rt : [SELECT Id, Name, DeveloperName 
 							 FROM RecordType 
 							 WHERE SobjectType = 'UP2GO_ITE__CompensationRate__c']) {
+							 	
 			for(Type type : Type.values()) {
-				
 				if(type.name() == rt.DeveloperName) {
 					rtIdByType.put(type, rt.Id);
 					rtTypeById.put(rt.Id, type);
@@ -76,7 +76,9 @@ public with sharing class CompensationRateType {
 	// PRIVATE METHODS
 	
 	private static Boolean is(Type type,Id recordTypeId) {
-		return (rtTypeById.get(recordTypeId).name() == type.name());
+		Boolean result = (rtTypeById.get(recordTypeId).name() == type.name());
+		
+		return result;
 	}
 	
 	

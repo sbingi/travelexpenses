@@ -175,8 +175,15 @@ private class TravelCtrlExt_Test {
         String expectedMessage = 'Your travel needs a movement expense on the first day.';
         String expectedMessage2 = 'Your travel needs a movement expense on the last day.';
         
-        Travel__c travel = new TravelBuilder(System.now(), System.now().addDays(2))
-                                     .addDefaultFlight(System.now().addDays(1), System.now().addDays(1).addHours(3))
+        DateTime start = dateTime(DAY_TODAY,START_OF_DAY);
+        DateTime stop = dateTime(DAY_AFTER_TOMORROW,END_OF_DAY);
+        DateTime mark = dateTime(DAY_TOMORROW,START_OF_DAY);
+        
+        Travel__c travel = new TravelBuilder(start, stop)
+                                     .addDefaultFlight(mark, mark.addHours(3))
+                                     .addRentalVehicleWithRoundTripLongDistanceRide(DAY_TODAY,DAY_AFTER_TOMORROW,
+                                     												mark.addHours(5),mark.addHours(6),
+                                     												mark.addHours(8),mark.addHours(10))
                                      .create();
                                      
         TravelCtrlExt ctrlExt = new TravelCtrlExt(new ApexPages.StandardController(travel));

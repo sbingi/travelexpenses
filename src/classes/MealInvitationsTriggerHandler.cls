@@ -58,14 +58,13 @@ public with sharing class MealInvitationsTriggerHandler extends AbstractTriggerH
 			mealInvitationIds.add(mi.mdr_Travel__c);
 		}
 		
-		List<Travel__c> allAffectedTravels = [SELECT Id, Name, CurrencyIsoCode, txt_Reason__c, txa_Description__c, 
-                         							 dtm_Start__c, dtm_End__c, Owner.FirstName, Owner.LastName, 
-                         							 rsum_TotalExpenses__c, rsum_ReimbursableExpenses__c, rsum_PerDiems__c, 
-                         							 fcur_Reimbursement__c
-											  FROM Travel__c 
-											  WHERE Id IN :mealInvitationIds];
-
-		for(Travel__c travel : allAffectedTravels) {
+		for(Travel__c travel : [SELECT Id, Name, CurrencyIsoCode, txt_Reason__c, txa_Description__c, 
+         							   dtm_Start__c, dtm_End__c, Owner.FirstName, Owner.LastName, 
+         							   rsum_TotalExpenses__c, rsum_ReimbursableExpenses__c, rsum_PerDiems__c, 
+         							   fcur_Reimbursement__c
+							    FROM Travel__c 
+							    WHERE Id IN :mealInvitationIds]) {
+							    	
 			PerDiemCalculator perDiemCalculator = new PerDiemCalculator(travel);
         	perDiemCalculator.calculate();
 		}

@@ -1,4 +1,4 @@
-<apex:page standardController="Travel__c" extensions="TravelCtrlExt" title="Travel View" id="travelViewPage" action="{!doRedirectMobileDevices}">
+<apex:page standardController="Travel__c" extensions="TravelCtrlExt" title="Travel View" id="travelViewPage" >
 
     <apex:detail showChatter="true" />
     

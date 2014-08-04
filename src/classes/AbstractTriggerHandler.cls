@@ -2,10 +2,11 @@ public abstract class AbstractTriggerHandler {
 	
 	private static Boolean alreadyRunning = false;
 	
+	
 	// PUBLIC METHODS
 	
 	public void delegate() {
-		if(!alreadyRunning) {
+		if( !alreadyRunning) {
 			alreadyRunning = true;
 			
 			if(Trigger.isBefore && Trigger.isInsert) {

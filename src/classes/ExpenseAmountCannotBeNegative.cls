@@ -1,9 +1,13 @@
 public with sharing class ExpenseAmountCannotBeNegative implements ExpenseRule{
  	
+ 	
+ 	// PUBLIC METHODS
+ 	
     public void validate(List<SObject> records) {
     	String errorMessage = 'Expense Amount cannot be negative.';
 
     	for(Expense__c expense : (List<Expense__c>)records) {
+    		
 	        if(ExpenseType.isEntertainment(expense)) {
                 if( (expense.cur_Bill__c + expense.cur_Tip__c) < 0 ) {
                     expense.cur_Bill__c.addError(errorMessage);

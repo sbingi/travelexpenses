@@ -4,11 +4,12 @@ public with sharing class PerDiemCalculator {
     private CompensationRate__c currentLocation; 
     
     private List<Expense__c> movementExpenses;
-    private List<Expense__c> accommodationExpenses;
     private List<Expense__c> oldPerDiems;
     
     private Map<Id,CompensationRate__c> locations;
     private Map<Date,MealInvitation__c> mealInvitations;
+    
+    private Boolean hasNoAccommodations;
     
     
     // CONSTRUCTOR
@@ -24,9 +25,9 @@ public with sharing class PerDiemCalculator {
     // PUBLIC METHODS
     
     public void calculate() {
-    	List<Expense__c> newPerDiems = new List<Expense__c>();
-        
         delete oldPerDiems;
+        
+    	List<Expense__c> newPerDiems = new List<Expense__c>();
         
         try {
 	    	if(isShorterOrEqualEightHours()) {
@@ -51,15 +52,18 @@ public with sharing class PerDiemCalculator {
 	
 	private void initExpenses() {
 		movementExpenses = new List<Expense__c>();
-		accommodationExpenses = new List<Expense__c>();
 		oldPerDiems = new List<Expense__c>();
 		
+    	hasNoAccommodations = true;
+    			
 		Set<Id> recordTypes = new Set<Id>();
 		recordTypes.add(ExpenseType.getEntertainmentRecordTypeId());
 		recordTypes.add(ExpenseType.getMiscellaneousRecordTypeId());
 		
 		for(Expense__c expense : [SELECT RecordTypeId, dtm_ArrivalTime__c, dtm_DepartureTime__c,lkp_Location__c, lkp_LocationFrom__c,
-    					   				 (SELECT dtm_DepartureTime__c, dtm_ArrivalTime__c,lkp_LocationFrom__c,lkp_LocationTo__c
+										 chk_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c,
+    					   				 (SELECT dtm_DepartureTime__c, dtm_ArrivalTime__c,lkp_LocationFrom__c,lkp_LocationTo__c,
+    					   				 		 chk_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c
     					   			   	  FROM Long_Distance_Rides__r)	
     							  FROM Expense__c 
     							  WHERE mdr_travel__c = :travel.id
@@ -67,26 +71,32 @@ public with sharing class PerDiemCalculator {
     		
     		if(ExpenseType.isMovement(expense)) {
     			movementExpenses.add(expense);
+    			
     		}					  	
-			else if(ExpenseType.isAccommodation(expense)) {
-				accommodationExpenses.add(expense);
-			}
 			else if(ExpenseType.isPerDiem(expense)) {
 				oldPerDiems.add(expense);
 			}
 			else if(ExpenseType.isRentalVehicle(expense)) {
+				
 				for(LongDistanceRide__c ldr : expense.Long_Distance_Rides__r) {
 					Expense__c falseExpense = new Expense__c();
-					
 		    		falseExpense.dtm_DepartureTime__c = ldr.dtm_DepartureTime__c;
 		    		falseExpense.dtm_ArrivalTime__c = ldr.dtm_ArrivalTime__c;
 		    		falseExpense.lkp_LocationFrom__c = ldr.lkp_LocationFrom__c;
 		    		falseExpense.lkp_Location__c = ldr.lkp_LocationTo__c;
+		    		falseExpense.chk_RoundTrip__c = ldr.chk_RoundTrip__c;
+		    		falseExpense.dtm_ReturnDeparture__c = ldr.dtm_ReturnDeparture__c;
+		    		falseExpense.dtm_ReturnArrival__c = ldr.dtm_ReturnArrival__c;
 		    		
 		    		movementExpenses.add(falseExpense);
 				}
 			}
+			else if(ExpenseType.isAccommodation(expense)) {
+				hasNoAccommodations = false;
+			}
 		}
+		
+		movementExpenses.addAll(createReturnTrips(movementExpenses));
 	}
 	
 	
@@ -129,7 +139,14 @@ public with sharing class PerDiemCalculator {
     private Boolean isOvernightTravel() {
     	Integer travelDuration = travel.dtm_End__c.day() - travel.dtm_Start__c.day();
     	
-    	Boolean result = (travelDuration == 1) && (accommodationExpenses.isEmpty());
+    	Boolean result = (travelDuration == 1) && hasNoAccommodations;
+    	
+    	return result;
+    }
+    
+    
+    private Boolean isOneDayTravel() {
+    	Boolean result = travel.dtm_Start__c.isSameDay(travel.dtm_End__c);
     	
     	return result;
     }
@@ -138,44 +155,49 @@ public with sharing class PerDiemCalculator {
     // PER DIEM GENERATING METHODS
     
     private Expense__c generateShortTravelPerDiem() {
-    	Date travelFirstDay = travel.dtm_Start__c.date();
-    	Date travelLastDay = travel.dtm_End__c.date();
+    	Date firstDay = travel.dtm_Start__c.date();
+    	Date lastDay = travel.dtm_End__c.date();
     	
-    	determineLocationOfTheDay(travelFirstDay,travelLastDay);
+    	determineLocationOfTheDay(firstDay,lastDay);
    		
-    	Expense__c result = createDefaultPerDiem(travelFirstDay);
+    	Expense__c result = createDefaultPerDiem(firstDay);
     	
 		result.cur_Amount__c = 0.00;
    		result.cur_OriginalAmount__c = 0.00;
-   		result.cur_Deduction__c = 0.00;
+   		result.cur_Deduction__c = calculateMealDeduction(firstDay, true);
    		result.dtm_Begin__c = travel.dtm_Start__c;
    		result.dtm_End__c = travel.dtm_End__c;
    		result.lkp_Location__c = currentLocation.Id;
    		result.CurrencyIsoCode = currentLocation.CurrencyIsoCode;
-    	result.lkp_MealInvitation__c = findMealInvitation(travelFirstDay);
+   		
+   		Id mealInvitation = findMealInvitation(firstDay);
+   		if(mealInvitation == null) {
+   			mealInvitation = findMealInvitation(lastDay);
+   		}
+    	result.lkp_MealInvitation__c = mealInvitation;
     	    	
     	return result;
     }
     
     
     private Expense__c generateOverNightPerDiem() {
-    	Date travelFirstDay = travel.dtm_Start__c.date();
-    	Date travelLastDay = travel.dtm_End__c.date();
+    	Date firstDay = travel.dtm_Start__c.date();
+    	Date lastDay = travel.dtm_End__c.date();
     	
-   		determineLocationOfTheDay(travelFirstDay, travelLastDay);
+   		determineLocationOfTheDay(firstDay,lastDay);
    		
-    	Expense__c result = createDefaultPerDiem(travelFirstDay);
+    	Expense__c result = createDefaultPerDiem(firstDay);
     	
    		result.dtm_Begin__c = travel.dtm_Start__c;
    		result.dtm_End__c = travel.dtm_End__c;
    		result.lkp_Location__c = currentLocation.Id;
    		result.CurrencyIsoCode = currentLocation.CurrencyIsoCode;
    		result.cur_OriginalAmount__c = currentLocation.cur_PartialDailyRate__c;
-		result.cur_Deduction__c = calculateMealDeduction(travelFirstDay, true);
+		result.cur_Deduction__c = calculateMealDeduction(firstDay, true);
    		
-   		Id mealInvitation = findMealInvitation(travelFirstDay);
+   		Id mealInvitation = findMealInvitation(firstDay);
    		if(mealInvitation == null) {
-   			mealInvitation = findMealInvitation(travelLastDay);
+   			mealInvitation = findMealInvitation(lastDay);
    		}
    		result.lkp_MealInvitation__c = mealInvitation;
  		
@@ -190,22 +212,27 @@ public with sharing class PerDiemCalculator {
     	
     
     private List<Expense__c> generatePerDiems() {
-    	Date travelFirstDay = travel.dtm_Start__c.date();
-    	Date travelLastDay = travel.dtm_End__c.date();
+    	Date firstDay = travel.dtm_Start__c.date();
+    	Date lastDay = travel.dtm_End__c.date();
     	
     	List<Expense__c> results = new List<Expense__c>();
 
-		for( Date day = travelFirstDay ; day <= travelLastDay ; day = day.addDays(1)) {
+		for( Date day = firstDay ; day <= lastDay ; day = day.addDays(1)) {
             Expense__c perDiem = createDefaultPerDiem(day);
             
-        	determineLocationOfTheDay(travelFirstDay, travelLastDay, day);
-                        	
-            if (day.isSameDay(travelFirstDay)) {
+        	determineLocationOfTheDay(firstDay,lastDay,day);
+            
+            if(isOneDayTravel()) {
+            	perDiem.dtm_Begin__c = travel.dtm_Start__c;
+            	perDiem.dtm_End__c = travel.dtm_End__c;
+            	perDiem.cur_OriginalAmount__c = currentLocation.cur_PartialDailyRate__c;
+            }            	
+            else if (day.isSameDay(firstDay)) {
             	perDiem.dtm_Begin__c = travel.dtm_Start__c;
                 perDiem.dtm_End__c = DateTime.newInstance(day,Time.newInstance(23,59,59,00));
                 perDiem.cur_OriginalAmount__c = currentLocation.cur_PartialDailyRate__c;
             }
-            else if(day.isSameDay(travelLastDay)) {
+            else if(day.isSameDay(lastDay)) {
                 perDiem.dtm_Begin__c = DateTime.newInstance(day,Time.newInstance(00,00,00,00));
                 perDiem.dtm_End__c = travel.dtm_End__c;
                 perDiem.cur_OriginalAmount__c = currentLocation.cur_PartialDailyRate__c;
@@ -236,6 +263,26 @@ public with sharing class PerDiemCalculator {
 	
 	// CALCULATING AND DETERMINING METHODS
 	
+	private List<Expense__c> createReturnTrips(List<Expense__c> expenses) {
+		List<Expense__c> results = new List<Expense__c>();
+		
+		for(Expense__c e : expenses) {
+			if(e.chk_RoundTrip__c) {
+				Expense__c returnTrip = new Expense__c();
+				returnTrip.dtm_DepartureTime__c = e.dtm_ReturnDeparture__c;
+				returnTrip.dtm_ArrivalTime__c = e.dtm_ReturnArrival__c;
+				returnTrip.lkp_LocationFrom__c = e.lkp_Location__c;
+				returnTrip.lkp_Location__c = e.lkp_LocationFrom__c;
+				returnTrip.chk_RoundTrip__c = false;
+				
+				results.add(returnTrip);
+			}
+		}
+		
+		return results;	
+	}
+	
+	
 	private Expense__c createDefaultPerDiem(Date day) {
 		Expense__c result = new Expense__c();
 		
@@ -246,53 +293,25 @@ public with sharing class PerDiemCalculator {
 		
 		return result;
 	}
+		
 	
-	
-	private Decimal calculateMealDeduction(Date day,Boolean overnight) {
-		Double allowanceRate;
+    private Id findMealInvitation(Date day) {
+    	Id result;
+    	
+		MealInvitation__c invitation = mealInvitations.get(day);
 		
-		if(overnight) {
-			allowanceRate = calculateAllowanceRate(day) + calculateAllowanceRate(day.addDays(1));
-		}
-		else {
-			allowanceRate = calculateAllowanceRate(day);
+		if(invitation != null) {
+			result = invitation.Id;
 		}
 		
-		if(allowanceRate > 1) {
-				allowanceRate = 1;
-		}
-		
-		Decimal result = locations.get(currentLocation.Id).cur_FullDailyRate__c * allowanceRate;
-				
 		return result;
 	}
 	
 	
-	private Double calculateAllowanceRate(Date day) {
-		Double result = 0.00;
-		MealInvitation__c invitation = mealInvitations.get(day);
-		
-		if(invitation != null) {
-			
-			if(invitation.lkp_Breakfast__c != null) {
-				result = result+ invitation.lkp_Breakfast__r.pct_FullDayAllowanceRate__c;
-			}
-			if(invitation.lkp_Lunch__c != null) {
-				result = result+ invitation.lkp_Lunch__r.pct_FullDayAllowanceRate__c;
-			}
-			if(invitation.lkp_Dinner__c != null) {
-				result = result+ invitation.lkp_Dinner__r.pct_FullDayAllowanceRate__c;
-			}
-		}
-		
-		return result/100;
-	}
-		
-	
-	private void determineLocationOfTheDay(Date firstDay, Date lastDay) {
+	private void determineLocationOfTheDay(Date firstDay,Date lastDay) {
 		Expense__c movementOfTheDay;
 		
-		if(firstDay.isSameDay(lastDay)) {
+		if(isOneDayTravel()) {
 			movementOfTheDay = determineLastExpensePerDay(firstDay);
 		}
 		else if(isOvernightTravel()) {
@@ -309,11 +328,11 @@ public with sharing class PerDiemCalculator {
 	}
 		
 	
-	private void determineLocationOfTheDay(Date firstDay, Date lastDay, Date day) {
+	private void determineLocationOfTheDay(Date firstDay,Date lastDay, Date day) {
 		Expense__c movementOfTheDay;
 		
-		if(firstDay.isSameDay(lastDay)) {
-			movementOfTheDay = determineLastExpensePerDay(firstDay);
+		if(isOneDayTravel()) {
+			movementOfTheDay = determineLastExpensePerDay(day);
 		
 			if(movementOfTheDay != null) {
 				currentLocation = locations.get(movementOfTheDay.lkp_LocationFrom__c);
@@ -330,7 +349,7 @@ public with sharing class PerDiemCalculator {
 			else {
 				movementOfTheDay = determineLastExpensePerDay(day);
 				
-				if(day.IsSameDay(FirstDay) && movementOfTheDay == null) {
+				if(day.IsSameDay(firstDay) && movementOfTheDay == null) {
 					movementOfTheDay = determineFirstExpensePerDay(day);
 				}
 				
@@ -376,15 +395,43 @@ public with sharing class PerDiemCalculator {
 	}
 	
 	
-    private Id findMealInvitation(Date day) {
-    	Id result;
-    	
+	private Decimal calculateMealDeduction(Date day,Boolean overnight) {
+		Double allowanceRate;
+		
+		if(overnight) {
+			allowanceRate = calculateAllowanceRate(day) + calculateAllowanceRate(day.addDays(1));
+		}
+		else {
+			allowanceRate = calculateAllowanceRate(day);
+		}
+		
+		if(allowanceRate > 1) {
+				allowanceRate = 1;
+		}
+		
+		Decimal result = locations.get(currentLocation.Id).cur_FullDailyRate__c * allowanceRate;
+				
+		return result;
+	}
+	
+	
+	private Double calculateAllowanceRate(Date day) {
+		Double result = 0.00;
 		MealInvitation__c invitation = mealInvitations.get(day);
 		
 		if(invitation != null) {
-			result = invitation.Id;
+			
+			if(invitation.lkp_Breakfast__c != null) {
+				result = result+ invitation.lkp_Breakfast__r.pct_FullDayAllowanceRate__c;
+			}
+			if(invitation.lkp_Lunch__c != null) {
+				result = result+ invitation.lkp_Lunch__r.pct_FullDayAllowanceRate__c;
+			}
+			if(invitation.lkp_Dinner__c != null) {
+				result = result+ invitation.lkp_Dinner__r.pct_FullDayAllowanceRate__c;
+			}
 		}
 		
-		return result;
+		return result/100;
 	}
 }

@@ -18,7 +18,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>Edit</actionName>
-        <content>expenseEdit</content>
+        <content>ExpenseEditBootstrapRobert</content>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Visualforce</type>
     </actionOverrides>
@@ -32,7 +32,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>New</actionName>
-        <content>expenseEdit</content>
+        <content>expenseEditMobile</content>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Visualforce</type>
     </actionOverrides>

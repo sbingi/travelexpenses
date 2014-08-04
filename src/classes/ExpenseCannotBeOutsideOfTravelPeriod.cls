@@ -1,44 +1,30 @@
 public with sharing class ExpenseCannotBeOutsideOfTravelPeriod implements ExpenseRule{     
      
+     private String errorMessage = 'Expense is outside of travel period.';
+     private Travel__c travel;
+     
+     
      // PUBLIC METHODS
      
     public void validate(List<SObject> records) {
-    	String errorMessage = 'Expense is outside of travel period.';
     	List<Expense__c> expenses = (List<Expense__c>) records;
 
     	Map<Id,Travel__c> relevantTravels = queryRelevantTravels(expenses);
     	
 		for(Expense__c expense : expenses) {
-			Travel__c travel = relevantTravels.get(expense.mdr_Travel__c);
+			travel = relevantTravels.get(expense.mdr_Travel__c);
 			
 	        if(ExpenseType.isMovement(expense)) {
-	        	
-	        	if(isOutsideOfTravel(expense.dtm_DepartureTime__c,travel)) {
-		            expense.dtm_DepartureTime__c.addError(errorMessage);            
-	        	}
-	        	if(isOutsideOfTravel(expense.dtm_ArrivalTime__c,travel)) {
-	        		expense.dtm_ArrivalTime__c.addError(errorMessage);
-	        	}
+	        	checkMovementExpense(expense);
 	        }
 	        else if(ExpenseType.isAccommodation(expense)) {
-	    		if(isOutsideOfTravel(expense.dat_CheckInDate__c, travel)) {
-	        		expense.dat_CheckInDate__c.addError(errorMessage);     
-	    		}
-	    		if(isOutsideOfTravel(expense.dat_CheckOutDate__c,travel)) {
-	    			expense.dat_CheckOutDate__c.addError(errorMessage);
-	    		}
+	    		checkAccommodationExpense(expense);
         	}
 			else if(ExpenseType.isRentalVehicle(expense)) {
-				if(isOutsideOfTravel(expense.dat_PickUpDate__c,travel)) {
-					expense.dat_PickUpDate__c.addError(errorMessage);
-				}
-				if(isOutsideOfTravel(expense.dat_ReturnDate__c,travel)) {
-					expense.dat_ReturnDate__c.addError(errorMessage);
-				}				
+				checkRentalVehicleExpense(expense);
 			}
-			else if((ExpenseType.isEntertainment(expense) || ExpenseType.isMiscellaneous(expense))
-					&& IsOutsideOfTravel(expense.dat_ExpenseDate__c, travel)) {
-				expense.dat_ExpenseDate__c.addError(errorMessage);
+			else if((ExpenseType.isEntertainment(expense) || ExpenseType.isMiscellaneous(expense))){
+				checkLocalExpense(expense);
 			}
 		}
     }
@@ -48,7 +34,6 @@ public with sharing class ExpenseCannotBeOutsideOfTravelPeriod implements Expens
     
     private Map<Id,Travel__c> queryRelevantTravels(List<Expense__c> expenses) {
     	Set<Id> travels = new Set<Id>();
-    	
     	for(Expense__c e : expenses) {
     		travels.add(e.mdr_Travel__c);
     	}
@@ -61,15 +46,69 @@ public with sharing class ExpenseCannotBeOutsideOfTravelPeriod implements Expens
     }
     
     
-    private Boolean isOutsideOfTravel(Date day,Travel__c t) {
-    	Boolean result = day < t.dtm_Start__c.date() || day > t.dtm_End__c.date();
+    private void checkMovementExpense(Expense__c expense) {
+    	if(isOutsideOfTravel(expense.dtm_DepartureTime__c)) {
+            expense.dtm_DepartureTime__c.addError(errorMessage);            
+    	}
+    	if(isOutsideOfTravel(expense.dtm_ArrivalTime__c)) {
+    		expense.dtm_ArrivalTime__c.addError(errorMessage);
+    	}
+    	
+    	if(hasRoundTrip(expense)) {
+    		
+    		if(isOutsideOfTravel(expense.dtm_ReturnDeparture__c)) {
+    			expense.dtm_ReturnDeparture__c.addError(errorMessage);
+    		}
+    		if(isOutsideOfTravel(expense.dtm_ReturnArrival__c)) {
+    			expense.dtm_ReturnArrival__c.addError(errorMessage);
+    		}
+    	}
+    }
+    
+    
+    private void checkAccommodationExpense(Expense__c expense) {
+    	if(isOutsideOfTravel(expense.dat_CheckInDate__c)) {
+    		expense.dat_CheckInDate__c.addError(errorMessage);     
+		}
+		if(isOutsideOfTravel(expense.dat_CheckOutDate__c)) {
+			expense.dat_CheckOutDate__c.addError(errorMessage);
+		}
+    }
+    
+    
+    private void checkRentalVehicleExpense(Expense__c expense) {
+    	if(isOutsideOfTravel(expense.dat_PickUpDate__c)) {
+			expense.dat_PickUpDate__c.addError(errorMessage);
+		}
+		if(isOutsideOfTravel(expense.dat_ReturnDate__c)) {
+			expense.dat_ReturnDate__c.addError(errorMessage);
+		}				
+    }
+    
+    
+    private void checkLocalExpense(Expense__c expense) {
+    	if(IsOutsideOfTravel(expense.dat_ExpenseDate__c)) {
+			expense.dat_ExpenseDate__c.addError(errorMessage);
+    	}
+    }
+    
+    
+    private Boolean isOutsideOfTravel(Date day) {
+    	Boolean result = day < travel.dtm_Start__c.date() || day > travel.dtm_End__c.date();
         				  
         return result;
     }
     
     
-    private Boolean isOutsideOfTravel(DateTime dtm, Travel__c t) {
-    	Boolean result = dtm < t.dtm_Start__c || dtm > t.dtm_End__c;
+    private Boolean isOutsideOfTravel(DateTime dtm) {
+    	Boolean result = dtm < travel.dtm_Start__c || dtm > travel.dtm_End__c;
+
+    	return result;
+    }
+    
+    
+    private Boolean hasRoundTrip(Expense__c e) {
+    	Boolean result = e.chk_RoundTrip__c && e.dtm_ReturnDeparture__c != null && e.dtm_ReturnArrival__c != null;
     	
     	return result;
     }

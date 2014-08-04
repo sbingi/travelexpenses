@@ -12,6 +12,7 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 			List<Expense__c> movementExpenses = movementExpensesByTravel.get(travel.Id);
 			
 			if (movementExpenses != null) {
+				movementExpenses = createReturnTrips(movementExpenses);
 				movementExpenses = sortExpenses(movementExpenses);
 				
 				for(Integer i=0; i<(movementExpenses.size()-1) ;i++) {
@@ -35,8 +36,15 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 		Set<Id> movementRecordTypeIds = ExpenseType.getMovementRecordTypeIds();
 		movementRecordTypeIds.add(ExpenseType.getRentalVehicleRecordTypeId());
 		
-		for(Expense__c expense : [SELECT RecordTypeId, dtm_ArrivalTime__c,dtm_DepartureTime__c, lkp_LocationFrom__c, lkp_Location__c, txt_From__c, txt_To__c, mdr_Travel__c, 
-										 (SELECT dtm_DepartureTime__c, dtm_ArrivalTime__c, lkp_LocationFrom__c, lkp_LocationTo__c, txt_From__c, txt_To__c
+		for(Expense__c expense : [SELECT RecordTypeId, mdr_Travel__c,
+										 dtm_ArrivalTime__c,dtm_DepartureTime__c,
+										 lkp_LocationFrom__c, lkp_Location__c,
+										 txt_From__c, txt_To__c,
+										 chk_Roundtrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c,
+										 (SELECT dtm_DepartureTime__c, dtm_ArrivalTime__c,
+										 		 lkp_LocationFrom__c, lkp_LocationTo__c,
+										 		 txt_From__c, txt_To__c,
+										 		 chk_Roundtrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c
 										  FROM Long_Distance_Rides__r)
 								  FROM Expense__c
 								  WHERE RecordTypeId IN :movementRecordTypeIds
@@ -60,6 +68,9 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 		    		falseExpense.lkp_Location__c = ride.lkp_LocationTo__c;
 		    		falseExpense.txt_From__c = ride.txt_From__c;
 		    		falseExpense.txt_To__c = ride.txt_To__c;
+		    		falseExpense.chk_RoundTrip__c = ride.chk_RoundTrip__c;
+		    		falseExpense.dtm_ReturnDeparture__c = ride.dtm_ReturnDeparture__c;
+		    		falseExpense.dtm_ReturnArrival__c = ride.dtm_ReturnArrival__c;
 		    		
 					expenses.add(falseExpense);		    		
 				}
@@ -73,9 +84,30 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 	}
 	
 	
-	private List<Expense__c> sortExpenses(List<Expense__c> expenses) {
+	private List<Expense__c> createReturnTrips(List<Expense__c> expenses) {
 		List<Expense__c> results = new List<Expense__c>();
 		
+		for(Expense__c e : expenses) {
+			results.add(e);
+			
+			if(e.chk_RoundTrip__c) {
+				Expense__c returnTrip = new Expense__c();
+				returnTrip.dtm_DepartureTime__c = e.dtm_ReturnDeparture__c;
+	    		returnTrip.dtm_ArrivalTime__c = e.dtm_ReturnArrival__c;
+	    		returnTrip.lkp_LocationFrom__c = e.lkp_Location__c;
+	    		returnTrip.lkp_Location__c = e.lkp_LocationFrom__c;
+	    		returnTrip.txt_From__c = e.txt_To__c;
+	    		returnTrip.txt_To__c = e.txt_From__c;
+				
+				results.add(returnTrip);
+			}
+		}
+		
+		return results;
+	}
+	
+	
+	private List<Expense__c> sortExpenses(List<Expense__c> expenses) {
 		Map<DateTime,Expense__c> expensesByDateTime = new Map<DateTime,Expense__c>();
 		
 		for(Expense__c e : expenses) {
@@ -84,6 +116,8 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 		
 		List<DateTime> keys = new List<DateTime>(expensesByDateTime.keySet());
 		keys.sort();
+		
+		List<Expense__c> results = new List<Expense__c>();
 		
 		for(DateTime dt : keys) {
 			results.add(expensesByDateTime.get(dt));
@@ -94,6 +128,8 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 	
 	
 	private Boolean isGap(Expense__c firstExpense, Expense__c secondExpense) {
-		return (firstExpense.lkp_Location__c != secondExpense.lkp_LocationFrom__c);
+		Boolean result = (firstExpense.lkp_Location__c != secondExpense.lkp_LocationFrom__c);
+		
+		return result;
 	}
 }

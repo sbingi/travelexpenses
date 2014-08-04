@@ -4,7 +4,7 @@ global with sharing class TravelCtrlExt {
     private ApexPages.StandardController stdCtrl;
     private List<Expense__c> sortedExpenses = new List<Expense__c>();
     private List<Expense__c> dailyExpenses = new List<Expense__c>();
-      
+    
   
     // CONSTRUCTOR
     
@@ -14,7 +14,10 @@ global with sharing class TravelCtrlExt {
         travel = [SELECT Id, Name, CurrencyIsoCode, txt_Reason__c, txa_Description__c, 
                          dtm_Start__c, dtm_End__c, Owner.FirstName, Owner.LastName, 
                          rsum_TotalExpenses__c, rsum_ReimbursableExpenses__c, rsum_PerDiems__c, 
-                         fcur_Reimbursement__c
+                         fcur_Reimbursement__c,
+                         (SELECT Id FROM Expenses__r),
+                         (SELECT Id FROM MealInvitations__r),
+                         (SELECT Id FROM Travel_Contact_Associations__r)
                   FROM Travel__c
                   WHERE Id = :stdCtrl.getId()];         
     }
@@ -54,19 +57,19 @@ global with sharing class TravelCtrlExt {
     }
     
     public List<Expense__c> getExpensesGroupedByDate() {
-    	List<Expense__c> result = new List<Expense__c>();
-    	
-    	Expense__c expense = sortedExpenses[0];
-    	Expense__c emptyExpense = new Expense__c();
-    	for(Expense__c e : sortedExpenses) {
-    		if(e.dat_ExpenseDate__c != expense.dat_ExpenseDate__c) {
-    			result.add(emptyExpense);
-    			expense = e;	
-    		}
-    		result.add(e);
-    	}
+        List<Expense__c> result = new List<Expense__c>();
+        
+        Expense__c expense = sortedExpenses[0];
+        Expense__c emptyExpense = new Expense__c();
+        for(Expense__c e : sortedExpenses) {
+                if(e.dat_ExpenseDate__c != expense.dat_ExpenseDate__c) {
+                        result.add(emptyExpense);
+                        expense = e;    
+                }
+                result.add(e);
+        }
     
-    	return result;
+        return result;
     }
     
     
@@ -112,8 +115,40 @@ global with sharing class TravelCtrlExt {
     }
     
     
+    public Travel__c getTravel() {
+    	return travel;	
+    }
+    
+    
     public String getTravelId() {
         return travel.Id;
+    }
+    
+    
+    public Integer getNumberOfExpenses() {
+    	List<Expense__c> expenses = travel.Expenses__r;
+    	
+    	Integer result = expenses.size();
+    	
+    	return result;
+    }
+    
+    
+    public Integer getNumberOfMealInvitations() {
+    	List<MealInvitation__c> invitations = travel.MealInvitations__r;
+    	
+    	Integer result = invitations.size();
+    	
+    	return result;
+    }
+    
+    
+    public Integer getNumberOfTravelContacts() {
+    	List<TravelContact__c> contacts = travel.Travel_Contact_Associations__r;
+    	
+    	Integer result = contacts.size();
+    	
+    	return result;
     }
     
     
@@ -146,7 +181,7 @@ global with sharing class TravelCtrlExt {
 
     public void doGeneratePerDiems() {
         PerDiemCalculator perDiemCalculator = new PerDiemCalculator(travel);
-    	perDiemCalculator.calculate();
+        perDiemCalculator.calculate();
     }
     
     
@@ -185,21 +220,9 @@ global with sharing class TravelCtrlExt {
     }
     
     
-    public PageReference doRedirectMobileDevices() {
-        PageReference result = null;
-        
-        Boolean isMobileDevice = false;
-        if( ApexPages.currentPage().getParameters().get('sfdcIFrameHost') !=null 
-            || ApexPages.currentPage().getParameters().get('sfdcIFrameOrigin') !=null
-            || ApexPages.currentPage().getParameters().get('isdtp') == 'p1'
-            || ( ApexPages.currentPage().getParameters().get('retURL') != null && ApexPages.currentPage().getParameters().get('retURL').contains('projectone') ) ) {
-            
-            isMobileDevice = true;
-        }
-        
-        if( isMobileDevice ) {
-            result = new PageReference('/apex/travelViewMobile?id={!travelid}');          
-        }
+    public PageReference doDirectToTravelSummary() {
+    	PageReference result = new PageReference('/apex/travelSummary?id='+travel.Id);
+        result.setRedirect(true);
         
         return result;
     }

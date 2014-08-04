@@ -284,6 +284,66 @@ private class PerDiemCalculator_Test {
 	}
 	
 	
+	@isTest
+	private static void succeedsWhenCorrectPerDiemForOneDayTravelLongerEightHours() {
+		// Setup
+		CompensationRate__c start = insertCustomLocation('Startland','Startland',null,'sl',50,25,60);
+		CompensationRate__c destination = insertDefaultLocation();
+		
+		Travel__c travel = new TravelBuilder(TODAY_SEVEN_AM,TODAY_EIGHT_PM)
+									.addCustomFlightWithLocation(TODAY_SEVEN_AM,TODAY_TEN_AM,start,destination)
+									.addCustomFlightWithLocation(TODAY_FOUR_PM,TODAY_EIGHT_PM,destination,start)
+									.create();
+					
+		
+		// Exercise
+		PerDiemCalculator perDiemCalculator = new PerDiemCalculator(travel);
+    	perDiemCalculator.calculate();
+		
+		
+		// Verify
+		Decimal expectedAmount = destination.cur_PartialDailyRate__c;
+		
+		Expense__c expectedPerDiem = perDiemExpense(TODAY_SEVEN_AM, TODAY_EIGHT_PM, destination, expectedAmount);
+		
+		actualPerDiems = getActualPerDiems(travel);
+		
+		System.assertEquals(1, actualPerDiems.size());
+		assertHaveEqualValues(expectedPerDiem, actualPerDiems.get(DAY_TODAY));
+	}
+	
+	
+	@isTest
+	private static void succeedsWhenNoNegativeAmountForOverloadedOvernightTravel() {
+		// Setup 
+		CompensationRate__c start = insertCustomLocation('Startland', 'Startland', null, 'SL', 50, 25, 60);
+		CompensationRate__c destination = insertDefaultLocation();
+		
+		Travel__c travel = new TravelBuilder(TODAY_FOUR_PM, TOMORROW_SIX_PM)
+									.addCustomFlightWithLocation(TODAY_FOUR_PM,TODAY_END,start,destination)
+									.addCustomFlightWithLocation(TOMORROW_START,TOMORROW_SIX_PM,destination,start)
+									.addMealInvitation(DAY_TODAY,false,true,true)
+									.addMealInvitation(DAY_TOMORROW,true,true,false)
+									.create();
+									
+									
+		// Exercise
+		PerDiemCalculator perDiemCalculator = new PerDiemCalculator(travel);
+    	perDiemCalculator.calculate();
+		
+		
+		// Verify
+		Decimal expectedAmount = 0.00;
+		
+		Expense__c expectedPerDiem = perDiemExpense(TODAY_FOUR_PM,TOMORROW_SIX_PM,destination,expectedAmount);
+		
+		actualPerDiems = getActualPerDiems(travel);
+		
+		System.assertEquals(1, actualPerDiems.size());
+		assertHaveEqualValues(expectedPerDiem, actualPerDiems.get(DAY_TODAY));
+	}
+	
+	
 	// TEST HELPER
 	private static void assertHaveEqualValues(Expense__c expected, Expense__c generated) {
 		Boolean isEqual = false;

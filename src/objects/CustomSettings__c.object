@@ -7,7 +7,7 @@
         <fullName>txt_CompensationRateRuleClasses__c</fullName>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
-        <label>CompensationRateRule Classes</label>
+        <label>DEPRECATED</label>
         <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>

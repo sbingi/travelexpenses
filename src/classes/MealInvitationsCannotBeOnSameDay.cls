@@ -49,6 +49,8 @@ public class MealInvitationsCannotBeOnSameDay implements MealInvitationRule {
 			
 			if( invitation.Id != m.Id && invitation.dat_Day__c == m.dat_Day__c) {
 				result = true;
+				
+				break;
 			}
 		}
 		

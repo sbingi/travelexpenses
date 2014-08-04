@@ -11,7 +11,7 @@ public class MealInvitationCannotBeOutOfTravelPeriod implements MealInvitationRu
 		for( MealInvitation__c invitation :  mealInvitations) {
 			Travel__c travel = travels.get(invitation.mdr_Travel__c);
 			
-			if(isOutOfTravel(invitation,travel)) {
+			if(isOutOfTravel(invitation.dat_Day__c,travel)) {
 				invitation.dat_Day__c.addError('The date has to be within the travel period.');
 			}
 		}
@@ -35,8 +35,8 @@ public class MealInvitationCannotBeOutOfTravelPeriod implements MealInvitationRu
 	}
 	
 	
-	private Boolean isOutOfTravel(MealInvitation__c invitation, Travel__c travel) {
-		Boolean result = (invitation.dat_Day__c < travel.dtm_Start__c.date()) || (invitation.dat_Day__c > travel.dtm_End__c.date());
+	private Boolean isOutOfTravel(Date day, Travel__c travel) {
+		Boolean result = (day < travel.dtm_Start__c.date()) || (day > travel.dtm_End__c.date());
 		
 		return result;
 	}

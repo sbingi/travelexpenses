@@ -133,6 +133,7 @@
         <fields>dat_ExpenseDate__c</fields>
         <fields>NAME</fields>
         <fields>RECORDTYPE</fields>
+        <fields>lkp_Location__c</fields>
         <fields>pkl_Reimbursement__c</fields>
         <fields>cur_Amount__c</fields>
         <relatedList>Expense__c.mdr_Travel__c</relatedList>

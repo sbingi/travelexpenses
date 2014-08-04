@@ -59,6 +59,15 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
+        <fullName>chk_RoundTrip__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Round Trip</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>dtm_ArrivalTime__c</fullName>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
@@ -72,6 +81,24 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Departure Time</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>dtm_ReturnArrival__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Return Arrival</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>dtm_ReturnDeparture__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Return Departure</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -118,6 +145,19 @@
         <referenceTo>CompensationRate__c</referenceTo>
         <relationshipLabel>Long Distance Rides (Location To)</relationshipLabel>
         <relationshipName>Long_Distance_Rides1</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>lkp_ReturnTrip__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Return Trip</label>
+        <referenceTo>LongDistanceRide__c</referenceTo>
+        <relationshipLabel>Long Distance Rides</relationshipLabel>
+        <relationshipName>LongDistanceRides</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>

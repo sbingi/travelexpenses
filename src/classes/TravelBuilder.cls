@@ -190,22 +190,6 @@ public with sharing class TravelBuilder {
 	}
 	
 	
-	public TravelBuilder addAccommodationWithAmount(Date checkIn, Date checkout, Decimal amount) {
-		Expense__c expense = createDefaultExpense();
-		expense.RecordTypeId = ExpenseType.getAccommodationRecordTypeId();
-		expense.cur_Amount__c = amount;
-		expense.txt_LodgingAdress__c = 'Hotel Adlon, Berlin, '+ defaultStart.Name;
-		expense.dat_CheckInDate__c = checkIn;
-		expense.dat_CheckOutDate__c = checkOut;
-		expense.lkp_LocationFrom__c = defaultStart.Id;
-		expense.lkp_Location__c = defaultStart.Id;
-
-		insert expense;
-		
-		return this;
-	}
-	
-	
 	public TravelBuilder addAccommodationWithoutLocation(Date checkIn, Date checkout) {
 		Expense__c expense = createDefaultExpense();
 		expense.RecordTypeId = ExpenseType.getAccommodationRecordTypeId();
@@ -310,6 +294,21 @@ public with sharing class TravelBuilder {
 	}
 	
 	
+	public TravelBuilder addRentalVehicleWithRoundTripLongDistanceRide(Date pickUpDate, Date returnDate, DateTime start, DateTime stop, DateTime returnStart, DateTime returnStop) {
+		Expense__c expense = createDefaultExpense();
+		expense.RecordTypeId = ExpenseType.getRentalVehicleRecordTypeId();
+		expense.cur_Amount__c = 80.00;
+		expense.dat_PickUpDate__c = pickUpDate;
+		expense.dat_ReturnDate__c = returnDate;
+		
+		insert expense;
+		
+		insertRoundTripLongDistanceRide(start,stop,returnStart,returnStop,expense.Id);
+		
+		return this;
+	}
+	
+	
 	public TravelBuilder addRentalVehicleWithTwoLongDistanceRides(Date pickupDate, Date returnDate, DateTime start,DateTime stop,DateTime start2,DateTime stop2) {
 		Expense__c expense = createDefaultExpense();
 		expense.RecordTypeId = ExpenseType.getRentalVehicleRecordTypeId();
@@ -357,20 +356,6 @@ public with sharing class TravelBuilder {
 	
 	
 	// PER DIEM
-	public TravelBuilder addDefaultPerDiem(DateTime start, DateTime ends, Decimal original, Decimal allowance) {
-		Expense__c expense = createDefaultExpense();
-		expense.RecordTypeId = ExpenseType.getPerDiemRecordTypeId();
-		expense.cur_OriginalAmount__c = original;
-		expense.cur_Deduction__c = allowance;
-		expense.lkp_Location__c = defaultDestination.id;
-		expense.dtm_Begin__c = start;
-		expense.dtm_End__c = ends;
-		
-		insert expense;
-		
-		return this;
-	}
-	
 	
 	public TravelBuilder addPerDiemWithLocation(DateTime start, DateTime ends, CompensationRate__c location, Decimal amount) {
 		Expense__c expense = createDefaultExpense();
@@ -435,6 +420,23 @@ public with sharing class TravelBuilder {
 		ride.txt_To__c = 'Berlin, '+defaultDestination.Name;
 		ride.lkp_LocationFrom__c = defaultStart.Id;
 		ride.lkp_LocationTo__c = defaultDestination.Id;
+		ride.mdr_RentalVehicle__c = rentalVehicle;
+		
+		insert ride;
+	}
+	
+	
+	private void insertRoundTripLongDistanceRide(DateTime start, DateTime stop, DateTime returnStart, DateTime returnStop, Id rentalVehicle) {
+		LongDistanceRide__c ride = new LongDistanceRide__c();
+		ride.dtm_DepartureTime__c = start;
+		ride.dtm_ArrivalTime__c = stop;
+		ride.txt_From__c = 'Stuttgart, '+defaultStart.Name;
+		ride.txt_To__c = 'Berlin, '+defaultDestination.Name;
+		ride.lkp_LocationFrom__c = defaultStart.Id;
+		ride.lkp_LocationTo__c = defaultDestination.Id;
+		ride.chk_RoundTrip__c = true;
+		ride.dtm_ReturnDeparture__c = returnStart;
+		ride.dtm_ReturnArrival__c = returnStop;
 		ride.mdr_RentalVehicle__c = rentalVehicle;
 		
 		insert ride;
