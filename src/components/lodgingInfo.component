@@ -1,0 +1,29 @@
+<apex:component >
+    <apex:attribute name="expense" description="This is the Expense to create." type="Expense__c" required="true"/>
+    <apex:attribute name="theme" description="The Visualstrap theme" type="String" required="true"/>
+
+    <c:panel title="Accommodation" type="{!theme}">
+        <c:formblock alignment="vertical">
+        
+            <c:formgroup >
+                <apex:outputLabel value="Lodging Adress"/> 
+                <apex:inputField id="lodging" value="{!expense.txt_LodgingAdress__c}" styleClass="form-control" required="true"/>
+                <script type="text/javascript">
+                    fromId = '{!$Component.lodging}';
+                    toId = fromId;
+                </script>
+            </c:formgroup>
+            
+            <c:formgroup >
+                <apex:outputLabel value="Check In Date"/>
+                <apex:inputField value="{!expense.dat_CheckInDate__c}" type="date" showDatePicker="false" styleClass="form-control" required="true"/>
+            </c:formgroup>
+            
+            <c:formgroup >
+                <apex:outputLabel value="Check Out Date"/>    
+                <apex:inputField value="{!expense.dat_CheckOutDate__c}" type="date" showDatePicker="false" styleClass="form-control" required="true"/>
+            </c:formgroup>
+        
+        </c:formblock>
+    </c:panel>
+</apex:component>

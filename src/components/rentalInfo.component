@@ -1,0 +1,20 @@
+<apex:component >
+    <apex:attribute name="expense" description="This is the Expense to create." type="Expense__c" required="true"/>
+    <apex:attribute name="theme" description="The Visualstrap theme" type="String" required="true"/>
+    
+    <c:panel title="Rental Vehicle" type="{!theme}">
+        <c:formblock alignment="vertical">
+            
+            <c:formgroup >
+                <apex:outputLabel value="Pick Up Date"/>
+                <apex:inputField value="{!expense.dat_PickUpDate__c}" type="date" showDatePicker="false" styleClass="form-control" required="true"/>
+            </c:formgroup>
+            
+            <c:formgroup >
+                <apex:outputLabel value="Return Date"/>    
+                <apex:inputField value="{!expense.dat_ReturnDate__c}" type="date" showDatePicker="false" styleClass="form-control" required="true"/>
+            </c:formgroup>
+        
+        </c:formblock>
+    </c:panel>
+</apex:component>

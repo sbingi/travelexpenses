@@ -121,6 +121,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NewExpenseCtrlExt</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PerDiemCalculator</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -593,10 +597,6 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <pageAccesses>
-        <apexPage>ExpenseEditBootstrapRobert</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>compensationRateEdit</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -607,10 +607,6 @@
     <pageAccesses>
         <apexPage>expenseEdit</apexPage>
         <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>expenseEditMobile</apexPage>
-        <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>expenseViewMobile</apexPage>
@@ -626,6 +622,42 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>longDistanceRideViewMobile</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newAccommodationAction</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newCompanyVehicleRideAction</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newEntertainmentAction</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newFlightAction</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newMiscellaneousAction</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newPrivateVehicleRideAction</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newRentalAction</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newSeaTravelAction</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newTrainRideAction</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>

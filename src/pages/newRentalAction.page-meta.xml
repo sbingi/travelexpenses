@@ -3,5 +3,5 @@
     <apiVersion>31.0</apiVersion>
     <availableInTouch>true</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
-    <label>Expense Edit Mobile Page</label>
+    <label>New Rental Action</label>
 </ApexPage>
