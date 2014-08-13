@@ -31,6 +31,27 @@ public with sharing class ExpenseType {
 	}
 	
 	
+	public static Boolean isFlight(Expense__c record) {
+		Boolean result = is(Type.Flight,record);
+		
+		return result;
+	}
+	
+	
+	public static Boolean isTrainRide(Expense__c record) {
+		Boolean result = is(Type.TrainRide,record);
+		
+		return result;
+	}
+	
+	
+	public static Boolean isSeaTravel(Expense__c record) {
+		Boolean result = is(Type.SeaTravel,record);
+		
+		return result;
+	}	
+	
+	
 	public static Boolean isPrivateVehicle(Expense__c record) {
 		Boolean result = is(Type.PrivateVehicleRide, record);
 		
@@ -80,8 +101,6 @@ public with sharing class ExpenseType {
 	}		
 	
 	
-	// GETTER 
-		
 	public static Set<Id> getMovementRecordTypeIds() {
 		Set<Id> results = new Set<Id>();
 		
@@ -111,6 +130,13 @@ public with sharing class ExpenseType {
 		Id result = rtIdByType.get(Type.CompanyVehicleRide);
 		
 		return result; 		
+	}
+	
+	
+	public static Id getSeaTravelRecordTypeId() {
+		Id result = rtIdByType.get(Type.SeaTravel);
+		
+		return result;
 	}
 	
 	
@@ -166,7 +192,9 @@ public with sharing class ExpenseType {
 	// PRIVATE METHODS
 	
 	private static Boolean is(Type type,Expense__c record) {
-		return (rtTypeById.get(record.RecordTypeId).name() == type.name());
+		Boolean result = (rtTypeById.get(record.RecordTypeId).name() == type.name());
+		
+		return result;
 	}
 	
 	
@@ -187,6 +215,7 @@ public with sharing class ExpenseType {
 	// ENUM
 	
 	public enum Type {
+		// Note: enum values must match RecordType names. Therefore not UPPERCASE
 		Flight, TrainRide, PrivateVehicleRide, CompanyVehicleRide, SeaTravel, Accommodation, RentalVehicle, Miscellaneous, Entertainment, perDiem
 	}
 }

@@ -1,0 +1,15 @@
+<apex:page docType="html-5.0" standardController="Travel__c" extensions="LocationFinder,NewExpenseCtrlExt" showHeader="false" action="{!createAccommodation}">
+
+    <c:newExpense title="Accommodation" expense="{!expense}" hasMessages="{!hasMessages}" theme="default" limitSearch="false">
+    
+        <c:lodgingInfo expense="{!expense}" theme="default"/>
+        <c:cost expense="{!expense}" title="Overall Cost" theme="default"/>
+                
+        <center>
+            <apex:commandButton value="Save" action="{!doSaveExpense}" oncomplete="closePublisher({!hasMessages})" rerender="form" styleClass="btn-lg btn-success" style="width:100%;"/>
+        </center>
+        
+        <br/><br/><br/>
+        
+    </c:newExpense>
+</apex:page>

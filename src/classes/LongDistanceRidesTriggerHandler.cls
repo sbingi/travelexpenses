@@ -1,4 +1,4 @@
-public with sharing class LongDistanceRidesTriggerHandler extends AbstractTriggerHandler{
+public with sharing class LongDistanceRidesTriggerHandler extends AbstractTriggerHandler {
 
 	private List<LongDistanceRide__c> newLongDistanceRides;
 	private List<LongDistanceRide__c> oldLongDistanceRides;
@@ -28,9 +28,6 @@ public with sharing class LongDistanceRidesTriggerHandler extends AbstractTrigge
 	}
 	
 	
-	public override void onBeforeDelete() {}
-	
-	
 	public override void onAfterInsert() {
 		calculatePerDiems(newLongDistanceRides);
 	}
@@ -49,21 +46,20 @@ public with sharing class LongDistanceRidesTriggerHandler extends AbstractTrigge
 	//PRIVATE METHODS
 	
 	private void calculatePerDiems(List<LongDistanceRide__c> longDistanceRides) {
-		Set<Id> longDistanceRideIds = new Set<Id>();
+		Set<Id> rentalVehicles = new Set<Id>();
 		for(LongDistanceRide__c ldr : longDistanceRides) {
-			longDistanceRideIds.add(ldr.mdr_RentalVehicle__c);
+			rentalVehicles.add(ldr.mdr_RentalVehicle__c);
 		}		
 
-		List<Travel__c> allAffectedTravels = [SELECT Id, Name, CurrencyIsoCode, txt_Reason__c, txa_Description__c, 
-                         							 dtm_Start__c, dtm_End__c, Owner.FirstName, Owner.LastName, 
-                         							 rsum_TotalExpenses__c, rsum_ReimbursableExpenses__c, rsum_PerDiems__c, 
-                         							 fcur_Reimbursement__c
-											  FROM Travel__c 
-											  WHERE Id IN (SELECT mdr_Travel__c 
-											  			   FROM Expense__c 
-											  			   WHERE Id IN :longDistanceRideIds)];
-		
-		for(Travel__c t : allAffectedTravels) {
+		for(Travel__c t : [SELECT Id, Name, CurrencyIsoCode, txt_Reason__c, txa_Description__c, 
+     							  dtm_Start__c, dtm_End__c, Owner.FirstName, Owner.LastName, 
+     							  rsum_TotalExpenses__c, rsum_ReimbursableExpenses__c, rsum_PerDiems__c, 
+     							  fcur_Reimbursement__c
+						   FROM Travel__c 
+						   WHERE Id IN (SELECT mdr_Travel__c 
+						  			    FROM Expense__c 
+						  			    WHERE Id IN :rentalVehicles)]) {
+						  			    	
 			PerDiemCalculator perDiemCalculator = new PerDiemCalculator(t);
         	perDiemCalculator.calculate();
 		}

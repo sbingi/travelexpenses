@@ -21,6 +21,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DailySummaries</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DailySummaries_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ExpenseAmountCannotBeNegative</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -81,20 +89,8 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>LongDistanceRideCannotBeOutsideOfRental</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>LongDistanceRideCannotEndBeforeStart</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>LongDistanceRideCtrlExt</apexClass>
         <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>LongDistanceRideHasValidLocation</apexClass>
-        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>LongDistanceRideRule</apexClass>
@@ -102,10 +98,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LongDistanceRideValidator_Test</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>LongDistanceRidesDontOverlap</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -137,11 +129,43 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NewExpenseCtrlExt</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NewLongDistanceRideCtrlExt</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PerDiemCalculator</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PerDiemCalculator_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RideCannotBeOutsideOfRental</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RideCannotEndBeforeStart</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RideHasValidLocation</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RideNeedsReturnInfoWhenRoundTripChecked</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RidesCannotBeOutsideOfTravel</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RidesDontOverlap</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -182,14 +206,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TravelNeedsMovementOnFirstAndLastDay</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TravelOverviewMobileCtrl</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TravelOverviewMobileCtrl_Test</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -424,6 +440,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>LongDistanceRide__c.chk_RoundTrip__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>LongDistanceRide__c.dtm_ArrivalTime__c</field>
         <readable>true</readable>
@@ -434,6 +455,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>LongDistanceRide__c.dtm_ReturnArrival__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>LongDistanceRide__c.dtm_ReturnDeparture__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>LongDistanceRide__c.lkp_LocationFrom__c</field>
         <readable>true</readable>
@@ -442,6 +473,11 @@
         <editable>true</editable>
         <field>LongDistanceRide__c.lkp_LocationTo__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>LongDistanceRide__c.lkp_ReturnTrip__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -491,11 +527,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Travel__c.chk_Approved__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Travel__c.chk_RecalculatePerDiems__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -571,7 +602,7 @@
     </objectPermissions>
     <pageAccesses>
         <apexPage>compensationRateEdit</apexPage>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>entertainmentExpensesReport</apexPage>
@@ -583,7 +614,7 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>expenseEditMobile</apexPage>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>expenseViewMobile</apexPage>
@@ -598,8 +629,52 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>longDistanceRideEditMobile</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>longDistanceRideViewMobile</apexPage>
         <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newAccommodationAction</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newCompanyVehicleRideAction</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newEntertainmentAction</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newFlightAction</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newLongDistanceRideAction</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newMiscellaneousAction</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newPrivateVehicleRideAction</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newRentalAction</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newSeaTravelAction</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>newTrainRideAction</apexPage>
+        <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>travelExpenseReport</apexPage>
@@ -607,7 +682,7 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>travelOverviewMobile</apexPage>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>travelSubmit</apexPage>
@@ -627,7 +702,7 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>travelViewMobile</apexPage>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>travelViewMobileExpenses</apexPage>
@@ -688,10 +763,6 @@
     <tabSettings>
         <tab>CompensationRate__c</tab>
         <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>Expense_Edit_Mobile_Test</tab>
-        <visibility>None</visibility>
     </tabSettings>
     <tabSettings>
         <tab>Travel_Overview</tab>

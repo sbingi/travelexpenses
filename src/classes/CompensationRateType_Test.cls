@@ -1,69 +1,55 @@
 @isTest
 private class CompensationRateType_Test {
 	
-	static {
-		CustomSettings.addDefault();
-	}
-	
 	private static final Id LOCATION_ID = [SELECT Id FROM RecordType WHERE DeveloperName = 'Location'].Id;
 	private static final Id VEHICLE_ID = [SELECT Id FROM RecordType WHERE DeveloperName = 'Vehicle'].Id;
 	private static final Id MEAL_ID = [SELECT Id FROM RecordType WHERE DeveloperName = 'Meal'].Id;
 	
+	static {
+		CustomSettings.addDefault();
+	}
+	
 	
 	@isTest
-	private static void succeedsWhenLocationIsFound() {
-		// Setup
+	private static void findsRecordTypeIdOfLocation() {
 		
-		
-		// Exercise
-		Boolean foundLocation = CompensationRateType.isLocation(LOCATION_ID);
+		//  Setup & Exercise
 		Id foundId = CompensationRateType.getLocationId();
 		
 		
 		// Verify
-		System.assertEquals(true, foundLocation);
 		System.assertEquals(LOCATION_ID, foundId);
 	}
 	
 	
 	@isTest
-	private static void succeedsWhenVehicleIsFound() {
-		// Setup
+	private static void findsRecordTypeIdOfVehicle() {
 		
-		
-		// Exercise
-		Boolean foundVehicle = CompensationRateType.isVehicle(VEHICLE_ID);
+		//  Setup & Exercise
 		Id foundId = CompensationRateType.getVehicleId();
 		
 		
 		// Verify
-		System.assertEquals(true, foundVehicle);
 		System.assertEquals(VEHICLE_ID, foundId);
 	}
 	
 	
 	@isTest
-	private static void succeedsWhenMealIsFound() {
-		// Setup
+	private static void findsRecordTypeIdOfMeal() {
 		
-		
-		// Exercise
-		Boolean foundMeal = CompensationRateType.isMeal(MEAL_ID);
+		// Setup & Exercise
 		Id foundId = CompensationRateType.getMealId();
 		
 		
 		// Verify
-		System.assertEquals(true, foundMeal);
 		System.assertEquals(MEAL_ID, foundId);
 	}
 	
 	
 	@isTest
-	private static void succeedsWhenCorrectCompensationRateTypeIdIsFoundByName() {
-		// Setup
+	private static void findsCompensationRateNameById() {
 		
-		
-		// Exercise
+		// Setup & Exercise
 		String location = CompensationRateType.getRecordTypeName(LOCATION_ID);
 		String vehicle = CompensationRateType.getRecordTypeName(VEHICLE_ID);
 		String meal = CompensationRateType.getRecordTypeName(MEAL_ID);

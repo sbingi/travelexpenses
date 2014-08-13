@@ -1,94 +1,66 @@
 @isTest
 private class LocationFinder_Test {
 	
+	private static CompensationRate__c location1 = insertLocation('Deutschland(Stuttgart)', 'Deutschland','Stuttgart', 'DE');
+	private static CompensationRate__c location2 = insertLocation('Deutschland(München)', 'Deutschland', 'München', 'DE');
+	private static CompensationRate__c location3 = insertLocation('Deutschland(Other)', 'Deutschland', 'Other', 'DE');
+	private static CompensationRate__c location4 = insertLocation('Frankreich', 'Frankreich', null, 'FA');
+	private static CompensationRate__c location5 = insertLocation('Afghanistan', 'Afghanistan', null, 'AF');
+		
 	static {
 		CustomSettings.addDefault();
 	}
 
 
 	@isTest
-	private static void succeedsWhenCorrectLocationIsReturned() {
-		// Setup
-		CompensationRate__c existingLocation1 = insertLocation('Deutschland(Stuttgart)', 'Deutschland','Stuttgart', 'DE');
-		CompensationRate__c existingLocation2 = insertLocation('Deutschland(Other)', 'Deutschland', 'Other', 'DE');
-		CompensationRate__c existingLocation3 = insertLocation('Afghanistan', 'Afghanistan', null, 'AF');
-		CompensationRate__c existingLocation4 = insertLocation('Frankreich', 'Frankreich', null, 'FA');
+	private static void findsLocationWithCountryCodeAndIrrelevantCity() {
 		
-		String inputCity = 'Kabul';
-		String inputCountry = 'AF';
+		// Setup
+		String city = 'Kabul';
+		String country = 'AF';
 		
 		
 		// Exercise
-		Id resultLocationId = LocationFinder.findLocation(inputCity,inputCountry);
+		Id result = LocationFinder.findLocation(city, country);
 
 		
 		// Verify
-		System.assertEquals(existingLocation3.id, resultLocationId);
+		System.assertEquals(location5.id, result);
 	}
 	
 	
 	@isTest
-	private static void succeedsWhenCorrectLocationIsReturnedForMultipleSameCountryLocations() {
-		// Setup
-		CompensationRate__c existingLocation1 = insertLocation('Deutschland(Stuttgart)', 'Deutschland','Stuttgart', 'DE');
-		CompensationRate__c existingLocation2 = insertLocation('Deutschland(Other)', 'Deutschland', 'Other', 'DE');
-		CompensationRate__c existingLocation3 = insertLocation('Afghanistan', 'Afghanistan', null, 'AF');
-		CompensationRate__c existingLocation4 = insertLocation('Frankreich', 'Frankreich', null, 'FA');
-		CompensationRate__c existingLocation5 = insertLocation('Deutschland(M?nchen)', 'Deutschland', 'M?nchen', 'DE');
+	private static void findsLocationWithCountryCodeAndRelevantCity() {
 		
-		String inputCity = 'Stuttgart';
-		String inputCountry = 'DE';
+		// Setup
+		String city = 'Stuttgart';
+		String country = 'DE';
 		
 		
 		// Exercise
-		Id resultLocationId = LocationFinder.findLocation(inputCity,inputCountry);
+		Id result = LocationFinder.findLocation(city, country);
 		
 		
 		
 		// Verify
-		System.assertEquals(existingLocation1.id, resultLocationId);
+		System.assertEquals(location1.id, result);
 	}
 	
 	
 	@isTest
-	private static void succeedsWhenRemainderLocationIsReturnedForMultipleSameCountryLocations() {
-		// Setup
-		CompensationRate__c existingLocation1 = insertLocation('Deutschland(Stuttgart)', 'Deutschland','Stuttgart', 'DE');
-		CompensationRate__c existingLocation2 = insertLocation('Deutschland(Other)', 'Deutschland', 'Other', 'DE');
-		CompensationRate__c existingLocation3 = insertLocation('Afghanistan', 'Afghanistan', null, 'AF');
+	private static void doesNotFindLocationIfNotInDatabase() {
 		
-		String inputCity = 'M?nchen';
-		String inputCountry = 'DE';
+		// Setup
+		String city = 'Rom';
+		String country = 'IT';
 		
 		
 		// Exercise
-		Id resultLocationId = LocationFinder.findLocation(inputCity,inputCountry);
-		
-		
-		
-		//Verify
-		System.assertEquals(existingLocation2.id, resultLocationId);
-	}
-	
-	
-	@isTest
-	private static void succeedsWhenNoLocationIsReturned() {
-		// Setup
-		CompensationRate__c existingLocation1 = insertLocation('Deutschland(Stuttgart)', 'Deutschland','Stuttgart', 'DE');
-		CompensationRate__c existingLocation2 = insertLocation('Deutschland(Other)', 'Deutschland', 'Other', 'DE');
-		CompensationRate__c existingLocation3 = insertLocation('Afghanistan', 'Afghanistan', null, 'AF');
-		CompensationRate__c existingLocation4 = insertLocation('Frankreich', 'Frankreich', null, 'FA');
-		
-		String inputCity = 'Rom';
-		String inputCountry = 'IT';
-		
-		
-		// Exercise
-		Id resultLocationId = LocationFinder.findLocation(inputCity,inputCountry);
+		Id result = LocationFinder.findLocation(city, country);
 		
 		
 		// Verify
-		System.assertEquals(null, resultLocationId);
+		System.assertEquals(null, result);
 	}
 	
 	

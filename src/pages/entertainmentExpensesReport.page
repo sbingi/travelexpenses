@@ -6,10 +6,10 @@
         <style>
             body { font-family:'Arial Unicode MS'; } 
             table,th,td
-			{
-				border:1px solid black;
-				border-collapse:collapse;
-			}
+            {
+                border:1px solid black;
+                border-collapse:collapse;
+            }
             th,td
             {
                 padding:15px;
@@ -60,21 +60,21 @@
                         <apex:outputField value="{!Expense__c.cur_Amount__c}" />
                     </td> 
                 </tr>
-			</table>
-			
-			<table style="border:0px;width:100%">
+            </table>
+            
+            <table style="border:0px;width:100%">
                 <tr>
                     <td style="border:0px;">
-                    	<br/><br/><br/><br/>
-                    	<apex:outputText value="________________________________"/>
-                    	<br/>
-                    	<apex:outputText value="Ort/Datum"/> 
+                        <br/><br/><br/><br/>
+                        <apex:outputText value="________________________________"/>
+                        <br/>
+                        <apex:outputText value="Ort/Datum"/> 
                     </td>
                     <td style="border:0px;">
-                    	<br/><br/><br/><br/>
-                    	<apex:outputText value="________________________________"/>
-                    	<br/>
-                    	<apex:outputText value="Unterschrift"/>
+                        <br/><br/><br/><br/>
+                        <apex:outputText value="________________________________"/>
+                        <br/>
+                        <apex:outputText value="Unterschrift"/>
                     </td> 
                 </tr>     
             </table>

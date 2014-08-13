@@ -125,16 +125,62 @@
     </layoutSections>
     <miniLayout>
         <fields>Name</fields>
+        <fields>OwnerId</fields>
         <fields>txt_Reason__c</fields>
         <fields>dtm_Start__c</fields>
         <fields>dtm_End__c</fields>
     </miniLayout>
+    <quickActionList>
+        <quickActionListItems>
+            <quickActionName>FeedItem.TextPost</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>FeedItem.ContentPost</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>newTravel</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newMealInvitation</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newTravelContact</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newFlight</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newAccommodation</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newCompanyVehicleRide</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newEntertainment</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newMiscellaneous</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newPrivateVehicleRide</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newRentalVehicle</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newSeaTravel</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>UP2GO_ITE__Travel__c.newTrainRide</quickActionName>
+        </quickActionListItems>
+    </quickActionList>
     <relatedLists>
         <fields>dat_ExpenseDate__c</fields>
         <fields>NAME</fields>
         <fields>RECORDTYPE</fields>
-        <fields>pkl_Reimbursement__c</fields>
         <fields>cur_Amount__c</fields>
+        <fields>pkl_Reimbursement__c</fields>
+        <fields>lkp_Location__c</fields>
         <relatedList>Expense__c.mdr_Travel__c</relatedList>
         <sortField>dat_ExpenseDate__c</sortField>
         <sortOrder>Asc</sortOrder>

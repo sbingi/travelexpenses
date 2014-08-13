@@ -63,11 +63,11 @@
             
                 <br/><br/><br/>
                 
-                <h3> <apex:outputText value="Tagesübersicht"/> </h3>
+                <h3> <apex:outputText value="Tages?bersicht"/> </h3>
                 
                 <br/>
                     
-                <apex:dataTable value="{!dailysummaries}" var="day" border="1" rules="rows" width="100%" cellspacing="0" cellpadding="5" >
+                <apex:dataTable value="{!dailySummaries}" var="day" border="1" rules="rows" width="100%" cellspacing="0" cellpadding="5" >
                     
                     <apex:column headervalue="Datum" style="vertical-align:top;text-align:left;">
                         <apex:outputText value="{!day.day}"/>

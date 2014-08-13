@@ -32,9 +32,6 @@ public with sharing class MealInvitationsTriggerHandler extends AbstractTriggerH
 	}
 	
 	
-	public override void onBeforeDelete() {}
-	
-	
 	public override void onAfterInsert() {
 		calculatePerDiems(newMealInvitations);
 	}
@@ -58,14 +55,13 @@ public with sharing class MealInvitationsTriggerHandler extends AbstractTriggerH
 			mealInvitationIds.add(mi.mdr_Travel__c);
 		}
 		
-		List<Travel__c> allAffectedTravels = [SELECT Id, Name, CurrencyIsoCode, txt_Reason__c, txa_Description__c, 
-                         							 dtm_Start__c, dtm_End__c, Owner.FirstName, Owner.LastName, 
-                         							 rsum_TotalExpenses__c, rsum_ReimbursableExpenses__c, rsum_PerDiems__c, 
-                         							 fcur_Reimbursement__c
-											  FROM Travel__c 
-											  WHERE Id IN :mealInvitationIds];
-
-		for(Travel__c travel : allAffectedTravels) {
+		for(Travel__c travel : [SELECT Id, Name, CurrencyIsoCode, txt_Reason__c, txa_Description__c, 
+         							   dtm_Start__c, dtm_End__c, Owner.FirstName, Owner.LastName, 
+         							   rsum_TotalExpenses__c, rsum_ReimbursableExpenses__c, rsum_PerDiems__c, 
+         							   fcur_Reimbursement__c
+							    FROM Travel__c 
+							    WHERE Id IN :mealInvitationIds]) {
+							    	
 			PerDiemCalculator perDiemCalculator = new PerDiemCalculator(travel);
         	perDiemCalculator.calculate();
 		}
@@ -73,7 +69,7 @@ public with sharing class MealInvitationsTriggerHandler extends AbstractTriggerH
 	
 	
 	private void populateLookupFields(List<MealInvitation__c> mealInvitations) {
-		Map<String, Id> mealIdsByName = getMealIdsByName();
+		Map<String, Id> mealIdsByName = queryMealIdsByName();
         
         for(MealInvitation__c m : mealInvitations) {
 			m.lkp_Breakfast__c = null;
@@ -93,7 +89,7 @@ public with sharing class MealInvitationsTriggerHandler extends AbstractTriggerH
 	}
     
     
-    private Map<String, Id> getMealIdsByName() {
+    private Map<String, Id> queryMealIdsByName() {
         Map<String, Id> results = new Map<String, Id>();
         
 		for(CompensationRate__c rate : [SELECT Id, Name 

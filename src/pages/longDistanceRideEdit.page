@@ -1,4 +1,4 @@
-<apex:page standardController="LongDistanceRide__c" extensions="LongDistanceRideCtrlExt" id="longDistanceRideEditPage" title="Long Distance Ride Edit" >
+<apex:page standardController="LongDistanceRide__c" extensions="LocationFinder,LongDistanceRideCtrlExt" id="longDistanceRideEditPage" title="Long Distance Ride Edit" >
     
     <apex:sectionHeader title="Long Distance Ride Edit" subtitle="Long Distance Ride"/>
     
@@ -26,8 +26,19 @@
                     <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />                             
                 <apex:inputField value="{!LongDistanceRide__c.dtm_DepartureTime__c}" required="true"/>               
                 <apex:inputField value="{!LongDistanceRide__c.dtm_ArrivalTime__c}" required="true"/>
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem /> 
             </apex:pageBlockSection>
+            <apex:actionRegion >
+                <apex:pageBlockSection columns="2" id="pbs2" title="Round Trip" >
+                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
+                    <apex:inputCheckbox value="{!LongDistanceRide__c.chk_RoundTrip__c}" required="true">
+                        <apex:actionSupport event="onchange" rerender="pbs2"/>
+                    </apex:inputCheckbox>
+                    <apex:pageBlockSectionItem />               
+                    <apex:inputField value="{!LongDistanceRide__c.dtm_ReturnDeparture__c}" rendered="{!(LongDistanceRide__c.chk_RoundTrip__c == true)}" />
+                    <apex:inputField value="{!LongDistanceRide__c.dtm_ReturnArrival__c}" rendered="{!(LongDistanceRide__c.chk_RoundTrip__c == true)}" />
+                </apex:pageBlockSection>
+            </apex:actionRegion>     
+            
             
         </apex:pageBlock>
         
@@ -77,7 +88,7 @@
                 }
             }
             console.log('From: ' + city + ' - ' + country)        
-            UP2GO_ITE.LongDistanceRideCtrlExt.findLocation(city, country, function(result, event) { 
+            UP2GO_ITE.LocationFinder.findLocation(city, country, function(result, event) { 
                 document.getElementById('longDistanceRideEditPage:f1:pb1:pbsHidden:locationFrom').value = result;  
             });
         }
@@ -106,7 +117,7 @@
                 }
             }
             console.log('To: ' + city + ' - ' + country)
-            UP2GO_ITE.LongDistanceRideCtrlExt.findLocation(city, country, function(result, event) {
+            UP2GO_ITE.LocationFinder.findLocation(city, country, function(result, event) {
                 document.getElementById('longDistanceRideEditPage:f1:pb1:pbsHidden:locationTo').value = result; 
             });
         }

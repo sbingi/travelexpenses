@@ -21,8 +21,8 @@
             <apex:pageBlockSection collapsible="true" columns="1" title="Expenses" >
                 <apex:pageBlockTable value="{!expensesgroupedbydate}" var="expense">
                     <apex:column headerValue="Expense Date" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}">
-                    	<apex:outputField value="{!expense.dat_ExpenseDate__c}" />
-                    	<apex:outputText >&nbsp;</apex:outputText>
+                        <apex:outputField value="{!expense.dat_ExpenseDate__c}" />
+                        <apex:outputText >&nbsp;</apex:outputText>
                     </apex:column>
                     <apex:column value="{!expense.RecordTypeId}" headerValue="Record Type" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>
                     <apex:column value="{!expense.dtm_DepartureTime__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/> 

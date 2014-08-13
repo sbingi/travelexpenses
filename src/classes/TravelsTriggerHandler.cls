@@ -32,9 +32,6 @@ public with sharing class TravelsTriggerHandler extends AbstractTriggerHandler {
 	}
 	
 	
-	public override void onBeforeDelete() {}
-	
-	
 	public override void onAfterInsert() {
 		calculatePerDiems(newTravels);
 	}
@@ -42,10 +39,6 @@ public with sharing class TravelsTriggerHandler extends AbstractTriggerHandler {
 	
 	public override void onAfterUpdate() {
 		calculatePerDiems(newTravels);
-	}
-	
-	
-	public override void onAfterDelete() {
 	}
 	
 	

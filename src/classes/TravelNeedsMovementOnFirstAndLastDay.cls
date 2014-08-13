@@ -4,24 +4,24 @@ public with sharing class TravelNeedsMovementOnFirstAndLastDay implements Submit
 	// PUBLIC METHODS
 	
 	public void validate(List<SObject> records) {
-		List<Travel__c> travels = (List<Travel__c>) records;
+		List<Travel__c> newTravels = (List<Travel__c>) records;
 		
-		Map<Id, Set<Date>> movementExpensesByDate = queryAndGroupMovementExpenses(travels);
+		Map<Id, Set<Date>> datesWithMovements = queryDatesWithMovementExpenses(newTravels);
 										
-		for(Travel__c travel : travels) {
-			Set<Date> movementExpenses = movementExpensesByDate.get(travel.Id);
+		for(Travel__c travel : newTravels) {
+			Set<Date> dates = datesWithMovements.get(travel.Id);
 			
-			if( movementExpenses == null ) {
+			if( dates == null ) {
 				travel.addError('Your travel needs at least a movement expense on the first and last day.');
 			}
 			else {
 				Date firstDay = travel.dtm_Start__c.date();
 				Date lastDay = travel.dtm_End__c.date();
 			
-				if( !movementExpenses.contains(firstDay)) {
+				if( !dates.contains(firstDay)) {
 					travel.addError('Your travel needs a movement expense on the first day.');
 				}
-				if( !movementExpenses.contains(lastDay)) {
+				if( !dates.contains(lastDay)) {
 					travel.addError('Your travel needs a movement expense on the last day.');
 				}
 			}
@@ -31,14 +31,17 @@ public with sharing class TravelNeedsMovementOnFirstAndLastDay implements Submit
 	
 	// PRIVATE METHODS
 	
-	private Map<Id, Set<Date>> queryAndGroupMovementExpenses(List<Travel__c> travels) {
+	private Map<Id, Set<Date>> queryDatesWithMovementExpenses(List<Travel__c> travels) {
 		Map<Id, Set<Date>> resultMap = new Map<Id, Set<Date>>();
 		
 		Set<Id> movementRecordTypeIds = ExpenseType.getMovementRecordTypeIds();
 		movementRecordTypeIds.add(ExpenseType.getRentalVehicleRecordTypeId());
 		
 		for(Expense__c expense : [SELECT RecordTypeId, dtm_DepartureTime__c, dtm_ArrivalTime__c, mdr_Travel__c,
-										 (SELECT dtm_DepartureTime__c, dtm_ArrivalTime__c FROM Long_Distance_Rides__r)
+										 chk_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c,
+										 (SELECT dtm_DepartureTime__c, dtm_ArrivalTime__c,
+										 		 chk_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c
+										  FROM Long_Distance_Rides__r)
 								  FROM Expense__c
 								  WHERE RecordTypeId IN :movementRecordTypeIds
 								  AND mdr_Travel__c IN :travels]) {
@@ -51,15 +54,26 @@ public with sharing class TravelNeedsMovementOnFirstAndLastDay implements Submit
 			
 			Set<Date> expenseDates = resultMap.get(travel);
 			
-			if(expense.RecordTypeId == ExpenseType.getRentalVehicleRecordTypeId()) {
+			if(ExpenseType.isRentalVehicle(expense)) {
+				
 				for(LongDistanceRide__c ride : expense.Long_Distance_Rides__r) {
 					expenseDates.add(ride.dtm_DepartureTime__c.date());
 					expenseDates.add(ride.dtm_ArrivalTime__c.date());
+					
+					if(ride.chk_RoundTrip__c) {
+						expenseDates.add(ride.dtm_ReturnDeparture__c.date());
+						expenseDates.add(ride.dtm_ReturnArrival__c.date());
+					}
 				}
 			}
 			else {
 				expenseDates.add(expense.dtm_DepartureTime__c.date());
-				expenseDates.add(expense.dtm_ArrivalTime__c.date());		
+				expenseDates.add(expense.dtm_ArrivalTime__c.date());
+				
+				if(expense.chk_RoundTrip__c) {
+					expenseDates.add(expense.dtm_ReturnDeparture__c.date());
+					expenseDates.add(expense.dtm_ReturnArrival__c.date());
+				}		
 			}		  	
 		}
 		

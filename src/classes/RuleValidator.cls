@@ -30,12 +30,11 @@ public with sharing class RuleValidator {
 		List<String> fqClassNames = settingsValue.deleteWhitespace().split(',');
 		
 		for(String fqClassName : fqClassNames) {
-							   	
 			Type t = Type.forName(fqClassName);
-			
+					
 			try {
 				ValidationRule rule = (ValidationRule) t.newInstance();
-				results.add(rule);	
+				results.add(rule);
 			}
 			catch(Exception ignored) { /* ignore classes with Cast Exceptions */ }
 		}

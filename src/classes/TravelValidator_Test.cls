@@ -8,18 +8,20 @@ private class TravelValidator_Test {
         
     @isTest
     private static void validTravelCanBeInserted() {
+        
         // Setup
+        
         Exception unexpectedException;
         String message = '';        
         
         
         // Exercise
         try {
-            Travel__c travel = new TravelBuilder(System.now() ,System.now().addDays(1))
+            Travel__c travel = new TravelBuilder(System.now(), System.now().addDays(1))
                                         .create();
         }
-        catch(Exception e) { 
-            unexpectedException = e;
+        catch(Exception ex) { 
+            unexpectedException = ex;
             message = unexpectedException.getStackTraceString();
         }
         
@@ -30,10 +32,10 @@ private class TravelValidator_Test {
     
             
     @isTest
-    private static void travelEndCannotBeBeforeTravelStart() {
+    private static void failsWhenTravelEndsBeforeItStarts() {
+        
         // Setup
         Exception expectedException;
-        String expectedMessage = 'Your travel can not end before it started.';
 
         
         // Exercise
@@ -47,16 +49,16 @@ private class TravelValidator_Test {
         
         
         // Verify
-        System.assertNotEquals(null,expectedException);
-        assertThrowsMessage(expectedMessage);
+        System.assertNotEquals(null, expectedException);
+        assertThrowsMessage('Your travel can not end before it started.');
     }
     
     
     @isTest
-    private static void travelsOfSameUserCannotOverlap() {
+    private static void failsWhenTravelsOfSameUserOverlap() {
+        
         // Setup
         Exception expectedException;
-        String expectedMessage = 'Travel overlaps with existing travel: second Travel';
         
         Profile stand = [SELECT Id FROM Profile WHERE Name='Standard Platform User']; 
         User user = createNewUser(stand, 'traveller');
@@ -77,21 +79,23 @@ private class TravelValidator_Test {
 		        insert newTravel;
             }
         }
-        catch(Exception e) { 
-            expectedException = e;
+        catch(Exception ex) { 
+            expectedException = ex;
         }
         
         
         // Verify
-        System.assertNotEquals(null,expectedException);
-        assertThrowsMessage(expectedMessage);
+        System.assertNotEquals(null, expectedException);
+        assertThrowsMessage('Travel overlaps with existing travel: second Travel');
     }
     
     
     @isTest
     private static void overlappingTravelsOfDifferentUsersCanBeInserted() {
+        
         // Setup
         Exception unexpectedException;
+        
         String message = '';
         
         Profile sysAd = [SELECT Id FROM Profile WHERE Name='Standard Platform User']; 
@@ -114,8 +118,8 @@ private class TravelValidator_Test {
                 insert secondTravel;  
             }
         }
-        catch(Exception e) { 
-            unexpectedException = e;
+        catch(Exception ex) { 
+            unexpectedException = ex;
             message = unexpectedException.getStackTraceString();
         }
         

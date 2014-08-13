@@ -4,17 +4,17 @@ public with sharing class TravelsDontOverlap implements SaveTravelRule {
 	// PUBLIC METHODS
 	    
     public void validate(List<SObject> records) {
-    	List<Travel__c> travels = (List<Travel__c>) records;
+    	List<Travel__c> newTravels = (List<Travel__c>) records;
 
-    	Map<Id, List<Travel__c>> travelsByUser = queryAndGroupTravelsByUsers(travels);
+    	Map<Id, List<Travel__c>> travelsByUser = queryAndGroupTravelsByUsers(newTravels);
 
-		for(Travel__c travel : travels) {
-			List<Travel__c> otherTravelsOfSameUser = travelsByUser.get(travel.OwnerId);
+		for(Travel__c travel : newTravels) {
+			List<Travel__c> existingTravelsOfSameUser = travelsByUser.get(travel.OwnerId);
 			
-	        for(Travel__c other : otherTravelsOfSameUser) {
+	        for(Travel__c existing : existingTravelsOfSameUser) {
 				
-	            if( (travel.Id != other.Id) && doOverlap(travel, other)) {
-	                travel.addError('Travel overlaps with existing travel: ' + other.Name);
+	            if( (travel.Id != existing.Id) && doOverlap(travel, existing)) {
+	                travel.addError('Travel overlaps with existing travel: ' + existing.Name);
 	            }
 	        }
 		}
@@ -46,8 +46,8 @@ public with sharing class TravelsDontOverlap implements SaveTravelRule {
     }
     
     
-    private Boolean doOverlap(Travel__c travel, Travel__c other) {
-        Boolean noOverlap = (other.dtm_End__c < travel.dtm_Start__c || other.dtm_Start__c > travel.dtm_End__c);
+    private Boolean doOverlap(Travel__c travel, Travel__c existing) {
+        Boolean noOverlap = (existing.dtm_End__c < travel.dtm_Start__c || existing.dtm_Start__c > travel.dtm_End__c);
 
         return !noOverlap;
     }

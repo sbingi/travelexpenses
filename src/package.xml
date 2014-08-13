@@ -17,6 +17,8 @@
         <members>CompensationRateType</members>
         <members>CompensationRateType_Test</members>
         <members>CustomSettings</members>
+        <members>DailySummaries</members>
+        <members>DailySummaries_Test</members>
         <members>ExpenseAmountCannotBeNegative</members>
         <members>ExpenseCannotBeOutsideOfTravelPeriod</members>
         <members>ExpenseCannotEndBeforeStart</members>
@@ -32,13 +34,9 @@
         <members>ExpensesTriggerHandler_Test</members>
         <members>LocationFinder</members>
         <members>LocationFinder_Test</members>
-        <members>LongDistanceRideCannotBeOutsideOfRental</members>
-        <members>LongDistanceRideCannotEndBeforeStart</members>
         <members>LongDistanceRideCtrlExt</members>
-        <members>LongDistanceRideHasValidLocation</members>
         <members>LongDistanceRideRule</members>
         <members>LongDistanceRideValidator_Test</members>
-        <members>LongDistanceRidesDontOverlap</members>
         <members>LongDistanceRidesTriggerHandler</members>
         <members>MealInvitationCannotBeOutOfTravelPeriod</members>
         <members>MealInvitationRule</members>
@@ -46,8 +44,16 @@
         <members>MealInvitationsCannotBeOnSameDay</members>
         <members>MealInvitationsTriggerHandler</members>
         <members>MealInvitationsTriggerHandler_Test</members>
+        <members>NewExpenseCtrlExt</members>
+        <members>NewLongDistanceRideCtrlExt</members>
         <members>PerDiemCalculator</members>
         <members>PerDiemCalculator_Test</members>
+        <members>RideCannotBeOutsideOfRental</members>
+        <members>RideCannotEndBeforeStart</members>
+        <members>RideHasValidLocation</members>
+        <members>RideNeedsReturnInfoWhenRoundTripChecked</members>
+        <members>RidesCannotBeOutsideOfTravel</members>
+        <members>RidesDontOverlap</members>
         <members>RuleType</members>
         <members>RuleValidator</members>
         <members>SaveTravelRule</members>
@@ -58,13 +64,48 @@
         <members>TravelCtrlExt_Test</members>
         <members>TravelHasNoMovementGaps</members>
         <members>TravelNeedsMovementOnFirstAndLastDay</members>
-        <members>TravelOverviewMobileCtrl</members>
-        <members>TravelOverviewMobileCtrl_Test</members>
         <members>TravelValidator_Test</members>
         <members>TravelsDontOverlap</members>
         <members>TravelsTriggerHandler</members>
         <members>ValidationRule</members>
         <name>ApexClass</name>
+    </types>
+    <types>
+        <members>alert</members>
+        <members>badge</members>
+        <members>bill</members>
+        <members>buttongroup</members>
+        <members>buttontoolbar</members>
+        <members>column</members>
+        <members>cost</members>
+        <members>entertainmentInfo</members>
+        <members>formblock</members>
+        <members>formgroup</members>
+        <members>glyph</members>
+        <members>importvisualstrap</members>
+        <members>jumbotron</members>
+        <members>label</members>
+        <members>listgroup</members>
+        <members>listgroupitem</members>
+        <members>lodgingInfo</members>
+        <members>miscellaneousInfo</members>
+        <members>modal</members>
+        <members>movements</members>
+        <members>navbar</members>
+        <members>newExpense</members>
+        <members>pageheader</members>
+        <members>panel</members>
+        <members>perDiem</members>
+        <members>progressbar</members>
+        <members>rentalInfo</members>
+        <members>rideDetails</members>
+        <members>row</members>
+        <members>thumbnail</members>
+        <members>thumbnailcaption</members>
+        <members>tooltip</members>
+        <members>visualstrapblock</members>
+        <members>well</members>
+        <name>ApexComponent</name>
     </types>
     <types>
         <members>compensationRateEdit</members>
@@ -74,7 +115,18 @@
         <members>expenseViewMobile</members>
         <members>expenseViewMobileLongDistanceRides</members>
         <members>longDistanceRideEdit</members>
+        <members>longDistanceRideEditMobile</members>
         <members>longDistanceRideViewMobile</members>
+        <members>newAccommodationAction</members>
+        <members>newCompanyVehicleRideAction</members>
+        <members>newEntertainmentAction</members>
+        <members>newFlightAction</members>
+        <members>newLongDistanceRideAction</members>
+        <members>newMiscellaneousAction</members>
+        <members>newPrivateVehicleRideAction</members>
+        <members>newRentalAction</members>
+        <members>newSeaTravelAction</members>
+        <members>newTrainRideAction</members>
         <members>travelExpenseReport</members>
         <members>travelOverviewMobile</members>
         <members>travelSubmit</members>
@@ -154,10 +206,14 @@
         <members>Expense__c.txt_PlaceOfEntertainment__c</members>
         <members>Expense__c.txt_Reason__c</members>
         <members>Expense__c.txt_To__c</members>
+        <members>LongDistanceRide__c.chk_RoundTrip__c</members>
         <members>LongDistanceRide__c.dtm_ArrivalTime__c</members>
         <members>LongDistanceRide__c.dtm_DepartureTime__c</members>
+        <members>LongDistanceRide__c.dtm_ReturnArrival__c</members>
+        <members>LongDistanceRide__c.dtm_ReturnDeparture__c</members>
         <members>LongDistanceRide__c.lkp_LocationFrom__c</members>
         <members>LongDistanceRide__c.lkp_LocationTo__c</members>
+        <members>LongDistanceRide__c.lkp_ReturnTrip__c</members>
         <members>LongDistanceRide__c.mdr_RentalVehicle__c</members>
         <members>LongDistanceRide__c.txt_From__c</members>
         <members>LongDistanceRide__c.txt_To__c</members>
@@ -172,7 +228,6 @@
         <members>TravelContact__c.mdr_Contact__c</members>
         <members>TravelContact__c.mdr_Travel__c</members>
         <members>Travel__c.chk_Approved__c</members>
-        <members>Travel__c.chk_RecalculatePerDiems__c</members>
         <members>Travel__c.dtm_End__c</members>
         <members>Travel__c.dtm_Start__c</members>
         <members>Travel__c.fcur_Reimbursement__c</members>
@@ -195,7 +250,6 @@
     </types>
     <types>
         <members>CompensationRate__c</members>
-        <members>Expense_Edit_Mobile_Test</members>
         <members>Travel_Overview</members>
         <members>Travel__c</members>
         <name>CustomTab</name>
@@ -242,6 +296,22 @@
         <name>PermissionSet</name>
     </types>
     <types>
+        <members>Expense__c.newLongDistanceRide</members>
+        <members>Travel__c.newAccommodation</members>
+        <members>Travel__c.newCompanyVehicleRide</members>
+        <members>Travel__c.newEntertainment</members>
+        <members>Travel__c.newFlight</members>
+        <members>Travel__c.newMealInvitation</members>
+        <members>Travel__c.newMiscellaneous</members>
+        <members>Travel__c.newPrivateVehicleRide</members>
+        <members>Travel__c.newRentalVehicle</members>
+        <members>Travel__c.newSeaTravel</members>
+        <members>Travel__c.newTrainRide</members>
+        <members>Travel__c.newTravelContact</members>
+        <members>newTravel</members>
+        <name>QuickAction</name>
+    </types>
+    <types>
         <members>CompensationRate__c.Location</members>
         <members>CompensationRate__c.Meal</members>
         <members>CompensationRate__c.Vehicle</members>
@@ -267,7 +337,18 @@
         <name>ReportType</name>
     </types>
     <types>
+        <members>Icon_Accommodation</members>
+        <members>Icon_Entertainment</members>
+        <members>Icon_Flight</members>
+        <members>Icon_MealInvitation</members>
+        <members>Icon_Miscellaneous</members>
+        <members>Icon_NewTravel</members>
+        <members>Icon_SeaTravel</members>
+        <members>Icon_Train</members>
+        <members>Icon_TravelContact</members>
+        <members>Icon_Vehicle</members>
         <members>Mobile_Design_Templates</members>
+        <members>VisualStrap_Resources</members>
         <members>up2go_Logo</members>
         <name>StaticResource</name>
     </types>

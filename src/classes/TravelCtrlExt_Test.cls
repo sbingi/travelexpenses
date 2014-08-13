@@ -22,7 +22,8 @@ private class TravelCtrlExt_Test {
     
     
     @isTest
-    private static void succeedsWhenCorrectRecordTypeStatus() {
+    private static void identifyTheApprovalStatusOfTheTravel() {
+        
         // Setup
         DateTime departure = dateTime(DAY_TODAY, MORNING);
         DateTime arrival = dateTime(DAY_TODAY, AFTERNOON);
@@ -58,7 +59,8 @@ private class TravelCtrlExt_Test {
 
     
     @isTest
-    private static void succeedsWhenCorrectSortingOfExpenses() {
+    private static void sortExpenses() {
+        
         // Setup 
         DateTime departure = dateTime(DAY_TODAY, MORNING);
         DateTime arrival = dateTime(DAY_TODAY, AFTERNOON);
@@ -88,18 +90,15 @@ private class TravelCtrlExt_Test {
     
     
     @isTest
-    private static void succeedsWhenCorrectCalculatingOfDailyExpenses() {
+    private static void calculatingDailyExpenses() {
         // Setup    
         DateTime departure = dateTime(DAY_TODAY, MORNING);
         DateTime arrival = dateTime(DAY_TODAY, AFTERNOON);
-    
+    	
         Travel__c travel = new TravelBuilder(TRAVEL_BEGIN, TRAVEL_END)
                                     .addCustomFlightWithAmount(departure, arrival, 500.00)
                                     .addCustomFlightWithAmount(departure.addDays(1), arrival.addDays(1), 400.00)
-                                    .addCustomFlightWithAmount(departure.addDays(2), arrival.addDays(2), 500.00)
-                                    .addCustomFlightWithAmount(departure.addDays(4), arrival.addDays(4), 500.00)
                                     .addCustomFlightWithAmount(departure.addDays(7), arrival.addDays(7), 300.00)
-                                    .addCustomFlightWithAmount(arrival.addDays(1).addHours(2), arrival.addDays(1).addHours(4), 100.00)
                                     .addCustomFlightWithAmount(arrival.addDays(7).addHours(2), arrival.addDays(7).addHours(4), 200.00)
                                     .create();          
     
@@ -107,26 +106,24 @@ private class TravelCtrlExt_Test {
         // Exercise
         TravelCtrlExt ctrlExt = new TravelCtrlExt(new ApexPages.StandardController(travel));
         ctrlExt.doInitializeLists();
-        List<Expense__c> expenses = ctrlExt.getDailyExpenses();
+        List<Expense__c> dailyExpenses = ctrlExt.getDailyExpenses();
         
         
         // Verify
-        System.assertEquals(DAY_TODAY.addDays(1), expenses.get(1).dat_ExpenseDate__c);
-        System.assertEquals(560.00, expenses.get(1).cur_Amount__c);
+        System.assertEquals(DAY_TOMORROW, dailyExpenses.get(1).dat_ExpenseDate__c);
+        System.assertEquals(460.00, dailyExpenses.get(1).cur_Amount__c);
             
-        Integer LAST = expenses.size() - 1;
-        System.assertEquals(ONE_WEEK_FROM_TODAY, expenses.get(LAST).dat_ExpenseDate__c);
-        System.assertEquals(525.00, expenses.get(LAST).cur_Amount__c);
+        Integer lastDay = dailyExpenses.size() - 1;
+        System.assertEquals(ONE_WEEK_FROM_TODAY, dailyExpenses.get(lastDay).dat_ExpenseDate__c);
+        System.assertEquals(525.00, dailyExpenses.get(lastDay).cur_Amount__c);
     }
     
     
     @isTest
-    private static void succeedsWhenEmptyTravelCannotBeSubmitted() {
-        // Setup
-        String expectedMessage = 'Your travel needs at least a movement expense on the first and last day.';
+    private static void emptyTravelCannotBeSubmitted() {
         
-        Travel__c travel = new TravelBuilder(System.now(), System.now().addDays(2))
-                                    .create();
+        // Setup
+        Travel__c travel = new TravelBuilder(System.now(), System.now().addDays(2)).create();
                                     
         TravelCtrlExt ctrlExt = new TravelCtrlExt(new ApexPages.StandardController(travel));
                                     
@@ -137,15 +134,14 @@ private class TravelCtrlExt_Test {
         
         // Verify
         System.assertEquals(null,validationResult);
-        assertThrowsMessage(expectedMessage);
+        assertThrowsMessage('Your travel needs at least a movement expense on the first and last day.');
     }
    
 
     @isTest
-    private static void succeedsWhenTravelWithLocationGapCannotBeSubmitted() {
-        // Setup
-        String expectedMessage = 'You forgot to state a movement between Stadt 2, Deutschland and Stadt 1, Spanien';
+    private static void travelWithLocationGapsCannotBeSubmitted() {
         
+        // Setup
         CompensationRate__c germany = insertLocation('Deutschland', 'Deutschland', null, 'DE', 50, 50, 50);
         CompensationRate__c spain = insertLocation('Spanien', 'Spanien', null, 'ES', 20, 20, 20);
 
@@ -165,18 +161,23 @@ private class TravelCtrlExt_Test {
         
         // Verify
         System.assertEquals(null,validationResult); 
-        assertThrowsMessage(expectedMessage);               
+        assertThrowsMessage('You forgot to state a movement between Stadt 2, Deutschland and Stadt 1, Spanien');               
     }
    
     
     @isTest
-    private static void succeedsWhentravelWithNoMovementOnFirstOrLastDayCannotBeSubmitted() {
-        // Setup
-        String expectedMessage = 'Your travel needs a movement expense on the first day.';
-        String expectedMessage2 = 'Your travel needs a movement expense on the last day.';
+    private static void travelWithNoMovementsOnFirstAndLastDayCannotBeSubmitted() {
         
-        Travel__c travel = new TravelBuilder(System.now(), System.now().addDays(2))
-                                     .addDefaultFlight(System.now().addDays(1), System.now().addDays(1).addHours(3))
+        // Setup
+        DateTime start = dateTime(DAY_TODAY,START_OF_DAY);
+        DateTime stop = dateTime(DAY_AFTER_TOMORROW,END_OF_DAY);
+        DateTime mark = dateTime(DAY_TOMORROW,START_OF_DAY);
+        
+        Travel__c travel = new TravelBuilder(start, stop)
+                                     .addDefaultFlight(mark, mark.addHours(3))
+                                     .addRentalVehicleWithRoundTripLongDistanceRide(DAY_TODAY,DAY_AFTER_TOMORROW,
+                                     												mark.addHours(5),mark.addHours(6),
+                                     												mark.addHours(8),mark.addHours(10))
                                      .create();
                                      
         TravelCtrlExt ctrlExt = new TravelCtrlExt(new ApexPages.StandardController(travel));
@@ -188,13 +189,14 @@ private class TravelCtrlExt_Test {
         
         // Verify   
         System.assertEquals(null,validationResult); 
-        assertThrowsMessage(expectedMessage);
-        assertThrowsMessage(expectedMessage2);
+        assertThrowsMessage('Your travel needs a movement expense on the first day.');
+        assertThrowsMessage('Your travel needs a movement expense on the last day.');
     }
     
     
     @isTest
-    private static void succeedsWhenValidTravelCanBeSubmitted() {
+    private static void validTravelCanBeSubmitted() {
+        
         // Setup
         Travel__c travel = new TravelBuilder(System.now(), System.now().addDays(2))
                                      .addRoundFlight(System.now(), System.now().addHours(3),
@@ -211,10 +213,11 @@ private class TravelCtrlExt_Test {
         // Verify
         System.assert( !ApexPages.hasMessages(ApexPages.Severity.ERROR) );
     }
-
-
+	
+	
 	@isTest
-	private static void succeedsWhenCorrectGenerationOfDailySummaries() {
+	private static void generatesDailySummaries() {
+		
 		// Setup
         Travel__c travel = new TravelBuilder(System.now(), System.now().addDays(2))
                                      .addRoundFlight(System.now(), 
@@ -226,7 +229,6 @@ private class TravelCtrlExt_Test {
 
         // Exercise
         TravelCtrlExt ctrlExt = new TravelCtrlExt(new ApexPages.StandardController(travel));
-
         ctrlExt.doGeneratePerDiemsAndLists();
         
         

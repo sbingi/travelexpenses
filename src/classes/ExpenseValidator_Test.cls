@@ -13,374 +13,577 @@ private class ExpenseValidator_Test {
 	private static final DateTime BEGIN_SIX_AM = dateTime(TRAVEL_BEGIN, Time.newInstance(06,00,00,00));
 	
 	
-	// TESTING ExpenseCannotBeOutsideOFTravelPeriod
+	// TESTING: ExpenseCannotBeOutsideOFTravelPeriod
+	
 	@isTest
-	private static void succeedsWhenMovementExpenseCannotbeOutOfTravelPeriod() {
+	private static void failsWhenFlightIsOutsideOfTravelPeriod() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Expense is outside of travel period.';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-										 .addDefaultFlight(BEGIN_FIVE_AM.addDays(-1),BEGIN_SIX_AM.addDays(1))
-										 .create();
+			builder.addDefaultFlight(BEGIN_FIVE_AM.addDays(-1), BEGIN_SIX_AM.addDays(1));
 		}	
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Expense is outside of travel period.');
 	}
 
 	
 	@isTest
-	private static void succeedsWhenLocalExpenseCannotOutOfTravelPeriod() {
+	private static void failsWhenMiscellaneousIsOutsideOfTravelPeriod() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Expense is outside of travel period.';
 		
-		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
+						
+										 
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-										 .addDefaultMiscellaneousExpense(TRAVEL_BEGIN.addDays(1))
-										 .create();
+			builder.addDefaultMiscellaneousExpense(TRAVEL_BEGIN.addDays(1));
 		}	
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Expense is outside of travel period.');
 	}	
 
 	
 	@isTest
-	private static void succeedsWhenAccommodationExpenseCannotOutOfTravelPeriod() {
+	private static void failsWhenAccommodationOutsideOfTravelPeriod() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Expense is outside of travel period.';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-										 .addDefaultAccommodation(TRAVEL_BEGIN.addDays(-1),TRAVEL_BEGIN.addDays(1))
-										 .create();
+			builder.addDefaultAccommodation(TRAVEL_BEGIN.addDays(-1), TRAVEL_BEGIN.addDays(1));
 		}	
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Expense is outside of travel period.');
 	}	
 
 	
 	@isTest
-	private static void succeedsWhenRentalVehicleExpenseCannotOutOfTravelPeriod() {
+	private static void failsWhenRentalVehicleExpenseIsOutsideOfTravelPeriod() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Expense is outside of travel period.';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-										 .addDefaultRentalVehicle(TRAVEL_BEGIN.addDays(-1),TRAVEL_BEGIN.addDays(1))
-										 .create();
+			builder.addDefaultRentalVehicle(TRAVEL_BEGIN.addDays(-1), TRAVEL_BEGIN.addDays(1));
 		}	
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
-	}
-	
-
-	// TESTING ExpenseCannotEndBeforeStart
-	@isTest
-	private static void succeedsWhenMovementExpenseCannotEndBeforeStart() {
-		// Setup
-		Exception expectedException;
-		String expectedMessage = 'Expense cannot end before it started.';
-		
-		
-		// Exercise
-		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-										 .addDefaultFlight(BEGIN_SIX_AM, BEGIN_FIVE_AM)
-										 .create();
-		}
-		catch(Exception e) {
-			expectedException = e;
-		}
-
-		
-		// Verify
-		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Expense is outside of travel period.');
 	}
 	
 	
 	@isTest
-	private static void succeedsWhenAccommodationExpenseCannotEndBeforeStart() {
+	private static void failsWhenRoundTripIsOutsideOfTravelPeriod() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Expense cannot end before it started.';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM.addDays(-1), BEGIN_SIX_AM)
-										 .addDefaultAccommodation(TRAVEL_BEGIN, TRAVEL_BEGIN.addDays(-1))
-										 .create();
+			builder.addRoundFlight(BEGIN_ONE_AM, BEGIN_SIX_AM, BEGIN_SIX_AM.addHours(1), BEGIN_SIX_AM.addHours(2));
+		}	
+		catch(Exception ex) {
+			expectedException = ex;
 		}
-		catch(Exception e) {
-			expectedException = e;
+		
+		
+		// Verify
+		System.assertNotEquals(null, expectedException);
+		assertThrowsMessage('Expense is outside of travel period.');		
+	}
+	
+
+	// TESTING: ExpenseCannotEndBeforeStart
+	
+	@isTest
+	private static void failsWhenMovmentEndsBeforeItStarts() {
+		
+		// Setup
+		Exception expectedException;
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM.addDays(-1), BEGIN_SIX_AM);
+		
+		
+		// Exercise
+		try {
+			builder.addDefaultFlight(BEGIN_SIX_AM, BEGIN_FIVE_AM);
+		}
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Expense cannot end before it started.');
 	}
 	
 	
 	@isTest
-	private static void succeedsWhenRentalVehicleExpenseCannotEndBeforeStart() {
+	private static void failsWhenAccommodationEndsBeforeItStarts() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Expense cannot end before it started.';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM.addDays(-1), BEGIN_SIX_AM);
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM.addDays(-1), BEGIN_SIX_AM)
-										 .addDefaultRentalVehicle(TRAVEL_BEGIN, TRAVEL_BEGIN.addDays(-1))
-										 .create();
+			builder.addDefaultAccommodation(TRAVEL_BEGIN, TRAVEL_BEGIN.addDays(-1));
 		}
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Expense cannot end before it started.');
 	}
+	
+	
+	@isTest
+	private static void failsWhenRentalVehicleExpenseEndsBeforeItStarts() {
+		
+		// Setup
+		Exception expectedException;
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM.addDays(-1), BEGIN_SIX_AM);
+		
+		
+		// Exercise
+		try {
+			builder.addDefaultRentalVehicle(TRAVEL_BEGIN, TRAVEL_BEGIN.addDays(-1));
+		}
+		catch(Exception ex) {
+			expectedException = ex;
+		}
+
+		
+		// Verify
+		System.assertNotEquals(null, expectedException);
+		assertThrowsMessage('Expense cannot end before it started.');
+	}
+	
+	
+	@isTest
+	private static void failsWhenRoundTripEndsBeforeItStarts() {
+		
+		// Setup
+		Exception expectedException;
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
+		
+		
+		// Exercise
+		try {
+			builder.addRoundFlight(BEGIN_ONE_AM, BEGIN_TWO_AM, BEGIN_SIX_AM, BEGIN_FIVE_AM);
+		}	
+		catch(Exception ex) {
+			expectedException = ex;
+		}
+		
+		
+		// Verify
+		System.assertNotEquals(null, expectedException);
+		assertThrowsMessage('Expense cannot end before it started.');		
+	}	
 
 	
 	// TESTING ExpenseHasValidLocation
+	
 	@isTest
-	private static void succeedsWhenMovementExpenseCannotHaveInvalidLocation() {
+	private static void failsWhenMovementExpenseHasInvalidLocation() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Unknown location, please choose a location from the autocomplete drop-down list.';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
+		
 		
 		// Exercise
-		Try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-										.addDefaultFlightWithoutLocation(BEGIN_FIVE_AM,BEGIN_SIX_AM)
-										.create();
+		try {
+			builder.addDefaultFlightWithoutLocation(BEGIN_FIVE_AM,BEGIN_SIX_AM);
 		}
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Unknown location, please choose a location from the autocomplete drop-down list.');
 	}
 
 	
 	@isTest
-	private static void succeedsWhenAccommodationExpenseCannotHaveInvalidLocation() {
+	private static void failsWhenAccommodationHasInvalidLocation() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Unknown location, please choose a location from the autocomplete drop-down list.';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM.addDays(1));
+		
 		
 		// Exercise
-		Try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM.addDays(1))
-										.addAccommodationWithoutLocation(TRAVEL_BEGIN,TRAVEL_BEGIN.addDays(1))
-										.create();
+		try {
+			builder.addAccommodationWithoutLocation(TRAVEL_BEGIN,TRAVEL_BEGIN.addDays(1));
 		}
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Unknown location, please choose a location from the autocomplete drop-down list.');
 	}	
 	
 	
 	@isTest
-	private static void succeedsWhenEntertainmentExpenseCannotHaveInvalidLocation() {
+	private static void failsWhenEntertainmentExpenseHasInvalidLocation() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Unknown location, please choose a location from the autocomplete drop-down list.';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM.addDays(1));
+		
 		
 		// Exercise
-		Try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM.addDays(1))
-										.addEntertainmentWithoutLocation(TRAVEL_BEGIN)
-										.create();
+		try {
+			builder.addEntertainmentWithoutLocation(TRAVEL_BEGIN);
 		}
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Unknown location, please choose a location from the autocomplete drop-down list.');
 	}
 	
 	
 	// TESTING ExpenseNeedsReturnInformationIfRoundTrip
+	
 	@isTest
-	private static void succeedsWhenThereIsAlwaysReturnInformationWhenRoundTripIsChecked() {
+	private static void failsWhenRoundTripInformationIsMissing() {
+
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Return departure time is missing';
-		String expectedMessage2 = 'Return arrival time is missing.';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-										.addRoundFlight(BEGIN_TWO_AM, BEGIN_FIVE_AM,
-														null, null)
-										.create();
+			builder.addRoundFlight(BEGIN_TWO_AM, BEGIN_FIVE_AM, null, null);
 		}
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}						
 			
 									
 		// Verify	
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
-		assertThrowsMessage(expectedMessage2);
+		assertThrowsMessage('Return departure time is missing');
+		assertThrowsMessage('Return arrival time is missing.');
 	}				
 	
 	
 	// TESTING ExpensesDontOverlap
+	
 	@isTest
-	private static void succeedsWhenExpensesCannotOverlapAtBegin() {
+	private static void failsWhenExpensesOverlapAtTheBeginning() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-										 .addRentalVehicleWithLongDistanceRide(TRAVEL_BEGIN,TRAVEL_BEGIN,BEGIN_TWO_AM,BEGIN_SIX_AM)
-										 .addDefaultFlight(BEGIN_ONE_AM, BEGIN_FIVE_AM)										 
-										 .create();
+			builder.addRentalVehicleWithLongDistanceRide(TRAVEL_BEGIN, TRAVEL_BEGIN, BEGIN_TWO_AM, BEGIN_SIX_AM);
+			builder.addDefaultFlight(BEGIN_ONE_AM, BEGIN_FIVE_AM);										 
 		}
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
 	}
 
 
 	@isTest
-	private static void succeedsWhenExpensesCannotOverlapAtEnd() {
+	private static void failsWhenExpensesOverlapAtTheEnd() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
 		
 		
 		// Exercise
 		try {
-		Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-					    		  .addRentalVehicleWithLongDistanceRide(TRAVEL_BEGIN,TRAVEL_BEGIN,BEGIN_ONE_AM,BEGIN_FIVE_AM)
-								  .addDefaultFlight(BEGIN_TWO_AM, BEGIN_SIX_AM)	
-					    		  .create();
+			builder.addRentalVehicleWithLongDistanceRide(TRAVEL_BEGIN,TRAVEL_BEGIN,BEGIN_ONE_AM,BEGIN_FIVE_AM);
+			builder.addDefaultFlight(BEGIN_TWO_AM, BEGIN_SIX_AM);	
 		}
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
 	}
 	
 	
 	@isTest
-	private static void succeedsWhenExpensesCannotContainOtherExpenses() {
+	private static void failsWhenAnExpenseContainsAnotherExpense() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-										 .addRentalVehicleWithLongDistanceRide(TRAVEL_BEGIN,TRAVEL_BEGIN,BEGIN_ONE_AM,BEGIN_SIX_AM)
-  										 .addDefaultFlight(BEGIN_TWO_AM, BEGIN_FIVE_AM)										 
-										 .create();
+			builder.addRentalVehicleWithLongDistanceRide(TRAVEL_BEGIN,TRAVEL_BEGIN,BEGIN_ONE_AM,BEGIN_SIX_AM);
+  			builder.addDefaultFlight(BEGIN_TWO_AM, BEGIN_FIVE_AM);										 
 		}
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
 	}
 
 	
 	@isTest
-	private static void succeedsWhenExpensesCannotBeContainedByOtherExpenses() {
+	private static void failsWhenAnExpenseIsContainedByAnotherExpense() {
+		
 		// Setup
 		Exception expectedException;
-		String expectedMessage = 'Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).';
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM)
-									  .addRentalVehicleWithLongDistanceRide(TRAVEL_BEGIN,TRAVEL_BEGIN,BEGIN_TWO_AM,BEGIN_FIVE_AM)
-									  .addDefaultFlight(BEGIN_ONE_AM, BEGIN_SIX_AM)									  
-									  .create();
+			builder.addRentalVehicleWithLongDistanceRide(TRAVEL_BEGIN,TRAVEL_BEGIN,BEGIN_TWO_AM,BEGIN_FIVE_AM);
+			builder.addDefaultFlight(BEGIN_ONE_AM, BEGIN_SIX_AM);									  
 		}
-		catch(Exception e) {
-			expectedException = e;
+		catch(Exception ex) {
+			expectedException = ex;
 		}
 		
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage(expectedMessage);
+		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
 	}
 
+
+	@isTest
+	private static void failsWhenMovementOverlapsWithOwnRoundTrip() {
+		
+		// Setup
+		Exception expectedException;
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
+		
+		
+		// Exercise
+		try {
+			builder.addRoundFlight(BEGIN_ONE_AM, BEGIN_FIVE_AM, BEGIN_TWO_AM, BEGIN_SIX_AM);
+		}	
+		catch(Exception ex) {
+			expectedException = ex;
+		}
+		
+		
+		// Verify
+		System.assertNotEquals(null, expectedException);
+		assertThrowsMessage('Expense overlaps with own round trip.');
+	}
+	
+	
+	@isTest
+	private static void failsWhenRoundTripOverlapsWithAnotherMovement() {
+		
+		// Setup
+		Exception expectedException;
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
+		
+		
+		// Exercise
+		try {
+			builder.addDefaultCompanyVehicleRide(BEGIN_TWO_AM.addHours(2), BEGIN_SIX_AM);
+			builder.addRoundFlight(BEGIN_ONE_AM, BEGIN_TWO_AM, BEGIN_FIVE_AM, BEGIN_SIX_AM);
+		}	
+		catch(Exception ex) {
+			expectedException = ex;
+		}
+		
+		
+		// Verify
+		System.assertNotEquals(null, expectedException);
+		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+	}
+	
+	
+	@isTest
+	private static void failsWhenRoundTripOverlapsWithALongDistanceRide() {
+		
+		// Setup
+		Exception expectedException;
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
+		
+		
+		// Exercise
+		try {
+			builder.addRentalVehicleWithLongDistanceRide(TRAVEL_BEGIN, TRAVEL_BEGIN, BEGIN_TWO_AM.addHours(2), BEGIN_SIX_AM);
+			builder.addRoundFlight(BEGIN_ONE_AM, BEGIN_TWO_AM, BEGIN_FIVE_AM, BEGIN_SIX_AM);
+		}	
+		catch(Exception ex) {
+			expectedException = ex;
+		}
+		
+		
+		// Verify
+		System.assertNotEquals(null, expectedException);
+		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+	}
+	
+	
+	@isTest
+	private static void failsWhenRoundTripOverlapsWithAnotherRoundTrip() {
+		
+		// Setup
+		Exception expectedException;
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
+		
+		
+		// Exercise
+		try {
+			builder.addRentalVehicleWithRoundTripLongDistanceRide(TRAVEL_BEGIN, TRAVEL_BEGIN, BEGIN_ONE_AM, BEGIN_TWO_AM, BEGIN_FIVE_AM, BEGIN_SIX_AM);
+			builder.addRoundFlight(BEGIN_TWO_AM.addHours(1), BEGIN_TWO_AM.addHours(2), BEGIN_FIVE_AM, BEGIN_SIX_AM);
+		}
+		catch(Exception ex) {
+			expectedException = ex;
+		}
+		
+		
+		// Verify
+		System.assertNotEquals(null, expectedException);
+		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+	}
+	
+	
+	// TESTING: ExpenseAmountCannotBeNegative
+		
+	@isTest
+	private static void failsWhenAmountIsNegative() {
+		
+		// Setup
+		Exception expectedException;
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
+		
+		
+		// Exercise
+		try {
+			builder.addCustomFlightWithAmount(BEGIN_ONE_AM,BEGIN_SIX_AM,-30);
+		}
+		catch(Exception ex) {
+			expectedException = ex;
+		}
+		
+		
+		// Verify
+		System.assertNotEquals(null,expectedException);
+		assertThrowsMessage('Expense Amount cannot be negative.');
+	}
+	
+	
+	@isTest
+	private static void failsWhenAmountOfEntertainmentIsNegative() {
+		
+		// Setup
+		Exception expectedException;
+		
+		TravelBuilder builder = new TravelBuilder(BEGIN_ONE_AM, BEGIN_SIX_AM);
+		
+		
+		// Exercise
+		try {
+			builder.addDefaultEntertainment(TRAVEL_BEGIN,-50,-30);
+		}
+		catch(Exception ex) {
+			expectedException = ex;
+		}
+		
+		
+		// Verify
+		System.assertNotEquals(null,expectedException);
+		assertThrowsMessage('Expense Amount cannot be negative.');
+	}
+	
 	
 	//TEST HELPER
 	private static DateTime dateTime(Date day, Time myTime) {

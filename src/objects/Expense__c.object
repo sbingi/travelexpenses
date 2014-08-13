@@ -18,7 +18,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>Edit</actionName>
-        <content>expenseEdit</content>
+        <content>expenseEditMobile</content>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Visualforce</type>
     </actionOverrides>
@@ -52,8 +52,8 @@
     <compactLayouts>
         <fullName>ExpenseMobile</fullName>
         <fields>RecordTypeId</fields>
-        <fields>cur_Amount__c</fields>
         <fields>mdr_Travel__c</fields>
+        <fields>dat_ExpenseDate__c</fields>
         <label>Expense Mobile</label>
     </compactLayouts>
     <deploymentStatus>Deployed</deploymentStatus>

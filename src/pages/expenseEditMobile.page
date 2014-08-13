@@ -1,141 +1,42 @@
-<apex:page standardController="Expense__c" extensions="ExpenseCtrlExt" id="expenseEditMobilePage" title="Expense Edit" showHeader="false" standardStylesheets="false" docType="html-5.0" applyHtmlTag="false" applyBodyTag="false" >
-    
-    <head>
-      <meta charset="utf-8"/>
-      <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/> 
-      <apex:stylesheet value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/css/app.min.css')}"/>
-      <apex:includeScript value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/js/jQuery2.0.2.min.js')}"/>
-      <apex:includeScript value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/js/jquery.touchwipe.min.js')}"/>
-      <apex:includeScript value="{!URLFOR($Resource.Mobile_Design_Templates, 'Mobile-Design-Templates-master/common/js/main.min.js')}"/>    
-   </head>
-   
-   
-    <body>
-        <apex:form id="form">
-        
-        <!-- Flight -->
-            <section class="border-bottom">
-                <div class="content">
-                    <h3>From</h3>
-                    <div class="form-control-group">
-                        <div class="form-control form-control-text">
-                            <apex:inputField value="{!Expense__c.txt_From__c}" id="From" required="true" />
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="border-bottom">
-                <div class="content">
-                    <h3>To</h3>
-                    <div class="form-control-group">
-                        <div class="form-control form-control-text">
-                            <apex:inputField value="{!Expense__c.txt_To__c}" id="To" required="true" />
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="border-bottom">
-                <div class="content">
-                    <h3>Departure</h3>
-                    <div class="form-control-group">
-                        <div class="form-control form-control-date">
-                            <input type="datetime-local" name="date"/>               
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="border-bottom">
-                <div class="content">
-                    <h3>Arrival</h3>
-                    <div class="form-control-group">
-                        <div class="form-control form-control-date">
-                            <input type="datetime-local" name="date"/>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-        </apex:form>
-    </body>
+<apex:page docType="html-5.0" standardController="Expense__c" extensions="LocationFinder,ExpenseCtrlExt" showHeader="false" action="{!doRedirectDesktopDevices}">
 
-    
-    <script src="https://maps.googleapis.com/maps/api/js?language=en&sensor=false&libraries=places" type="text/javascript"></script>  
-    <script type="text/javascript"> 
+    <c:newExpense title="{!RecordTypeName}" expense="{!Expense__c}" hasMessages="{!hasMessages}" theme="default" limitSearch="{!IsMovement}">
         
-        google.maps.event.addDomListener(window, 'load', initialize);
+        <!-- Movements -->
+        <c:movements expense="{!Expense__c}" title="{!RecordTypeName}" theme="default" rendered="{!IsMovement}"/>
+        <c:rideDetails expense="{!Expense__c}" theme="default" vehicles="{!vehicles}" rendered="{!RecordTypeName == 'PrivateVehicleRide'}"/>
         
-        function initialize() {    
-            var from;
-            var to;
-            
-            from = new google.maps.places.Autocomplete(document.getElementById('expenseEditMobilePage:form:From'));         
-            to = new google.maps.places.Autocomplete(document.getElementById('expenseEditMobilePage:form:To'));
-            
-            google.maps.event.addListener(from, 'place_changed', findLocationFrom);
-            google.maps.event.addListener(to, 'place_changed', findLocationTo);
-        }
+        <!-- Accommodation -->
+        <c:lodgingInfo expense="{!Expense__c}" theme="default" rendered="{!RecordTypeName == 'Accommodation'}"/>
         
-        function findLocationFrom() {
-            var components = this.getPlace().address_components,
-            city = 'n/a';
-            country = 'n/a';
-            if (components) {
-                for (var c = 0; c < components.length; ++c) {
-                console.log(components[c])
-                    if(city == 'n/a') {                  
-                        if (components[c].types.indexOf('postal_town') > -1) {
-                            city = components[c].long_name;
-                        }
-                        if (components[c].types.indexOf('administrative_area_level_1') > -1) {
-                            city = components[c].long_name;
-                        }
-                    } 
-                    if (components[c].types.indexOf('locality') > -1) {
-                        city = components[c].long_name;
-                    }
-                    if(components[c].types.indexOf('country') > -1 && components[c].types.indexOf('political') > -1 ) {                      
-                        country = components[c].short_name; 
+        <!-- Entertainment -->
+        <c:entertainmentInfo expense="{!Expense__c}" theme="default" rendered="{!RecordTypeName == 'Entertainment'}"/>
+        <c:bill expense="{!Expense__c}" theme="default" rendered="{!RecordTypeName == 'Entertainment'}"/>
+        
+        <!-- Miscellaneous -->
+        <c:miscellaneousInfo expense="{!Expense__c}" theme="default" rendered="{!RecordTypeName == 'Miscellaneous'}"/>
+        
+        <!-- RentalVehicle -->
+        <c:rentalInfo expense="{!Expense__c}" theme="default" rendered="{!RecordTypeName == 'RentalVehicle'}"/>
+        <c:cost expense="{!Expense__c}" title="{!MovementSubtitle}" theme="default" rendered="{!HasCostInfo}"/>
+           
+        <!-- PerDiem -->
+        <c:perDiem expense="{!Expense__c}" title="{!RecordTypeName}" rendered="{!RecordTypeName == 'perDiem'}"/>
+                  
+        <center>
+            <apex:commandButton value="Save" action="{!doSaveExpense}" oncomplete="redirect({!hasMessages})" rerender="form"
+                                styleClass="btn-lg btn-success" style="width:100%;" rendered="{!RecordTypeName != 'perDiem'}"/>
+            <script type="text/javascript">
+                function redirect(saveFailed){
+                    if(!saveFailed) {
+                        sforce.one.navigateToSObject('{!TravelId}');
                     }
                 }
-            }
-            console.log('From: ' + city + ' - ' + country)        
-            UP2GO_ITE.ExpenseCtrlExt.findLocation(city, country, function(result, event) { 
-                document.getElementById('expenseEditPage:f1:pb1:pbsHidden:locationFrom').value = result;  
-            });
-        }
+            </script>
+        </center>
         
-        function findLocationTo() {
-            var components = this.getPlace().address_components,
-            city = 'n/a';
-            country = 'n/a';
-            if (components) {
-                for (var c = 0; c < components.length; ++c) {
-                console.log(components[c])
-                    if(city == 'n/a') {                  
-                        if (components[c].types.indexOf('postal_town') > -1) {
-                            city = components[c].long_name;
-                        }
-                        if (components[c].types.indexOf('administrative_area_level_1') > -1) {
-                            city = components[c].long_name;
-                        }
-                    }              
-                    if (components[c].types.indexOf('locality') > -1) {
-                        city = components[c].long_name;
-                    }
-                    if(components[c].types.indexOf('country') > -1 && components[c].types.indexOf('political') > -1 ) {
-                        country = components[c].short_name;
-                    }
-                }
-            }
-            console.log('To: ' + city + ' - ' + country)
-            UP2GO_ITE.ExpenseCtrlExt.findLocation(city, country, function(result, event) {
-                document.getElementById('expenseEditPage:f1:pb1:pbsHidden:locationTo').value = result; 
-            });
-        } 
+        <br/><br/><br/>
         
-    </script>
+    </c:newExpense>
     
 </apex:page>

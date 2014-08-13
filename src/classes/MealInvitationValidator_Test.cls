@@ -1,81 +1,106 @@
 @isTest
 private class MealInvitationValidator_Test {
 	
+	private static final Date DAY_TODAY = System.today();
+	private static final Date DAY_TOMORROW = DAY_TODAY.addDays(1);
+	private static final DateTime TODAY_NOW = System.now();
+	private static final DateTime TOMORROW_NOW = TODAY_NOW.addDays(1);
+	
 	static {
 		CustomSettings.addDefault();
 	}
 
-	private static final Date DAY_TODAY = System.today();
-	private static final Date DAY_TOMORROW = DAY_TODAY.addDays(1);
-	
 	
 	@isTest
-	private static void acceptValidMealInvitation() {
+	private static void insertValidMealInvitations() {
+		
 		// Setup
 		Exception unexpectedException;
+		
 		String message = '';
+		
+		Travel__c travel;
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(DAY_TODAY,DAY_TOMORROW)
+			travel = new TravelBuilder(DAY_TODAY, DAY_TOMORROW)
 										.addMealInvitation(DAY_TODAY, true, true, true)
 										.addMealInvitation(DAY_TOMORROW, false, false, false)
 										.create();
 		}
-		catch(DMLException e) {
-			unexpectedException = e;
+		catch(DMLException ex) {
+			unexpectedException = ex;
 			message = unexpectedException.getStackTraceString();
 		}
 									
 		
 		// Verify
-		System.assertEquals(null,unexpectedException,message);
+		System.assertEquals(null, unexpectedException, message);
 	}
 	
 	
 	@isTest
-	private static void forbidMealInvitationOutOfTravel() {
+	private static void failsWhenMealInvitationIsOutsideOfTravelPeriod() {
+		
 		// Setup
 		Exception expectedException;
 		
+		TravelBuilder builder = new TravelBuilder(TODAY_NOW,TOMORROW_NOW);
+				
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(DAY_TODAY,DAY_TOMORROW)
-										.addMealInvitation(DAY_TODAY.addDays(-1), false, false, true)
-										.addMealInvitation(DAY_TOMORROW.addDays(1), true, true, false)
-										.create();
+			builder.addMealInvitation(DAY_TODAY.addDays(-1), false, false, true);
+			builder.addMealInvitation(DAY_TOMORROW.addDays(1), true, true, false);
 		}
-		catch(DMLException e) {
-			expectedException = e;
+		catch(DMLException ex) {
+			expectedException = ex;
 		}
 									
 		
 		// Verify
-		System.assertNotEquals(null,expectedException);
+		System.assertNotEquals(null, expectedException);
+		assertThrowsMessage('The date has to be within the travel period.');
 	}
 	
 	
 	@isTest
-	private static void forbidDuplicateDatesInSameTravel() {
+	private static void failsWhenThereIsAnotherMealInvitationOnSameDate() {
+		
 		// Setup
 		Exception expectedException;
+		
+		TravelBuilder builder = new TravelBuilder(TODAY_NOW,TOMORROW_NOW);
 		
 		
 		// Exercise
 		try {
-			Travel__c travel = new TravelBuilder(DAY_TODAY,DAY_TOMORROW)
-										.addMealInvitation(DAY_TODAY, false, false, true)
-										.addMealInvitation(DAY_TODAY, true, true, false)
-										.create();
+			builder.addMealInvitation(DAY_TODAY, false, false, true);
+			builder.addMealInvitation(DAY_TODAY, true, true, false);
 		}
-		catch(DMLException e) {
-			expectedException = e;
+		catch(DMLException ex) {
+			expectedException = ex;
 		}
 									
 		
 		// Verify
-		System.assertNotEquals(null,expectedException);
+		System.assertNotEquals(null, expectedException);
+		assertThrowsMessage('There already exists a meal invitation for this date.');
+	}
+	
+	
+	// TEST HELPER
+	
+	private static void assertThrowsMessage(String errorMessage) {
+		Boolean result = false;
+		
+		for(ApexPages.Message m : ApexPages.getMessages()) {
+			if(m.getDetail().equals(errorMessage)) {
+				result = true;
+			}
+		}
+		
+		System.assert(result);
 	}
 }

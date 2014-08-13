@@ -1,8 +1,6 @@
 public with sharing class ExpenseHasValidLocation implements ExpenseRule{
 	    
     
-    // PUBLIC METHODS
-    
     public void validate(List<SObject> records) {
     	String errorMessage = 'Unknown location, please choose a location from the autocomplete drop-down list.';
 
@@ -12,7 +10,7 @@ public with sharing class ExpenseHasValidLocation implements ExpenseRule{
 	    		if(expense.lkp_Location__c == null) {
 		    		expense.txt_To__c.addError(errorMessage);
 	    		}
-				if(expense.lkp_LocationFrom__c == null) {
+		 		if(expense.lkp_LocationFrom__c == null) {
 					expense.txt_From__c.addError(errorMessage);
 				}
 	    	}

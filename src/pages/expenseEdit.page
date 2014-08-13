@@ -1,16 +1,15 @@
-<apex:page standardController="Expense__c" extensions="ExpenseCtrlExt" id="expenseEditPage" title="Expense Edit" >
-    
+<apex:page standardController="Expense__c" extensions="LocationFinder,ExpenseCtrlExt" id="expenseEditPage" title="Expense Edit" >
+           
     <apex:sectionHeader title="Expense Edit" subtitle="{!recordtypename} Expense"/>
     
     <apex:form id="f1">
     
         <apex:pageBlock id="pb1" mode="edit" title="Expense Edit">
-                             
+                 
             <apex:pageMessages />
             
             <apex:pageBlockButtons >
-                <apex:commandButton value="Save" action="{!save}"/>
-                <apex:commandButton value="Save & New" action="{!dosaveandnew}"/>
+                <apex:commandButton value="Save" action="{!doSaveAndRedirectToTravel}"/>
                 <apex:commandButton value="Cancel" action="{!cancel}"/>                
             </apex:pageBlockButtons>
             
@@ -22,22 +21,21 @@
             <apex:pageBlockSection rendered="false">
                 <apex:outputField value="{!Expense__c.RecordType.Name}"/>
                 <apex:outputField value="{!Expense__c.RecordType.DeveloperName}"/>
+                <apex:outputField value="{!Expense__c.mdr_Travel__c}"/>
             </apex:pageBlockSection>
                   
     <!-- Accommodation -->
-            <apex:pageBlockSection columns="2" id="pbsAccommodation" rendered="{!recordtypename == 'Accommodation'}" title="Accommodation">
+            <apex:pageBlockSection columns="1" id="pbsAccommodation" rendered="{!recordtypename == 'Accommodation'}" title="Accommodation">
                 <apex:outputField value="{!Expense__c.mdr_Travel__c}"/>
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem /><apex:pageBlockSectionItem />               
+                    <apex:pageBlockSectionItem />               
                 <apex:inputField value="{!Expense__c.txt_LodgingAdress__c}" style="width:100%" id="accommodationLocation" required="true" />
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
+                    <apex:pageBlockSectionItem />
                 <apex:inputField value="{!Expense__c.dat_CheckInDate__c}" required="true"/>
                 <apex:inputField value="{!Expense__c.dat_CheckOutDate__c}" required="true"/>
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
-                <apex:inputField value="{!Expense__c.cur_Amount__c}" required="true"/>
                     <apex:pageBlockSectionItem />
+                <apex:inputField value="{!Expense__c.cur_Amount__c}" required="true"/>
                 <apex:inputField value="{!Expense__c.CurrencyIsoCode}" required="true"/>
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
+                    <apex:pageBlockSectionItem />
                 <apex:inputField value="{!Expense__c.pkl_Reimbursement__c}" required="true"/>
             </apex:pageBlockSection>
            
@@ -115,22 +113,11 @@
             
     <!-- Per Diem -->            
             <apex:pageBlockSection columns="2" id="pbsPerDiem" rendered="{!recordtypename  == 'perDiem'}" title="per Diem">
-                <apex:outputField value="{!Expense__c.mdr_Travel__c}"/>
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
-                <apex:inputField value="{!Expense__c.lkp_MealInvitation__c}"/>
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
-                <apex:inputField value="{!Expense__c.lkp_Location__c}" style="width:80%" required="true"/>
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
-                <apex:inputField value="{!Expense__c.dtm_Begin__c}" required="true"/>
-                <apex:inputField value="{!Expense__c.dtm_End__c}" required="true"/>
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
-                <apex:inputField value="{!Expense__c.CurrencyIsoCode}" required="true"/>
-                    <apex:pageBlockSectionItem /><apex:inputField value="{!Expense__c.cur_Amount__c}" required="true"/>
+                <apex:outputText value="You cannot manually create Per Diems!" />
             </apex:pageBlockSection>
 
 
-    <!-- Private Vehicle Ride-->            
+    <!-- Private Vehicle Ride -->            
             <apex:pageBlockSection columns="2" id="pbsPrivateVehicleRide" rendered="{!recordtypename == 'PrivateVehicleRide'}" title="Private Vehicle Ride">
                 <apex:outputField value="{!Expense__c.mdr_Travel__c}"/>
                     <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
@@ -140,10 +127,6 @@
                     <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />                             
                 <apex:inputField value="{!Expense__c.dtm_DepartureTime__c}" required="true"/>               
                 <apex:inputField value="{!Expense__c.dtm_ArrivalTime__c}" required="true"/>
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
-                <apex:inputField value="{!Expense__c.lkp_VehicleType__c}" required="true"/>               
-                <apex:inputField value="{!Expense__c.num_Milage__c}" required="true"/>
-                    <apex:pageBlockSectionItem />
             </apex:pageBlockSection>
             <apex:actionRegion >
             <apex:pageBlockSection columns="2" id="pbsPrivateVehicleRide2" rendered="{!recordtypename == 'PrivateVehicleRide'}" title="Round Trip" >
@@ -155,10 +138,14 @@
                 <apex:inputField value="{!Expense__c.dtm_ReturnDeparture__c}" rendered="{!(Expense__c.chk_RoundTrip__c == true)}" />
                 <apex:inputField value="{!Expense__c.dtm_ReturnArrival__c}" rendered="{!(Expense__c.chk_RoundTrip__c == true)}" />
             </apex:pageBlockSection>
-            </apex:actionRegion>  
+            </apex:actionRegion>
+            <apex:pageBlockSection columns="2" id="pbsPrivateVehicleRide3" rendered="{!recordtypename == 'PrivateVehicleRide'}" title="Fare">
+                <apex:inputField value="{!Expense__c.lkp_VehicleType__c}" required="true"/>               
+                <apex:inputField value="{!Expense__c.num_Milage__c}" required="true"/>
+            </apex:pageBlockSection>  
             
             
-    <!-- Company Vehicle Ride-->            
+    <!-- Company Vehicle Ride -->            
             <apex:pageBlockSection columns="2" id="pbsCompanyVehicleRide" rendered="{!recordtypename == 'CompanyVehicleRide'}" title="Company Vehicle Ride">
                 <apex:outputField value="{!Expense__c.mdr_Travel__c}"/>
                     <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />
@@ -186,12 +173,11 @@
     <!-- Rental Vehicle -->            
             <apex:pageBlockSection columns="1" id="pbsRentalVehicle" rendered="{!recordtypename == 'RentalVehicle'}" title="Rental Vehicle">
                 <apex:outputField value="{!Expense__c.mdr_Travel__c}"/>
-                    <apex:pageBlockSectionItem /><apex:pageBlockSectionItem />                         
+                    <apex:pageBlockSectionItem />                         
                 <apex:inputField value="{!Expense__c.dat_PickUpDate__c}" required="true"/>
                 <apex:inputField value="{!Expense__c.dat_ReturnDate__c}" required="true"/>
                     <apex:pageBlockSectionItem />                                         
                 <apex:inputField value="{!Expense__c.cur_Amount__c}" required="true"/>
-                    <apex:pageBlockSectionItem />
                 <apex:inputField value="{!Expense__c.CurrencyIsoCode}" required="true"/>
                     <apex:pageBlockSectionItem />
                 <apex:inputField value="{!Expense__c.pkl_Reimbursement__c}" required="true"/>
@@ -340,7 +326,7 @@
                 }
             }
             console.log('From: ' + city + ' - ' + country)        
-            UP2GO_ITE.ExpenseCtrlExt.findLocation(city, country, function(result, event) { 
+            UP2GO_ITE.LocationFinder.findLocation(city, country, function(result, event) { 
                 document.getElementById('expenseEditPage:f1:pb1:pbsHidden:locationFrom').value = result;  
             });
         }
@@ -369,7 +355,7 @@
                 }
             }
             console.log('To: ' + city + ' - ' + country)
-            UP2GO_ITE.ExpenseCtrlExt.findLocation(city, country, function(result, event) {
+            UP2GO_ITE.LocationFinder.findLocation(city, country, function(result, event) {
                 document.getElementById('expenseEditPage:f1:pb1:pbsHidden:locationTo').value = result; 
             });
         }

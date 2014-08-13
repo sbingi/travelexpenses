@@ -2,29 +2,29 @@ public abstract class AbstractTriggerHandler {
 	
 	private static Boolean alreadyRunning = false;
 	
-	// WEG DSMI
+	
 	// PUBLIC METHODS
 	
 	public void delegate() {
-		if(!alreadyRunning) {
+		if( !alreadyRunning) {
 			alreadyRunning = true;
 			
 			if(Trigger.isBefore && Trigger.isInsert) {
 				onBeforeInsert();
 			}
-			if(Trigger.isBefore && Trigger.isUpdate) {
+			else if(Trigger.isBefore && Trigger.isUpdate) {
 				onBeforeUpdate();
 			}
-			if(Trigger.isBefore && Trigger.isDelete) {
+			else if(Trigger.isBefore && Trigger.isDelete) {
 				onBeforeDelete();
 			}
-			if(Trigger.isAfter && Trigger.isInsert) {
+			else if(Trigger.isAfter && Trigger.isInsert) {
 				onAfterInsert();
 			}
-			if(Trigger.isAfter && Trigger.isUpdate) {
+			else if(Trigger.isAfter && Trigger.isUpdate) {
 				onAfterUpdate();
 			}
-			if(Trigger.isAfter && Trigger.isDelete) {
+			else if(Trigger.isAfter && Trigger.isDelete) {
 				onAfterDelete();
 			}
 			
