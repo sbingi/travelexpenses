@@ -1,6 +1,11 @@
 public with sharing class RideNeedsReturnInfoWhenRoundTripChecked implements LongDistanceRideRule{
     
     
+<<<<<<< HEAD
+=======
+    // PUBLIC METHODS
+    
+>>>>>>> refs/remotes/origin/master
     public void validate(List<SObject> records) {
         for(LongDistanceRide__c ride : (List<LongDistanceRide__c>)records) {
         	

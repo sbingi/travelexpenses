@@ -8,7 +8,11 @@ public with sharing class TravelsDontOverlap implements SaveTravelRule {
 
     	Map<Id, List<Travel__c>> travelsByUser = queryAndGroupTravelsByUsers(newTravels);
 
+<<<<<<< HEAD
 		for(Travel__c travel : newTravels) {
+=======
+		for(Travel__c travel : travels) {
+>>>>>>> refs/remotes/origin/master
 			List<Travel__c> existingTravelsOfSameUser = travelsByUser.get(travel.OwnerId);
 			
 	        for(Travel__c existing : existingTravelsOfSameUser) {

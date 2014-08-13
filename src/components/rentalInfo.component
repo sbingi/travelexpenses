@@ -7,6 +7,7 @@
             
             <c:formgroup >
                 <apex:outputLabel value="Pick Up Date"/>
+<<<<<<< HEAD
                 <div class='input-group date' id='datetimepickerPickUpDate'>
                 	<apex:inputField value="{!expense.dat_PickUpDate__c}" type="text" showDatePicker="false" styleClass="form-control" required="true"/>
 	                <span class="input-group-addon">
@@ -44,4 +45,16 @@
 		}
 	</script>
     
+=======
+                <apex:inputField value="{!expense.dat_PickUpDate__c}" type="date" showDatePicker="false" styleClass="form-control" required="true"/>
+            </c:formgroup>
+            
+            <c:formgroup >
+                <apex:outputLabel value="Return Date"/>    
+                <apex:inputField value="{!expense.dat_ReturnDate__c}" type="date" showDatePicker="false" styleClass="form-control" required="true"/>
+            </c:formgroup>
+        
+        </c:formblock>
+    </c:panel>
+>>>>>>> refs/remotes/origin/master
 </apex:component>

@@ -109,7 +109,11 @@ private class ExpensesTriggerHandler_Test {
 	
 	
 	private static Expense__c findPrivateVehicleRideExpense(Id travelId) {
+<<<<<<< HEAD
 		Expense__c result = searchExpense(travelId, ExpenseType.getPrivateVehicleRecordTypeId())[0];
+=======
+		Expense__c result = searchExpense(travelId,ExpenseType.getPrivateVehicleRecordTypeId())[0];
+>>>>>>> refs/remotes/origin/master
 		
 		return result;
 	}
@@ -123,7 +127,11 @@ private class ExpensesTriggerHandler_Test {
 
 
 	private static Expense__c findCompanyVehicleRideExpense(Id travelId) {
+<<<<<<< HEAD
 		Expense__c result = searchExpense(travelId, ExpenseType.getCompanyVehicleRecordTypeId())[0];
+=======
+		Expense__c result = searchExpense(travelId,ExpenseType.getCompanyVehicleRecordTypeId())[0];
+>>>>>>> refs/remotes/origin/master
 		
 		return result;
 	}

@@ -12,7 +12,12 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 			List<Expense__c> movementExpenses = movementExpensesByTravel.get(travel.Id);
 			
 			if (movementExpenses != null) {
+<<<<<<< HEAD
 				movementExpenses = createReturnTripsAndSortExpenses(movementExpenses);
+=======
+				movementExpenses = createReturnTrips(movementExpenses);
+				movementExpenses = sortExpenses(movementExpenses);
+>>>>>>> refs/remotes/origin/master
 				
 				for(Integer i=0; i<(movementExpenses.size()-1) ;i++) {
 					Expense__c expense1 = movementExpenses[i];
@@ -59,7 +64,21 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 			
 			if(ExpenseType.isRentalVehicle(expense)) {
 				for(LongDistanceRide__c ride : expense.Long_Distance_Rides__r) {
+<<<<<<< HEAD
 					Expense__c falseExpense = createFalseExpense(ride);
+=======
+					
+					Expense__c falseExpense = new Expense__c();
+		    		falseExpense.dtm_DepartureTime__c = ride.dtm_DepartureTime__c;
+		    		falseExpense.dtm_ArrivalTime__c = ride.dtm_ArrivalTime__c;
+		    		falseExpense.lkp_LocationFrom__c = ride.lkp_LocationFrom__c;
+		    		falseExpense.lkp_Location__c = ride.lkp_LocationTo__c;
+		    		falseExpense.txt_From__c = ride.txt_From__c;
+		    		falseExpense.txt_To__c = ride.txt_To__c;
+		    		falseExpense.chk_RoundTrip__c = ride.chk_RoundTrip__c;
+		    		falseExpense.dtm_ReturnDeparture__c = ride.dtm_ReturnDeparture__c;
+		    		falseExpense.dtm_ReturnArrival__c = ride.dtm_ReturnArrival__c;
+>>>>>>> refs/remotes/origin/master
 		    		
 					expenses.add(falseExpense);		    		
 				}
@@ -73,6 +92,7 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 	}
 	
 	
+<<<<<<< HEAD
 	private Expense__c createFalseExpense(LongDistanceRide__c ride) {
 		Expense__c result = new Expense__c();
 		
@@ -91,6 +111,9 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 	
 	
 	private List<Expense__c> createReturnTripsAndSortExpenses(List<Expense__c> expenses) {
+=======
+	private List<Expense__c> createReturnTrips(List<Expense__c> expenses) {
+>>>>>>> refs/remotes/origin/master
 		List<Expense__c> results = new List<Expense__c>();
 		
 		for(Expense__c e : expenses) {
@@ -109,8 +132,11 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 			}
 		}
 		
+<<<<<<< HEAD
 		results = sortExpenses(results);
 		
+=======
+>>>>>>> refs/remotes/origin/master
 		return results;
 	}
 	

@@ -3,6 +3,9 @@
     <apiVersion>31.0</apiVersion>
     <availableInTouch>true</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
+<<<<<<< HEAD
     <description>Publisher Action</description>
+=======
+>>>>>>> refs/remotes/origin/master
     <label>New Sea Travel Action</label>
 </ApexPage>

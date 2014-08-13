@@ -16,6 +16,7 @@
             
             <c:formgroup >
                 <apex:outputLabel value="Check In Date"/>
+<<<<<<< HEAD
                 <div class='input-group date' id='datetimepickerCheckInDate'>
                 	<apex:inputField value="{!expense.dat_CheckInDate__c}" type="text" showDatePicker="false" styleClass="form-control" required="true"/>
 	                <span class="input-group-addon">
@@ -53,4 +54,16 @@
 		}
 	</script>
     
+=======
+                <apex:inputField value="{!expense.dat_CheckInDate__c}" type="date" showDatePicker="false" styleClass="form-control" required="true"/>
+            </c:formgroup>
+            
+            <c:formgroup >
+                <apex:outputLabel value="Check Out Date"/>    
+                <apex:inputField value="{!expense.dat_CheckOutDate__c}" type="date" showDatePicker="false" styleClass="form-control" required="true"/>
+            </c:formgroup>
+        
+        </c:formblock>
+    </c:panel>
+>>>>>>> refs/remotes/origin/master
 </apex:component>

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <apex:page docType="html-5.0" standardController="Travel__c" extensions="LocationFinder,NewExpenseCtrlExt" showHeader="false" action="{!createRentalVehicle}">
+=======
+<apex:page docType="html-5.0" standardController="Travel__c" extensions="NewExpenseCtrlExt" showHeader="false" action="{!createRentalVehicle}">
+>>>>>>> refs/remotes/origin/master
 
     <c:newExpense title="Rental Vehicle" expense="{!expense}" hasMessages="{!hasMessages}" theme="default">
     

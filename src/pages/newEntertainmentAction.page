@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 <apex:page docType="html-5.0" standardController="Travel__c" extensions="LocationFinder,NewExpenseCtrlExt" showHeader="false" action="{!createEntertainment}">
 
     <c:newExpense title="Entertainment" expense="{!expense}" hasMessages="{!hasMessages}" theme="default" limitSearch="false">
+=======
+<apex:page docType="html-5.0" standardController="Travel__c" extensions="NewExpenseCtrlExt" showHeader="false" action="{!createEntertainment}">
+
+    <c:newExpense title="Entertainment" expense="{!expense}" hasMessages="{!hasMessages}" theme="default" noOptions="true">
+>>>>>>> refs/remotes/origin/master
         
         <c:entertainmentInfo expense="{!expense}" theme="default"/>
         <c:bill expense="{!expense}" theme="default"/>

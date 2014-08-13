@@ -1,5 +1,8 @@
 public with sharing class ExpenseAmountCannotBeNegative implements ExpenseRule {
  	
+ 	
+ 	// PUBLIC METHODS
+ 	
     public void validate(List<SObject> records) {
     	String errorMessage = 'Expense Amount cannot be negative.';
 

@@ -48,6 +48,10 @@ public class MealInvitationsCannotBeOnSameDay implements MealInvitationRule {
 		for(MealInvitation__c m : invitations) {
 			if(invitation.Id != m.Id && invitation.dat_Day__c.isSameDay(m.dat_Day__c)) {
 				result = true;
+<<<<<<< HEAD
+=======
+				
+>>>>>>> refs/remotes/origin/master
 				break;
 			}
 		}

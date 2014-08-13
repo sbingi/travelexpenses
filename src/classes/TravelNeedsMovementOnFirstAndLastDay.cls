@@ -6,9 +6,17 @@ public with sharing class TravelNeedsMovementOnFirstAndLastDay implements Submit
 	public void validate(List<SObject> records) {
 		List<Travel__c> newTravels = (List<Travel__c>) records;
 		
+<<<<<<< HEAD
 		Map<Id, Set<Date>> datesWithMovements = queryDatesWithMovementExpenses(newTravels);
+=======
+		Map<Id, Set<Date>> datesWithMovements = queryDatesWithMovementExpenses(travels);
+>>>>>>> refs/remotes/origin/master
 										
+<<<<<<< HEAD
 		for(Travel__c travel : newTravels) {
+=======
+		for(Travel__c travel : travels) {
+>>>>>>> refs/remotes/origin/master
 			Set<Date> dates = datesWithMovements.get(travel.Id);
 			
 			if( dates == null ) {

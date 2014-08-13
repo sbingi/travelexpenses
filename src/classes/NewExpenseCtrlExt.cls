@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 public with sharing class NewExpenseCtrlExt {
 
     private final Travel__c travel;
@@ -40,6 +41,60 @@ public with sharing class NewExpenseCtrlExt {
                                              WHERE RecordTypeId = :CompensationRateType.getVehicleId()];
                                                                                  
                 return results;
+=======
+global with sharing class NewExpenseCtrlExt {
+
+    private final Travel__c travel;
+    public Expense__c expense {get; set;}
+        
+        
+    // CONSTRUCTOR
+        
+    public NewExpenseCtrlExt(ApexPages.StandardController controller) {
+        travel = (Travel__c)controller.getRecord();
+        expense = new Expense__c();
+        expense.mdr_Travel__c = travel.Id;
+    }
+        
+    
+    // REMOTE ACTIONS
+        
+    @RemoteAction
+    global static Id findLocation(String city, String country) {
+        Id result = LocationFinder.findLocation(city, country);
+        
+        return result;
+    }
+    
+    
+    // PUBLIC METHODS
+    
+    public void doSaveExpense() {
+        try {
+            insert expense;
+            expense = new Expense__c();
+            expense.mdr_Travel__c = travel.Id;
+        }
+        catch(Exception ignored) {}
+    }
+    
+    
+    public Boolean getHasMessages() {
+        Boolean result;
+        
+        result = ApexPages.hasMessages();
+        
+        return result;
+    }
+    
+    
+    public List<CompensationRate__c> getVehicles() {
+    	List<CompensationRate__c> results = [SELECT Id, Name
+    										 FROM CompensationRate__c
+    										 WHERE RecordTypeId = :CompensationRateType.getVehicleId()];
+    										 
+	 	return results;
+>>>>>>> refs/remotes/origin/master
     }
     
     

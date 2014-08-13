@@ -4,9 +4,15 @@ public with sharing class ExpensesDontOverlap implements ExpenseRule {
     // PUBLIC METHODS
     
     public void validate(List<SObject> records) {
+<<<<<<< HEAD
     	List<Expense__c> newExpenses = (List<Expense__c>) records;
 		
     	Map<Id,List<Expense__c>> expensesByTravels = queryRelevantExpensesByTravel(newExpenses);
+=======
+    	List<Expense__c> expenses = (List<Expense__c>) records;
+		
+    	Map<Id,List<Expense__c>> expensesByTravels = queryRelevantExpensesByTravel(expenses);
+>>>>>>> refs/remotes/origin/master
     	
     	for(Expense__c expense : newExpenses) {
     		
@@ -111,6 +117,7 @@ public with sharing class ExpensesDontOverlap implements ExpenseRule {
     	Boolean hasRoundTrip = hasRoundTrip(expense);
     	
         Boolean noOverlap = ( existing.dtm_ArrivalTime__c < expense.dtm_DepartureTime__c
+<<<<<<< HEAD
         				 	  || existing.dtm_DepartureTime__c > expense.dtm_ArrivalTime__c );
         				 	
 		if(noOverlap && hasRoundTrip) {
@@ -124,6 +131,21 @@ public with sharing class ExpensesDontOverlap implements ExpenseRule {
 		if(noOverlap && hasRoundTrip && existing.chk_RoundTrip__c) {
 			noOverlap = ( existing.dtm_ReturnArrival__c < expense.dtm_ReturnDeparture__c
     				 	  || existing.dtm_ReturnDeparture__c > expense.dtm_ReturnArrival__c );
+=======
+        				 	|| existing.dtm_DepartureTime__c > expense.dtm_ArrivalTime__c );
+        				 	
+		if(noOverlap && hasRoundTrip) {
+			noOverlap = ( existing.dtm_ArrivalTime__c < expense.dtm_ReturnDeparture__c
+        				 	|| existing.dtm_DepartureTime__c > expense.dtm_ReturnArrival__c );
+		}
+		if(noOverlap && existing.chk_RoundTrip__c) {
+			noOverlap = ( existing.dtm_ReturnArrival__c < expense.dtm_DepartureTime__c
+        				 	|| existing.dtm_ReturnDeparture__c > expense.dtm_ArrivalTime__c );
+		}
+		if(noOverlap && hasRoundTrip && existing.chk_RoundTrip__c) {
+			noOverlap = ( existing.dtm_ReturnArrival__c < expense.dtm_ReturnDeparture__c
+        				 	|| existing.dtm_ReturnDeparture__c > expense.dtm_ReturnArrival__c );
+>>>>>>> refs/remotes/origin/master
 		}
 		
         return !noOverlap;

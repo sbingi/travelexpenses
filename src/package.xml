@@ -12,6 +12,7 @@
         <object>Contact</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+<<<<<<< HEAD
     <types>
         <members>AbstractTriggerHandler</members>
         <members>CompensationRateType</members>
@@ -359,5 +360,7 @@
         <members>Travel__c.ShowTravelSummary</members>
         <name>WebLink</name>
     </types>
+=======
+>>>>>>> refs/remotes/origin/master
     <version>31.0</version>
 </Package>

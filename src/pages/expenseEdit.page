@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <apex:page standardController="Expense__c" extensions="LocationFinder,ExpenseCtrlExt" id="expenseEditPage" title="Expense Edit" >
+=======
+<apex:page standardController="Expense__c" extensions="ExpenseCtrlExt" id="expenseEditPage" title="Expense Edit" >
+>>>>>>> refs/remotes/origin/master
            
     <apex:sectionHeader title="Expense Edit" subtitle="{!recordtypename} Expense"/>
     

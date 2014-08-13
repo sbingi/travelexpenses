@@ -168,7 +168,10 @@ private class TravelCtrlExt_Test {
     @isTest
     private static void travelWithNoMovementsOnFirstAndLastDayCannotBeSubmitted() {
         
+<<<<<<< HEAD
         // Setup
+=======
+>>>>>>> refs/remotes/origin/master
         DateTime start = dateTime(DAY_TODAY,START_OF_DAY);
         DateTime stop = dateTime(DAY_AFTER_TOMORROW,END_OF_DAY);
         DateTime mark = dateTime(DAY_TOMORROW,START_OF_DAY);

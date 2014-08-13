@@ -54,6 +54,18 @@ public with sharing class CompensationRateType {
 		String result = (rtTypeById.get(recordTypeId) != null) ? rtTypeById.get(recordTypeId).name() : null;
 		
 		return result;
+<<<<<<< HEAD
+=======
+	}
+	
+	
+	// PRIVATE METHODS
+	
+	private static Boolean is(Type type,Id recordTypeId) {
+		Boolean result = (rtTypeById.get(recordTypeId).name() == type.name());
+		
+		return result;
+>>>>>>> refs/remotes/origin/master
 	}
 	
 	

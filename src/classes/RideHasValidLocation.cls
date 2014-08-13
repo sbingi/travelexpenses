@@ -1,6 +1,11 @@
 public with sharing class RideHasValidLocation implements LongDistanceRideRule {
 	
 	
+<<<<<<< HEAD
+=======
+	// PUBLIC METHODS
+	
+>>>>>>> refs/remotes/origin/master
 	public void validate(List<SObject> records) {
 		String errorMessage = 'Unknown location, please choose a location from the autocomplete drop-down list.';
 		

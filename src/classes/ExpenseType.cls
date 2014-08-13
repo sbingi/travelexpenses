@@ -140,6 +140,13 @@ public with sharing class ExpenseType {
 	}
 	
 	
+	public static Id getSeaTravelRecordTypeId() {
+		Id result = rtIdByType.get(Type.SeaTravel);
+		
+		return result;
+	}
+	
+	
 	public static Id getTrainRideRecordTypeId() {
 		Id result = rtIdByType.get(Type.TrainRide);
 		
