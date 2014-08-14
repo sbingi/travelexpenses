@@ -10,10 +10,6 @@ public with sharing class RideCannotEndBeforeStart implements LongDistanceRideRu
     		DateTime start = ride.dtm_DepartureTime__c;
     		DateTime stop = ride.dtm_ArrivalTime__c;
     		
-<<<<<<< HEAD
-=======
-    		
->>>>>>> refs/remotes/origin/master
 	        if (stop <= start) {
 	        	ride.dtm_ArrivalTime__c.addError(errorMessage);
 	        }

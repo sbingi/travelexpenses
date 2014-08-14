@@ -352,26 +352,6 @@ public with sharing class TravelBuilder {
 		insert expense;
 		
 		insertLongDistanceRideWithoutLocation(start,stop, expense.Id);
-<<<<<<< HEAD
-=======
-		
-		return this;
-	}
-	
-	
-	// PER DIEM
-	
-	public TravelBuilder addPerDiemWithLocation(DateTime start, DateTime ends, CompensationRate__c location, Decimal amount) {
-		Expense__c expense = createDefaultExpense();
-		expense.RecordTypeId = ExpenseType.getPerDiemRecordTypeId();
-		expense.cur_OriginalAmount__c = amount;
-		expense.cur_Deduction__c = 0.00;
-		expense.lkp_Location__c = location.id;
-		expense.dtm_Begin__c = start;
-		expense.dtm_End__c = ends;
-		
-		insert expense;
->>>>>>> refs/remotes/origin/master
 		
 		return this;
 	}

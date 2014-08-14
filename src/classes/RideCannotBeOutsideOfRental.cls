@@ -6,17 +6,10 @@ public with sharing class RideCannotBeOutsideOfRental implements LongDistanceRid
 	public void validate(List<SObject> records) {
 		String errorMessage = 'The Long Distance Ride cannot be outside of the rental period.';
 
-<<<<<<< HEAD
 		List<LongDistanceRide__c> newRides = (List<LongDistanceRide__c>) records;
 		Map<Id,Expense__c> relevantRentalVehicles = queryRelevantRentalCarsById(newRides);
 		
 		for(LongDistanceRide__c ride : newRides) {
-=======
-		List<LongDistanceRide__c> rides = (List<LongDistanceRide__c>) records;
-		Map<Id,Expense__c> relevantRentalVehicles = queryRelevantRentalCarsById(rides);
-		
-		for(LongDistanceRide__c ride : rides) {
->>>>>>> refs/remotes/origin/master
 			Expense__c rentalVehicle = relevantRentalVehicles.get(ride.mdr_RentalVehicle__c);
 			
 			if(isOutsideOfRental(ride.dtm_DepartureTime__c, rentalVehicle)) {

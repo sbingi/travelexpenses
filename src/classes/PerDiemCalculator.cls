@@ -74,26 +74,13 @@ public with sharing class PerDiemCalculator {
     		
     		if(ExpenseType.isMovement(expense)) {
     			movementExpenses.add(expense);
-    			
     		}					  	
 			else if(ExpenseType.isPerDiem(expense)) {
 				oldPerDiems.add(expense);
 			}
 			else if(ExpenseType.isRentalVehicle(expense)) {
-				
 				for(LongDistanceRide__c ldr : expense.Long_Distance_Rides__r) {
-<<<<<<< HEAD
 					Expense__c falseExpense = createFalseExpense(ldr);
-=======
-					Expense__c falseExpense = new Expense__c();
-		    		falseExpense.dtm_DepartureTime__c = ldr.dtm_DepartureTime__c;
-		    		falseExpense.dtm_ArrivalTime__c = ldr.dtm_ArrivalTime__c;
-		    		falseExpense.lkp_LocationFrom__c = ldr.lkp_LocationFrom__c;
-		    		falseExpense.lkp_Location__c = ldr.lkp_LocationTo__c;
-		    		falseExpense.chk_RoundTrip__c = ldr.chk_RoundTrip__c;
-		    		falseExpense.dtm_ReturnDeparture__c = ldr.dtm_ReturnDeparture__c;
-		    		falseExpense.dtm_ReturnArrival__c = ldr.dtm_ReturnArrival__c;
->>>>>>> refs/remotes/origin/master
 		    		
 		    		movementExpenses.add(falseExpense);
 				}
@@ -166,33 +153,12 @@ public with sharing class PerDiemCalculator {
     	Date lastDay = travel.dtm_End__c.date();
     	
     	determineLocationOfTheDay(firstDay,lastDay);
-<<<<<<< HEAD
 		
 		Expense__c result = createDefaultPerDiem(firstDay);
-=======
-   		
-    	Expense__c result = createDefaultPerDiem(firstDay);
-    	
->>>>>>> refs/remotes/origin/master
 		result.cur_Amount__c = 0.00;
-<<<<<<< HEAD
 		result.cur_OriginalAmount__c = 0.00;
 		result.cur_Deduction__c = calculateMealDeduction(firstDay, true);
 		result.lkp_MealInvitation__c = findMealInvitation(firstDay, true);	
-=======
-   		result.cur_OriginalAmount__c = 0.00;
-   		result.cur_Deduction__c = calculateMealDeduction(firstDay, true);
-   		result.dtm_Begin__c = travel.dtm_Start__c;
-   		result.dtm_End__c = travel.dtm_End__c;
-   		result.lkp_Location__c = currentLocation.Id;
-   		result.CurrencyIsoCode = currentLocation.CurrencyIsoCode;
-   		
-   		Id mealInvitation = findMealInvitation(firstDay);
-   		if(mealInvitation == null) {
-   			mealInvitation = findMealInvitation(lastDay);
-   		}
-    	result.lkp_MealInvitation__c = mealInvitation;
->>>>>>> refs/remotes/origin/master
     	    	
     	return result;
     }
@@ -203,39 +169,14 @@ public with sharing class PerDiemCalculator {
     	Date lastDay = travel.dtm_End__c.date();
     	
    		determineLocationOfTheDay(firstDay,lastDay);
-<<<<<<< HEAD
 		Decimal original = currentLocation.cur_PartialDailyRate__c;
 		Decimal deduction = calculateMealDeduction(firstDay, true);
-=======
->>>>>>> refs/remotes/origin/master
    		
     	Expense__c result = createDefaultPerDiem(firstDay);
-<<<<<<< HEAD
 		result.lkp_MealInvitation__c = findMealInvitation(firstDay,true);
 		result.cur_OriginalAmount__c = original;
 		result.cur_Deduction__c = deduction;
 		result.cur_Amount__c = calculateAmount(original,deduction);
-=======
-    	
-   		result.dtm_Begin__c = travel.dtm_Start__c;
-   		result.dtm_End__c = travel.dtm_End__c;
-   		result.lkp_Location__c = currentLocation.Id;
-   		result.CurrencyIsoCode = currentLocation.CurrencyIsoCode;
-   		result.cur_OriginalAmount__c = currentLocation.cur_PartialDailyRate__c;
-		result.cur_Deduction__c = calculateMealDeduction(firstDay, true);
-   		
-   		Id mealInvitation = findMealInvitation(firstDay);
-   		if(mealInvitation == null) {
-   			mealInvitation = findMealInvitation(lastDay);
-   		}
-   		result.lkp_MealInvitation__c = mealInvitation;
- 		
-   		Decimal amount = result.cur_OriginalAmount__c - result.cur_Deduction__c;
-        if(amount < 0) {
-            amount = 0;
-        }
-   		result.cur_Amount__c = amount;
->>>>>>> refs/remotes/origin/master
    		 
    		return result;    			
     }
@@ -248,13 +189,9 @@ public with sharing class PerDiemCalculator {
     	List<Expense__c> results = new List<Expense__c>();
 
 		for( Date day = firstDay ; day <= lastDay ; day = day.addDays(1)) {
-<<<<<<< HEAD
         	determineLocationOfTheDay(firstDay,lastDay,day);
             
-=======
->>>>>>> refs/remotes/origin/master
             Expense__c perDiem = createDefaultPerDiem(day);
-<<<<<<< HEAD
 
 			Decimal originalAmount;
 		    Decimal deduction = calculateMealDeduction(day,false);
@@ -280,42 +217,6 @@ public with sharing class PerDiemCalculator {
 		    perDiem.cur_Deduction__c = deduction;
 		    perDiem.lkp_MealInvitation__c = findMealInvitation(day,false);
 			perDiem.cur_Amount__c = calculateAmount(originalAmount,deduction);
-=======
-            
-        	determineLocationOfTheDay(firstDay,lastDay,day);
-            
-            if(isOneDayTravel()) {
-            	perDiem.dtm_Begin__c = travel.dtm_Start__c;
-            	perDiem.dtm_End__c = travel.dtm_End__c;
-            	perDiem.cur_OriginalAmount__c = currentLocation.cur_PartialDailyRate__c;
-            }            	
-            else if (day.isSameDay(firstDay)) {
-            	perDiem.dtm_Begin__c = travel.dtm_Start__c;
-                perDiem.dtm_End__c = DateTime.newInstance(day,Time.newInstance(23,59,59,00));
-                perDiem.cur_OriginalAmount__c = currentLocation.cur_PartialDailyRate__c;
-            }
-            else if(day.isSameDay(lastDay)) {
-                perDiem.dtm_Begin__c = DateTime.newInstance(day,Time.newInstance(00,00,00,00));
-                perDiem.dtm_End__c = travel.dtm_End__c;
-                perDiem.cur_OriginalAmount__c = currentLocation.cur_PartialDailyRate__c;
-            }
-            else {
-                perDiem.dtm_Begin__c = DateTime.newInstance(day,Time.newInstance(00,00,00,00));
-                perDiem.dtm_End__c = DateTime.newInstance(day,Time.newInstance(23,59,59,00));
-                perDiem.cur_OriginalAmount__c = currentLocation.cur_FullDailyRate__c;
-            }
-            
-            perDiem.lkp_Location__c = currentLocation.Id;
-	        perDiem.CurrencyIsoCode = currentLocation.CurrencyIsoCode;
-	        perDiem.cur_Deduction__c = calculateMealDeduction(day,false);
-            perDiem.lkp_MealInvitation__c = findMealInvitation(day);
- 
-			Decimal amount = perDiem.cur_OriginalAmount__c - perDiem.cur_Deduction__c;
-	        if(amount < 0) {
-	            amount = 0;
-	        }
-	   		perDiem.cur_Amount__c = amount;
->>>>>>> refs/remotes/origin/master
             
             results.add(perDiem);
         }
@@ -326,7 +227,6 @@ public with sharing class PerDiemCalculator {
 	
 	// CALCULATING AND DETERMINING METHODS
 	
-<<<<<<< HEAD
 	private Expense__c createFalseExpense(LongDistanceRide__c ldr) {
 		Expense__c result = new Expense__c();
 		
@@ -342,8 +242,6 @@ public with sharing class PerDiemCalculator {
 	}
 	
 	
-=======
->>>>>>> refs/remotes/origin/master
 	private List<Expense__c> createReturnTrips(List<Expense__c> expenses) {
 		List<Expense__c> results = new List<Expense__c>();
 		
@@ -379,27 +277,8 @@ public with sharing class PerDiemCalculator {
 		
 		return result;
 	}
-<<<<<<< HEAD
-=======
 		
 	
-    private Id findMealInvitation(Date day) {
-    	Id result;
-    	
-		MealInvitation__c invitation = mealInvitations.get(day);
->>>>>>> refs/remotes/origin/master
-		
-<<<<<<< HEAD
-=======
-		if(invitation != null) {
-			result = invitation.Id;
-		}
-		
-		return result;
-	}
->>>>>>> refs/remotes/origin/master
-	
-<<<<<<< HEAD
 	private Id findMealInvitation(Date day, Boolean checkOnTwoDays) {
 		Id result;
 		Date lastDay = travel.dtm_End__c.date();
@@ -416,8 +295,6 @@ public with sharing class PerDiemCalculator {
 		return result;
 	}
 	
-=======
->>>>>>> refs/remotes/origin/master
 	
 	private void determineLocationOfTheDay(Date firstDay,Date lastDay) {
 		Expense__c movementOfTheDay;
@@ -506,7 +383,6 @@ public with sharing class PerDiemCalculator {
 	}
 	
 	
-<<<<<<< HEAD
 	private Decimal calculateAmount(Decimal original, Decimal deduction) {
 		Decimal result = original - deduction;
 
@@ -518,8 +394,6 @@ public with sharing class PerDiemCalculator {
 	}
 	
 	
-=======
->>>>>>> refs/remotes/origin/master
 	private Decimal calculateMealDeduction(Date day,Boolean overnight) {
 		Double allowanceRate;
 		

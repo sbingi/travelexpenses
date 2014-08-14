@@ -36,14 +36,10 @@ public class MealInvitationCannotBeOutOfTravelPeriod implements MealInvitationRu
 	
 	
 	private Boolean isOutOfTravel(Date day, Travel__c travel) {
-<<<<<<< HEAD
 		Date start = travel.dtm_Start__c.date();
 		Date stop = travel.dtm_End__c.date();
 		
 		Boolean result = (day < start) || (day > stop);
-=======
-		Boolean result = (day < travel.dtm_Start__c.date()) || (day > travel.dtm_End__c.date());
->>>>>>> refs/remotes/origin/master
 		
 		return result;
 	}

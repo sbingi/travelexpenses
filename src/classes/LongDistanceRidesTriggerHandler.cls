@@ -28,13 +28,6 @@ public with sharing class LongDistanceRidesTriggerHandler extends AbstractTrigge
 	}
 	
 	
-<<<<<<< HEAD
-=======
-	public override void onBeforeDelete() {
-	}
-	
-	
->>>>>>> refs/remotes/origin/master
 	public override void onAfterInsert() {
 		calculatePerDiems(newLongDistanceRides);
 	}

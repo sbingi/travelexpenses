@@ -62,7 +62,7 @@ global with sharing class LongDistanceRideCtrlExt {
         
         if( !isMobileDevice() ) {
             String currentRequestURL = URL.getCurrentRequestUrl().toExternalForm();
-            String parameters = currentRequestURL.split('LongDistanceRideEditMobile', 2)[1];
+            String parameters = currentRequestURL.split('longDistanceRideEditMobile', 2)[1];
             result = new PageReference('/apex/longDistanceRideEdit' + parameters);
             result.setRedirect(true);          
         }

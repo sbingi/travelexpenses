@@ -29,13 +29,6 @@ public with sharing class ExpensesTriggerHandler extends AbstractTriggerHandler{
 		validator.validate(newExpenses);		
 		
 		populateFields(newExpenses);
-<<<<<<< HEAD
-=======
-	}
-	
-	
-	public override void onBeforeDelete() {
->>>>>>> refs/remotes/origin/master
 	}
 	
 	

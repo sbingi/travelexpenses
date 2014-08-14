@@ -178,11 +178,6 @@
         <fields>dat_ExpenseDate__c</fields>
         <fields>NAME</fields>
         <fields>RECORDTYPE</fields>
-<<<<<<< HEAD
-=======
-        <fields>lkp_Location__c</fields>
-        <fields>pkl_Reimbursement__c</fields>
->>>>>>> refs/remotes/origin/master
         <fields>cur_Amount__c</fields>
         <fields>pkl_Reimbursement__c</fields>
         <fields>lkp_Location__c</fields>

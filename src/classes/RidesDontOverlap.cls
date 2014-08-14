@@ -4,7 +4,6 @@ public with sharing class RidesDontOverlap implements LongDistanceRideRule {
 	// PUBLIC METHODS
 	
 	public void validate(List<SObject> records) {
-<<<<<<< HEAD
 		List<LongDistanceRide__c> newRides = (List<LongDistanceRide__c>) records;
 		
 		Map<Id,Id> travelsByRentalVehicle = queryRelevantTravelsByRentalVehicles(newRides);
@@ -77,83 +76,6 @@ public with sharing class RidesDontOverlap implements LongDistanceRideRule {
 				falseLongDistanceRide.chk_RoundTrip__c = expense.chk_RoundTrip__c;
 				falseLongDistanceRide.dtm_ReturnDeparture__c = expense.dtm_ReturnDeparture__c;
 				falseLongDistanceRide.dtm_ReturnArrival__c = expense.dtm_ReturnArrival__c;
-=======
-		List<LongDistanceRide__c> rides = (List<LongDistanceRide__c>) records;
-		
-		Map<Id,Id> travelsByRentalVehicle = queryRelevantTravelsByRentalVehicles(rides);
-        Map<Id,List<LongDistanceRide__c>> movementsByTravel = queryMovementsByTravel(travelsByRentalVehicle.values());
-        
-		for(LongDistanceRide__c ride : rides) {
-			Id travel = travelsByRentalVehicle.get(ride.mdr_RentalVehicle__c);
-			List<LongDistanceRide__c> movements = movementsByTravel.get(travel);
-			
-			if(hasRoundTrip(ride) && overlapsWithRoundTrip(ride)) {
-				ride.addError('Long Distance Ride overlaps with own round trip.');
-			}
-			if(isOverlapping(ride, movements)) {
-				ride.addError('Long Distance Ride overlaps with an existing Long Distance Ride or Movement Expense.');
-			}
-		}   
-    }
-
-    
-    // PRIVATE METHODS
-    
-    private Map<Id,Id> queryRelevantTravelsByRentalVehicles(List<LongDistanceRide__c> rides) {
-    	Map<Id,Id> resultMap = new Map<Id,Id>();
-
-    	for(LongDistanceRide__c ride : rides) {
-    		resultMap.put(ride.mdr_RentalVehicle__c,null);
-    	}
-    	
-    	for(Expense__c expense : [SELECT mdr_Travel__c
-    							  FROM Expense__c
-    							  WHERE Id IN :resultMap.keySet()]) {
-	  		resultMap.put(expense.Id, expense.mdr_Travel__c);
-		}
-		
-		return resultMap;
-    }
-
-    
-    private Map<Id,List<LongDistanceRide__c>> queryMovementsByTravel(List<Id> travels) {
-    	Map<Id,List<LongDistanceRide__c>> resultMap = new Map<Id,List<LongDistanceRide__c>>();
-    	
-		Set<Id> movementRecordTypes = ExpenseType.getMovementRecordTypeIds();
-		movementRecordTypes.add(ExpenseType.getRentalVehicleRecordTypeId());
-		
-		for(Expense__c expense : [SELECT RecordTypeId, mdr_Travel__c, dtm_DepartureTime__c, dtm_ArrivalTime__c,
-										 chk_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c,
-										 (SELECT Id, dtm_DepartureTime__c, dtm_ArrivalTime__c,
-										 		 chk_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c  
- 		  	 						 	  FROM Long_Distance_Rides__r)
-						    	  FROM Expense__c 
-						    	  WHERE RecordTypeId IN :movementRecordTypes 
-						    	  AND mdr_Travel__c IN :travels]) {
-						    	  	
-			Id travel = expense.mdr_Travel__c;
-			
-			if( !resultMap.containsKey(travel)) {
-				resultMap.put(travel, new List<LongDistanceRide__c>());
-			}
-			List<LongDistanceRide__c> movements = resultMap.get(travel);
-			
-			if(ExpenseType.isRentalVehicle(expense)) {
-				for(LongDistanceRide__c ride : expense.Long_Distance_Rides__r) {
-					movements.add(ride);
-				}
-			}
-			else {
-				LongDistanceRide__c falseLongDistanceRide = new LongDistanceRide__c();
-				falseLongDistanceRide.dtm_DepartureTime__c = expense.dtm_DepartureTime__c;
-				falseLongDistanceRide.dtm_ArrivalTime__c = expense.dtm_ArrivalTime__c;
-				
-				if(expense.chk_RoundTrip__c) {
-					falseLongDistanceRide.chk_RoundTrip__c = true;
-					falseLongDistanceRide.dtm_ReturnDeparture__c = expense.dtm_ReturnDeparture__c;
-					falseLongDistanceRide.dtm_ReturnArrival__c = expense.dtm_ReturnArrival__c;
-				}
->>>>>>> refs/remotes/origin/master
 				
 				movements.add(falseLongDistanceRide);
 			}	

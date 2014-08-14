@@ -1,11 +1,6 @@
 public with sharing class ExpenseNeedsReturnInformationIfRoundTrip  implements ExpenseRule {
  
  
-<<<<<<< HEAD
-=======
- 	// PUBLIC METHODS
- 	
->>>>>>> refs/remotes/origin/master
     public void validate(List<SObject> records) {
 
     	for(Expense__c expense : (List<Expense__c>)records) {

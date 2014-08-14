@@ -154,11 +154,7 @@
         <deleteConstraint>SetNull</deleteConstraint>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
-<<<<<<< HEAD
         <label>DEPRECATED</label>
-=======
-        <label>Return Trip</label>
->>>>>>> refs/remotes/origin/master
         <referenceTo>LongDistanceRide__c</referenceTo>
         <relationshipLabel>Long Distance Rides</relationshipLabel>
         <relationshipName>LongDistanceRides</relationshipName>

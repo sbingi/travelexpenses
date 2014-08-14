@@ -1,6 +1,5 @@
 public with sharing class RidesCannotBeOutsideOfTravel implements LongDistanceRideRule {
     
-<<<<<<< HEAD
     
     // PUBLIC METHODS
     
@@ -40,47 +39,6 @@ public with sharing class RidesCannotBeOutsideOfTravel implements LongDistanceRi
         
         for(LongDistanceRide__c r : rides) {
             resultMap.put(r.mdr_RentalVehicle__c,null);
-=======
-    // PUBLIC METHODS
-    
-    public void validate(List<SObject> records) {
-        String errorMessage = 'Long Distance Ride is outside of travel period.';
-        
-        List<LongDistanceRide__c> rides = (List<LongDistanceRide__c>) records;
-        Map<Id,Travel__c> relevantTravels = queryRelevantTravelsByRentalVehicle(rides);
-                                                                   
-        for(LongDistanceRide__c ride : rides) {
-            Id travelId = ride.mdr_RentalVehicle__c;
-            Travel__c travel = relevantTravels.get(travelId);
-
-            if(isOutsideOfTravel(ride.dtm_DepartureTime__c, travel)) {
-                ride.dtm_DepartureTime__c.addError(errorMessage);
-            }
-            if(isOutsideOfTravel(ride.dtm_ArrivalTime__c, travel)) {
-                ride.dtm_ArrivalTime__c.addError(errorMessage);
-            }
-            
-            if(hasRoundTrip(ride)) {
-                
-                if(isOutsideOfTravel(ride.dtm_ReturnDeparture__c, travel)) {
-                ride.dtm_ReturnDeparture__c.addError(errorMessage);
-                }
-                if(isOutsideOfTravel(ride.dtm_ReturnArrival__c, travel)) {
-                    ride.dtm_ReturnArrival__c.addError(errorMessage);
-                }
-            }
-        }                                                          
-    }
-    
-    
-    // PRIVATE METHODS
-    
-    private Map<Id,Travel__c> queryRelevantTravelsByRentalVehicle(List<LongDistanceRide__c> rides) {
-        Map<Id,Travel__c> resultMap = new Map<Id,Travel__c>();
-        
-        for(LongDistanceRide__c ride : rides) {
-            resultMap.put(ride.mdr_RentalVehicle__c,null);
->>>>>>> refs/remotes/origin/master
         }
         
         for(Travel__c t : [SELECT Id,dtm_Start__c, dtm_End__c,

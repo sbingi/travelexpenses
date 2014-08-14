@@ -112,7 +112,7 @@ public with sharing class DailySummaries {
 
                 if (isPerDiemWithDeduction(e)) {
                     RowElement beforeDeduction = new RowElement();
-                    beforeDeduction.Name = 'Per Diem vor K?rzungen';
+                    beforeDeduction.Name = 'Per Diem vor Kürzungen';
                     beforeDeduction.amount = e.cur_OriginalAmount__c;
                     beforeDeduction.elementCurrency = e.CurrencyIsoCode;
                     beforeDeduction.isDeduction = true;
@@ -121,7 +121,7 @@ public with sharing class DailySummaries {
 
                     results.addAll(generateDeductionElements(e));
 
-                    element.name = 'Per Diem nach K?rzungen';
+                    element.name = 'Per Diem nach Kürzungen';
                 }
 
                 results.add(element);
@@ -169,21 +169,21 @@ public with sharing class DailySummaries {
         if(e.lkp_MealInvitation__r.lkp_Breakfast__c != null) {
             amount = e.lkp_MealInvitation__r.lkp_Breakfast__r.pct_FullDayAllowanceRate__c;
 
-            element = createDeductionInfo(e,'> Gek?rzt f?r Fr?hst?ck',amount);   
+            element = createDeductionInfo(e,'> Gekürzt für Frühstück',amount);   
 
             results.add(element);
         }
         if(e.lkp_MealInvitation__r.lkp_Lunch__c != null) {
             amount = e.lkp_MealInvitation__r.lkp_Lunch__r.pct_FullDayAllowanceRate__c;
 
-            element = createDeductionInfo(e,'> Gek?rzt f?r Mittagessen',amount); 
+            element = createDeductionInfo(e,'> Gekürzt für Mittagessen',amount); 
 
             results.add(element);
         }
         if(e.lkp_MealInvitation__r.lkp_Dinner__c != null) {
             amount = e.lkp_MealInvitation__r.lkp_Dinner__r.pct_FullDayAllowanceRate__c;
 
-            element = createDeductionInfo(e,'> Gek?rzt f?r Abendessen',amount); 
+            element = createDeductionInfo(e,'> Gekürzt für Abendessen',amount); 
 
             results.add(element);
         }

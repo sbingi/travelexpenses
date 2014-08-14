@@ -7,7 +7,6 @@
             
             <c:formgroup >
                 <apex:outputLabel value="Expense Date"/>
-<<<<<<< HEAD
                 <div class='input-group date' id='datetimepicker'>
                 	<apex:inputField value="{!expense.dat_ExpenseDate__c}" type="text" showDatePicker="false" styleClass="form-control" required="true"/>
 	                <span class="input-group-addon">
@@ -53,29 +52,4 @@
 		}
 	</script>
     
-=======
-                <apex:inputField value="{!expense.dat_ExpenseDate__c}" type="date" showDatePicker="false" styleClass="form-control" required="true"/>
-            </c:formgroup>
-            
-            <c:formgroup id="groupEntertainment" >
-                <apex:outputLabel value="Place Of Entertainment"/>
-                <apex:inputField id="placeOfEntertainment" value="{!expense.txt_PlaceOfEntertainment__c}" styleClass="form-control" required="true"/>
-                <script type="text/javascript">
-                    fromId = '{!$Component.placeOfEntertainment}';
-                    toId = fromId;
-                </script>
-            </c:formgroup>
-            
-            <c:formgroup >
-                <apex:outputLabel value="Reason"/>    
-                <apex:inputField value="{!expense.txt_Reason__c}" styleClass="form-control" required="true"/>
-            </c:formgroup>
-            
-            <c:formgroup >
-                <apex:outputLabel value="Entertained Persons"/>    
-                <apex:inputField value="{!expense.txa_EntertainedPersons__c}" styleClass="form-control" required="true"/>
-            </c:formgroup>
-        </c:formblock>
-    </c:panel>
->>>>>>> refs/remotes/origin/master
 </apex:component>
