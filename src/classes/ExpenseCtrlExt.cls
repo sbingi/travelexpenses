@@ -130,7 +130,6 @@ global with sharing class ExpenseCtrlExt {
         
         if( !isMobileDevice() ) {
             String currentRequestURL = URL.getCurrentRequestUrl().toExternalForm();
-System.debug(currentRequestURL.split('expenseEditMobile', 2));
             String parameters = currentRequestURL.split('expenseEditMobile', 2)[1];
             result = new PageReference('/apex/expenseEdit' + parameters);
             result.setRedirect(true);          
