@@ -2,7 +2,7 @@
 
     <c:newExpense title="Company Vehicle Ride" expense="{!expense}" hasMessages="{!hasMessages}" theme="default" limitSearch="true">
         
-        <c:movements expense="{!expense}" title="Company Vehicle Ride" theme="default"/>
+        <c:movements expense="{!expense}" title="Company Vehicle Ride" theme="default" locale="{!UserLocale}" />
         
         <center>
             <apex:commandButton value="Save" action="{!doSaveExpense}" oncomplete="closePublisher({!hasMessages})" rerender="form" styleClass="btn-lg btn-success" style="width:100%;"/>

@@ -1,6 +1,7 @@
 <apex:component >
-    <apex:attribute name="expense" description="This is the Expense to create." type="Expense__c" required="true"/>
-    <apex:attribute name="theme" description="The Visualstrap theme" type="String" required="true"/>
+    <apex:attribute name="expense" description="This is the Expense to create." type="Expense__c" required="true" />
+    <apex:attribute name="theme" description="The Visualstrap theme" type="String" required="true" />
+    <apex:attribute name="locale" description="The User locale" type="String" required="true" />
     
     <c:panel title="Rental Vehicle" type="{!theme}">
         <c:formblock alignment="vertical">
@@ -37,11 +38,21 @@
 		});
 		
 		function renderDateTimePicker() {
+			var dateformat;
+			var userLocale = "{!locale}";
+			
+			if(userLocale == "de") {
+				dateformat = "DD.MM.YYYY";
+			} 
+			else if(userLocale == "us") {
+				dateformat = "MM/DD/YYYY";
+			}
+			
 			jQuery("#datetimepickerPickUpDate, #datetimepickerReturnDate").datetimepicker({
 				pickTime: false,
-				format: 'DD.MM.YYYY'
+				format: dateformat
 			});
-		}
+		}		
 	</script>
     
 </apex:component>

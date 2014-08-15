@@ -11,7 +11,7 @@
             font-size:140%;  
             font-weight: 200;  
         }  
-    </style>
+    </style> 
     
     <c:visualstrapblock >
     
@@ -159,10 +159,20 @@
                     }
                     
                     function renderDateTimePicker() {
-                        jQuery("#datetimepickerDeparture, #datetimepickerArrival, #datetimepickerReturnDeparture, #datetimepickerReturnArrival").datetimepicker({
-                            format: 'DD.MM.YYYY HH:mm'
+						var datetimeformat;
+						var userLocale = "{!UserLocale}";
+						
+						if(userLocale == "de") {
+							datetimeformat = "DD.MM.YYYY HH:mm";
+						} 
+						else if(userLocale == "us") {
+							datetimeformat = "MM/DD/YYYY hh:mm A/PM";
+						}
+						
+						jQuery("#datetimepickerDeparture, #datetimepickerArrival, #datetimepickerReturnDeparture, #datetimepickerReturnArrival").datetimepicker({
+                            format: datetimeformat
                         });
-                    }
+					}
                 </script>
                 
                 <center>

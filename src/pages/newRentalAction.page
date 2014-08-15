@@ -2,7 +2,7 @@
 
     <c:newExpense title="Rental Vehicle" expense="{!expense}" hasMessages="{!hasMessages}" theme="default">
     
-        <c:rentalInfo expense="{!expense}" theme="default"/>
+        <c:rentalInfo expense="{!expense}" theme="default" locale="{!UserLocale}" />
         <c:cost expense="{!expense}" title="Rental Cost" theme="default"/>
                 
         <center>

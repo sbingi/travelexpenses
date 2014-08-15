@@ -25,6 +25,14 @@ public with sharing class NewLongDistanceRideCtrlExt {
     }
     
     
+    public String getUserLocale() {
+        String result = UserInfo.getLocale();
+        
+        return result;
+    
+    }
+    
+    
     public void doSaveExpense() {
         try {
             insert ride;

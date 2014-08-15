@@ -2,7 +2,7 @@
     
     <c:newExpense title="Flight" expense="{!expense}" hasMessages="{!hasMessages}" theme="default" limitSearch="true">
 		    	
-        <c:movements expense="{!expense}" title="Flight" theme="default"/>
+        <c:movements expense="{!expense}" title="Flight" theme="default" locale="{!UserLocale}"/>
         <c:cost expense="{!expense}" title="Airfare" theme="default"/>
         
         <center>

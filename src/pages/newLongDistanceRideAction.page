@@ -159,8 +159,18 @@
                     }
                     
                     function renderDateTimePicker() {
+						var datetimeformat;
+						var userLocale = "{!UserLocale}";
+						
+						if(userLocale == "de") {
+							datetimeformat = "DD.MM.YYYY HH:mm";
+						} 
+						else if(userLocale == "us") {
+							datetimeformat = "MM/DD/YYYY hh:mm A/PM";
+						}
+						
 						jQuery("#datetimepickerDeparture, #datetimepickerArrival, #datetimepickerReturnDeparture, #datetimepickerReturnArrival").datetimepicker({
-							format: 'DD.MM.YYYY HH:mm'
+							format: datetimeformat
 						});
 					}
                 </script>

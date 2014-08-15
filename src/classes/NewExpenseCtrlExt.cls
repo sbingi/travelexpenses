@@ -25,6 +25,14 @@ public with sharing class NewExpenseCtrlExt {
     }
     
     
+    public String getUserLocale() {
+        String result = UserInfo.getLocale();
+        
+        return result;
+    
+    }
+    
+    
     public Boolean getHasMessages() {
         Boolean result;
         
