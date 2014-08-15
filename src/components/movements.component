@@ -2,6 +2,7 @@
     <apex:attribute name="expense" description="This is the Expense to create." type="Expense__c" required="true"/>
     <apex:attribute name="title" description="the title of the section." type="String" required="true"/>
 	<apex:attribute name="theme" description="The Visualstrap theme" type="String" required="true"/>
+	<apex:attribute name="locale" description="The User locale" type="String" required="true"/>
     
     <c:panel title="{!title}" type="{!theme}" >
         
@@ -94,6 +95,7 @@
         </apex:actionRegion>
     </c:panel>
     
+    
     <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"/>
     <script type="text/javascript">
 	    jQuery.noConflict();
@@ -118,8 +120,18 @@
 		}
 		
 		function renderDateTimePicker() {
+			var datetimeformat;
+			var userLocale = "{!locale}";
+			
+			if(userLocale == "de") {
+				datetimeformat = "DD.MM.YYYY HH:mm";
+			} 
+			else if(userLocale == "us") {
+				datetimeformat = "MM/DD/YYYY hh:mm A/PM";
+			}
+			
 			jQuery("#datetimepickerDeparture, #datetimepickerArrival, #datetimepickerReturnDeparture, #datetimepickerReturnArrival").datetimepicker({
-				format: 'DD.MM.YYYY HH:mm'
+				format: datetimeformat
 			});
 		}
 	</script>

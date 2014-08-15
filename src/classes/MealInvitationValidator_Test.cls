@@ -16,18 +16,15 @@ private class MealInvitationValidator_Test {
 		
 		// Setup
 		Exception unexpectedException;
-		
 		String message = '';
 		
-		Travel__c travel;
+		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TOMORROW_NOW);
 		
 		
 		// Exercise
 		try {
-			travel = new TravelBuilder(DAY_TODAY, DAY_TOMORROW)
-										.addMealInvitation(DAY_TODAY, true, true, true)
-										.addMealInvitation(DAY_TOMORROW, false, false, false)
-										.create();
+			builder.addMealInvitation(DAY_TODAY, true, true, true);
+			builder.addMealInvitation(DAY_TOMORROW, false, false, false);
 		}
 		catch(DMLException ex) {
 			unexpectedException = ex;

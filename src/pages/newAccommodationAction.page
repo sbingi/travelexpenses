@@ -2,7 +2,7 @@
 
     <c:newExpense title="Accommodation" expense="{!expense}" hasMessages="{!hasMessages}" theme="default" limitSearch="false">
     
-        <c:lodgingInfo expense="{!expense}" theme="default"/>
+        <c:lodgingInfo expense="{!expense}" theme="default" locale="{!UserLocale}" />
         <c:cost expense="{!expense}" title="Overall Cost" theme="default"/>
                 
         <center>

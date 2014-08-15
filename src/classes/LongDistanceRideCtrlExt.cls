@@ -37,6 +37,14 @@ global with sharing class LongDistanceRideCtrlExt {
     }
     
     
+    public String getUserLocale() {
+        String result = UserInfo.getLocale();
+        
+        return result;
+    
+    }
+    
+    
     public void doSaveRide() {
         try {
             upsert ride;

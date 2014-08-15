@@ -36,6 +36,14 @@ global with sharing class ExpenseCtrlExt {
     }
     
     
+    public String getUserLocale() {
+        String result = UserInfo.getLocale();
+        
+        return result;
+    
+    }
+    
+    
     public Boolean getIsMovement() {
         Boolean result = ExpenseType.isMovement(expense);
         

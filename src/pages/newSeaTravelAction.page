@@ -2,7 +2,7 @@
 
     <c:newExpense title="Sea Travel" expense="{!expense}" hasMessages="{!hasMessages}" theme="default" limitSearch="true">
         
-        <c:movements expense="{!expense}" title="Sea Travel" theme="default"/>
+        <c:movements expense="{!expense}" title="Sea Travel" theme="default" locale="{!UserLocale}" />
         <c:cost expense="{!expense}" title="Ticket Price" theme="default"/>
         
         <center>

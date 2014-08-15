@@ -2,7 +2,7 @@
 
     <c:newExpense title="Entertainment" expense="{!expense}" hasMessages="{!hasMessages}" theme="default" limitSearch="false">
         
-        <c:entertainmentInfo expense="{!expense}" theme="default"/>
+        <c:entertainmentInfo expense="{!expense}" theme="default" locale="{!UserLocale}" />
         <c:bill expense="{!expense}" theme="default"/>
         
         <center>

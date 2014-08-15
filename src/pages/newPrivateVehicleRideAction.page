@@ -2,7 +2,7 @@
 	
     <c:newExpense title="Private Vehicle Ride" expense="{!expense}" hasMessages="{!hasMessages}" theme="default" limitSearch="true">
         
-        <c:movements expense="{!expense}" title="Private Vehicle Ride" theme="default"/>
+        <c:movements expense="{!expense}" title="Private Vehicle Ride" theme="default" locale="{!UserLocale}" />
         <c:rideDetails expense="{!expense}" theme="default" vehicles="{!vehicles}"/>
         
         <center>

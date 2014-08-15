@@ -2,7 +2,7 @@
 
     <c:newExpense title="Train Ride" expense="{!expense}" hasMessages="{!hasMessages}" theme="default" limitSearch="true">
         
-        <c:movements expense="{!expense}" title="Train Ride" theme="default"/>
+        <c:movements expense="{!expense}" title="Train Ride" theme="default" locale="{!UserLocale}" />
         <c:cost expense="{!expense}" title="Ticket Price" theme="default"/>
         
         <center>
