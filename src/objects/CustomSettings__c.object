@@ -84,7 +84,7 @@
         <fullName>txt_TravelExpenseRelationId__c</fullName>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
-        <label>Travel Expense Relation Id</label>
+        <label>DEPRECATED</label>
         <length>15</length>
         <required>false</required>
         <trackTrending>false</trackTrending>

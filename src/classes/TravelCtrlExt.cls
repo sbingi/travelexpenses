@@ -53,9 +53,9 @@ global virtual with sharing class TravelCtrlExt {
     
     
     public List<DailySummaries.Row> getDailySummaries() {
-    	List<DailySummaries.Row> results = new DailySummaries(sortedExpenses).getRows();
-    	
-    	return results;
+        List<DailySummaries.Row> results = new DailySummaries(sortedExpenses).getRows();
+        
+        return results;
     }
     
     
@@ -68,15 +68,15 @@ global virtual with sharing class TravelCtrlExt {
         List<Expense__c> result = new List<Expense__c>();
         
         if(!sortedExpenses.isEmpty()) {
-	        Expense__c expense = sortedExpenses[0];
-	        Expense__c emptyExpense = new Expense__c();
-	        for(Expense__c e : sortedExpenses) {
-	                if(e.dat_ExpenseDate__c != expense.dat_ExpenseDate__c) {
-	                        result.add(emptyExpense);
-	                        expense = e;    
-	                }
-	                result.add(e);
-	        }
+            Expense__c expense = sortedExpenses[0];
+            Expense__c emptyExpense = new Expense__c();
+            for(Expense__c e : sortedExpenses) {
+                if(e.dat_ExpenseDate__c != expense.dat_ExpenseDate__c) {
+                    result.add(emptyExpense);
+                    expense = e;    
+                }
+                result.add(e);
+            }
         }
     
         return result;
