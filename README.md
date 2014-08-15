@@ -122,7 +122,17 @@ This  snippet is taken from the sample page `pages/tableGridAdvancedLookup.page`
 
 This library makes use of a number of third-party components:
 
-- [jQuery](http://jquery.com), the javascript library to make it easy to write javascript.
+- [Google Place Autocomplete](https://developers.google.com/places/documentation/autocomplete), returns place information based on text search terms and can be used to provide autocomplete functionality for text-based geographic searches.
+
+- [jQuery](http://jquery.com), a fast, small, and feature-rich JavaScript library.
+
+- [Bootstrap](http://getbootstrap.com/), the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web.
+
+- [Bootstrap Switch](http://www.bootstrap-switch.org/), turns checkboxes and radio buttons in toggle switches.
+
+- [Bootstrap datetimepicker](https://github.com/Eonasdan/bootstrap-datetimepicker), a nice datetimepicker widget.
+
+- [Visualstrap](http://blogforce9dev-developer-edition.ap1.force.com/ProjectDetail?id=a0290000009MI61), a visualforce implementation of Bootstrap. VisualStrap is a set of components that work inside your visualforce page without affecting the standard layouts.
 
 
 
