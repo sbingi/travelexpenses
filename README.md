@@ -115,12 +115,11 @@ This  snippet is taken from the sample page `pages/tableGridAdvancedLookup.page`
  
 
 ## Known Issues/Todos ##
+
 - tbd
 
 
 ## Third-party Code ##
-
-This library makes use of a number of third-party components:
 
 - [Google Place Autocomplete](https://developers.google.com/places/documentation/autocomplete), returns place information based on text search terms and can be used to provide autocomplete functionality for text-based geographic searches.
 
