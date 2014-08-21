@@ -135,7 +135,7 @@ This  snippet is taken from the sample page `pages/tableGridAdvancedLookup.page`
 
 
 
-## Visualforce TableGrid License ##
+## TravelExpenses License ##
 
 Copyright (C) 2013 UP2GO International LLC, David Renz, Robert Méndez
 
