@@ -9,16 +9,14 @@ This component can be used as an advanced, highly configurable (by developer and
  
  
 ## Features: ##
-- Native Salesforce.com Look And Feel
-- Works as Standalone table grid or as an embedded replacement for Related List
-- Works as replacement for Standard Lookup popups with <c:advancedLookup>
-- Works for Standard and Custom SObjects
-- Spreadsheet-like Cell-Editing
-- Delete Muliple records
-- Pagination with cutomizable page size
-- Filter Builder UI to let users filter records
-- Field Selection UI to let users customize columns 
-- Each user`s customizations can be auto-saved in a "database-cookie"
+- Native Salesforce.com Look & Feel
+- Native Salesforce1 Look & Feel
+- Standalone mobile & desktop travel expense report app
+- Installable on every Salesforce.com Org
+- Automated calculation of Per Diems (Verpflegungspauschalen)
+- PDF generation
+- Complete integration of Salesforce Chatter
+- Adapted to the german tax law
 
 
 ## Installation/Download ##
