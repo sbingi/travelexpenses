@@ -26,7 +26,7 @@ public with sharing class NewExpenseCtrlExt {
     
     
     public String getUserLocale() {
-        String result = UserInfo.getLocale();
+        String result = UserInfo.getLocale().split('_')[0];
         
         return result;
     
