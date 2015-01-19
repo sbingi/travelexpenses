@@ -11,19 +11,14 @@ public with sharing class TravelNeedsMovementOnFirstAndLastDay implements Submit
 		for(Travel__c travel : newTravels) {
 			Set<Date> dates = datesWithMovements.get(travel.Id);
 			
-			if( dates == null ) {
-				travel.addError('Your travel needs at least a movement expense on the first and last day.');
+			Date firstDay = travel.dtm_Start__c.date();
+			Date lastDay = travel.dtm_End__c.date();
+		
+			if(dates == null || !dates.contains(firstDay)) {
+				travel.addError(System.Label.TravelNeedsMovementOnFirstDay);
 			}
-			else {
-				Date firstDay = travel.dtm_Start__c.date();
-				Date lastDay = travel.dtm_End__c.date();
-			
-				if( !dates.contains(firstDay)) {
-					travel.addError('Your travel needs a movement expense on the first day.');
-				}
-				if( !dates.contains(lastDay)) {
-					travel.addError('Your travel needs a movement expense on the last day.');
-				}
+			if(dates == null || !dates.contains(lastDay)) {
+				travel.addError(System.Label.TravelNeedsMovementOnLastDay);
 			}
 		}
 	}

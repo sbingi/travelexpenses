@@ -1,11 +1,18 @@
 @isTest
 private class LongDistanceRideValidator_Test {
 	
-	private static final Date DAY_TODAY = System.today();
-	private static final Date DAY_TOMORROW = DAY_TODAY.addDays(1);
-	private static final DateTime TODAY_NOW = System.now();
-	private static final DateTime TOMORROW_NOW = TODAY_NOW.addDays(1);
-	private static final DateTime DAY_AFTER_TOMORROW_NOW = TODAY_NOW.addDays(2);
+	private static final Date TODAY = System.Today();
+	private static final Date TOMORROW = System.Today().addDays(1);
+	private static final Date DAY_AFTER_TOMORROW = System.Today().addDays(2);
+	
+	private static final DateTime TODAY_TEN_AM = dateTime(TODAY, 10,00);
+	private static final DateTime TODAY_ONE_PM = dateTime(TODAY, 13,00);
+	private static final DateTime TODAY_THREE_PM = dateTime(TODAY, 15,00);
+	private static final DateTime TODAY_FIVE_PM = dateTime(TODAY, 17,00);
+	private static final DateTime TOMORROW_ELEVEN_AM = dateTime(TOMORROW, 11,00);
+	private static final DateTime TOMORROW_FOUR_PM = dateTime(TOMORROW, 16,00);
+	private static final DateTime DAY_AFTER_TOMORROW_NINE_AM = dateTime(DAY_AFTER_TOMORROW, 09,00);
+	private static final DateTime DAY_AFTER_TOMORROW_EIGHT_PM = dateTime(DAY_AFTER_TOMORROW, 20,00);
 	
 	static {
 		CustomSettings.addDefault();
@@ -20,12 +27,13 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW,TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM,TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithLongDistanceRide(DAY_TODAY, DAY_TOMORROW, TOMORROW_NOW, TODAY_NOW);
+			builder.addRentalVehicleWithLongDistanceRide(TODAY, TOMORROW, 
+														 TODAY_ONE_PM, TODAY_TEN_AM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -34,7 +42,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Long Distance Ride cannot end before it started.');
+		assertThrowsMessage(System.Label.RideCannotEndBeforeStart);
 	}
 	
 	
@@ -44,12 +52,14 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW,TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM,TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithRoundTripLongDistanceRide( DAY_TODAY, DAY_TOMORROW, TODAY_NOW, TODAY_NOW.addHours(2), TOMORROW_NOW, TOMORROW_NOW.addHours(-3));
+			builder.addRentalVehicleWithRoundTripLongDistanceRide(TODAY, TOMORROW, 
+																  TODAY_TEN_AM, TODAY_ONE_PM, 
+																  TOMORROW_FOUR_PM, TOMORROW_ELEVEN_AM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -58,7 +68,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null,expectedException);
-		assertThrowsMessage('Long Distance Ride cannot end before it started.');
+		assertThrowsMessage(System.Label.RideCannotEndBeforeStart);
 	}
 	
 	
@@ -70,12 +80,13 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW,DAY_AFTER_TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, DAY_AFTER_TOMORROW_EIGHT_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithLongDistanceRide( DAY_TODAY, DAY_TOMORROW, TODAY_NOW, DAY_AFTER_TOMORROW_NOW);
+			builder.addRentalVehicleWithLongDistanceRide(TODAY, TOMORROW, 
+														 TODAY_ONE_PM, DAY_AFTER_TOMORROW_NINE_AM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -84,7 +95,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('The Long Distance Ride cannot be outside of the rental period.');
+		assertThrowsMessage(System.Label.RideCannotBeOutsideOfRental);
 	}
 	
 	
@@ -94,12 +105,14 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW,DAY_AFTER_TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, DAY_AFTER_TOMORROW_EIGHT_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithRoundTripLongDistanceRide(DAY_TODAY, DAY_TOMORROW, TODAY_NOW, TOMORROW_NOW, TOMORROW_NOW.addHours(1), DAY_AFTER_TOMORROW_NOW);
+			builder.addRentalVehicleWithRoundTripLongDistanceRide(TODAY, TOMORROW, 
+																  TODAY_TEN_AM, TODAY_ONE_PM, 
+																  TOMORROW_FOUR_PM, DAY_AFTER_TOMORROW_NINE_AM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -108,7 +121,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('The Long Distance Ride cannot be outside of the rental period.');
+		assertThrowsMessage(System.Label.RideCannotBeOutsideOfRental);
 	}
 	
 	
@@ -120,13 +133,14 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addDefaultFlight(TODAY_NOW, TODAY_NOW.addHours(3));										 
-			builder.addRentalVehicleWithLongDistanceRide(DAY_TODAY, DAY_TOMORROW, TODAY_NOW.addHours(2), TOMORROW_NOW);
+			builder.addDefaultFlight(TODAY_TEN_AM, TODAY_ONE_PM);										 
+			builder.addRentalVehicleWithLongDistanceRide(TODAY, TOMORROW, 
+														 TODAY_TEN_AM, TOMORROW_ELEVEN_AM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -135,7 +149,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null,expectedException);
-		assertThrowsMessage('Long Distance Ride overlaps with an existing Long Distance Ride or Movement Expense.');
+		assertThrowsMessage(System.Label.RidesDontOverlap);
 	}
 	
 	
@@ -145,12 +159,14 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithTwoLongDistanceRides(DAY_TODAY, DAY_TOMORROW, TODAY_NOW,TODAY_NOW.addHours(5), TODAY_NOW.addHours(4), TOMORROW_NOW);
+			builder.addRentalVehicleWithTwoLongDistanceRides(TODAY, TOMORROW, 
+															 TODAY_TEN_AM,TOMORROW_ELEVEN_AM, 
+															 TODAY_ONE_PM, TOMORROW_FOUR_PM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -159,7 +175,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Long Distance Ride overlaps with an existing Long Distance Ride or Movement Expense.');
+		assertThrowsMessage(System.Label.RidesDontOverlap);
 	}
 	
 	
@@ -169,12 +185,14 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithRoundTripLongDistanceRide(DAY_TODAY, DAY_TOMORROW, TODAY_NOW,TODAY_NOW.addHours(5), TODAY_NOW.addHours(4), TOMORROW_NOW);
+			builder.addRentalVehicleWithRoundTripLongDistanceRide(TODAY, TOMORROW, 
+																  TODAY_TEN_AM, TOMORROW_ELEVEN_AM, 
+																  TODAY_ONE_PM, TOMORROW_FOUR_PM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -183,7 +201,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Long Distance Ride overlaps with own round trip.');
+		assertThrowsMessage(System.Label.OutwardTripOverlapsWithReturnTrip);
 	}
 	
 	
@@ -193,13 +211,15 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addDefaultFlight(TODAY_NOW.addHours(5), TODAY_NOW.addHours(8));										 
-			builder.addRentalVehicleWithRoundTripLongDistanceRide(DAY_TODAY, DAY_TOMORROW, TODAY_NOW, TODAY_NOW.addHours(3), TODAY_NOW.addHours(6), TOMORROW_NOW);
+			builder.addDefaultFlight(TOMORROW_ELEVEN_AM, TOMORROW_FOUR_PM);										 
+			builder.addRentalVehicleWithRoundTripLongDistanceRide(TODAY, TOMORROW, 
+																  TODAY_TEN_AM, TODAY_ONE_PM, 
+																  TOMORROW_ELEVEN_AM, TOMORROW_FOUR_PM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -208,7 +228,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Long Distance Ride overlaps with an existing Long Distance Ride or Movement Expense.');
+		assertThrowsMessage(System.Label.RidesDontOverlap);
 	}
 	
 	
@@ -218,13 +238,16 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithLongDistanceRide(DAY_TODAY, DAY_TODAY, TODAY_NOW.addHours(5), TODAY_NOW.addHours(7));										 
-			builder.addRentalVehicleWithRoundTripLongDistanceRide(DAY_TOMORROW, DAY_TOMORROW, TODAY_NOW, TODAY_NOW.addHours(3), TODAY_NOW.addHours(6), TOMORROW_NOW);
+			builder.addRentalVehicleWithLongDistanceRide(TOMORROW, TOMORROW, 
+														 TOMORROW_ELEVEN_AM, TOMORROW_FOUR_PM);										 
+			builder.addRentalVehicleWithRoundTripLongDistanceRide(TODAY, TOMORROW, 
+																  TODAY_TEN_AM, TODAY_ONE_PM, 
+																  TOMORROW_ELEVEN_AM, TOMORROW_FOUR_PM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -233,7 +256,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Long Distance Ride overlaps with an existing Long Distance Ride or Movement Expense.');
+		assertThrowsMessage(System.Label.RidesDontOverlap);
 	}
 	
 	
@@ -243,13 +266,16 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TODAY_NOW.addHours(6));
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRoundFlight(TODAY_NOW, TODAY_NOW.addHours(1), TODAY_NOW.addHours(4), TODAY_NOW.addHours(5));
-			builder.addRentalVehicleWithRoundTripLongDistanceRide(DAY_TODAY, DAY_TODAY, TODAY_NOW.addHours(2), TODAY_NOW.addHours(3), TODAY_NOW.addHours(4), TODAY_NOW.addHours(5));
+			builder.addRoundFlight(TODAY_TEN_AM, TODAY_ONE_PM, 
+								   TOMORROW_ELEVEN_AM, TOMORROW_FOUR_PM);
+			builder.addRentalVehicleWithRoundTripLongDistanceRide(TODAY, TOMORROW, 
+																  TODAY_THREE_PM, TODAY_FIVE_PM, 
+																  TOMORROW_ELEVEN_AM, TOMORROW_FOUR_PM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -258,7 +284,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Long Distance Ride overlaps with an existing Long Distance Ride or Movement Expense.');
+		assertThrowsMessage(System.Label.RidesDontOverlap);
 	}
 	
 	
@@ -270,12 +296,13 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithLongDistanceRideWithoutLocation(DAY_TODAY, DAY_TOMORROW, TODAY_NOW, TODAY_NOW.addHours(5));
+			builder.addRentalVehicleWithLongDistanceRideWithoutLocation(TODAY, TOMORROW, 
+																		TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -284,7 +311,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Unknown location, please choose a location from the autocomplete drop-down list.');
+		assertThrowsMessage(System.Label.InvalidLocation);
 	}
 
 
@@ -296,12 +323,13 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, TOMORROW_ELEVEN_AM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithLongDistanceRide(DAY_TODAY, DAY_TOMORROW, TODAY_NOW.addHours(-1), DAY_AFTER_TOMORROW_NOW);
+			builder.addRentalVehicleWithLongDistanceRide(TODAY, TOMORROW, 
+														 TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -310,7 +338,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Long Distance Ride is outside of travel period.');
+		assertThrowsMessage(System.Label.RidesCannotBeOutsideOfTravel);
 	}
 	
 	
@@ -320,12 +348,14 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithRoundTripLongDistanceRide(DAY_TODAY, DAY_TOMORROW, TODAY_NOW, TODAY_NOW.addHours(3), TOMORROW_NOW.addHours(1), TOMORROW_NOW.addHours(2));
+			builder.addRentalVehicleWithRoundTripLongDistanceRide(TODAY, TOMORROW, 
+																  TODAY_TEN_AM, TODAY_ONE_PM, 
+																  TOMORROW_ELEVEN_AM, DAY_AFTER_TOMORROW_NINE_AM);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -334,7 +364,7 @@ private class LongDistanceRideValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Long Distance Ride is outside of travel period.');
+		assertThrowsMessage(System.Label.RidesCannotBeOutsideOfTravel);
 	}
 	
 	
@@ -346,12 +376,14 @@ private class LongDistanceRideValidator_Test {
 		// Setup
 		Exception expectedException;
 		
-		TravelBuilder builder = new TravelBuilder(TODAY_NOW, TOMORROW_NOW);
+		TravelBuilder builder = new TravelBuilder(TODAY_TEN_AM, TOMORROW_FOUR_PM);
 		
 		
 		// Exercise
 		try {
-			builder.addRentalVehicleWithRoundTripLongDistanceRide(DAY_TODAY, DAY_TOMORROW, TODAY_NOW, TODAY_NOW.addHours(3), null, null);
+			builder.addRentalVehicleWithRoundTripLongDistanceRide(TODAY, TOMORROW, 
+																  TODAY_TEN_AM, TODAY_ONE_PM, 
+																  null, null);
 		}
 		catch(Exception ex) {
 			expectedException = ex;
@@ -360,12 +392,19 @@ private class LongDistanceRideValidator_Test {
 									
 		// Verify	
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Return departure time is missing');
-		assertThrowsMessage('Return arrival time is missing.');
+		assertThrowsMessage(System.Label.YouMustEnterValue);
 	}
 	
 	
 	// TEST HELPER
+	
+	private static DateTime dateTime(Date day, Integer hour, Integer minute) {
+		Time t = Time.newInstance(hour, minute, 0,0);
+		DateTime result = DateTime.newInstance(day, t);
+		
+		return result;
+	}
+	
 	
 	private static void assertThrowsMessage(String errorMessage) {
 		Boolean result = false;

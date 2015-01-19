@@ -34,6 +34,23 @@
 	                </span>
                 </div>
             </c:formgroup>
+            
+            <apex:actionRegion >
+            <c:formblock id="breakfast" alignment="horizontal">
+                                   
+                <c:formgroup >                           
+                    <c:column type="col-md-1">
+                        <apex:outputLabel value="Breakfast Included"/>
+                    </c:column>
+                    <c:column type="col-md-1">
+                        <apex:inputCheckbox value="{!expense.chk_BreakfastIncluded__c}" styleClass="switcher">
+                            <apex:actionSupport event="onchange" rerender="breakfast"  onComplete="rerender();"/>
+                        </apex:inputCheckbox>
+                    </c:column>      
+                </c:formgroup>
+                
+            </c:formblock>
+        </apex:actionRegion>
         
         </c:formblock>
     </c:panel>
@@ -43,8 +60,23 @@
 	    jQuery.noConflict();
 	    
 	    jQuery(document).ready(function() {
+	    	renderSwitcher();
 			renderDateTimePicker();
 		});
+		
+		function rerender() {
+			renderSwitcher();
+			renderDateTimePicker();
+		}
+		
+		function renderSwitcher() {
+			jQuery.fn.bootstrapSwitch.defaults.size = 'large';
+			jQuery.fn.bootstrapSwitch.defaults.onColor = 'success';
+			jQuery.fn.bootstrapSwitch.defaults.offColor = 'default';
+			jQuery.fn.bootstrapSwitch.defaults.onText = 'Yes';
+			jQuery.fn.bootstrapSwitch.defaults.offText = 'No';
+			jQuery("input.switcher").bootstrapSwitch();
+		}
 		
 		function renderDateTimePicker() {
 			var dateformat;

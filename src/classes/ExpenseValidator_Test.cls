@@ -35,7 +35,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense is outside of travel period.');
+		assertThrowsMessage(System.Label.ExpenseCannotBeOutsideOFTravelPeriod);
 	}
 
 	
@@ -59,7 +59,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense is outside of travel period.');
+		assertThrowsMessage(System.Label.ExpenseCannotBeOutsideOFTravelPeriod);
 	}	
 
 	
@@ -83,7 +83,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense is outside of travel period.');
+		assertThrowsMessage(System.Label.ExpenseCannotBeOutsideOFTravelPeriod);
 	}	
 
 	
@@ -107,7 +107,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense is outside of travel period.');
+		assertThrowsMessage(System.Label.ExpenseCannotBeOutsideOFTravelPeriod);
 	}
 	
 	
@@ -131,7 +131,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense is outside of travel period.');		
+		assertThrowsMessage(System.Label.ExpenseCannotBeOutsideOFTravelPeriod);		
 	}
 	
 
@@ -157,7 +157,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense cannot end before it started.');
+		assertThrowsMessage(System.Label.ExpenseCannotEndBeforeStart);
 	}
 	
 	
@@ -181,7 +181,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense cannot end before it started.');
+		assertThrowsMessage(System.Label.ExpenseCannotEndBeforeStart);
 	}
 	
 	
@@ -205,7 +205,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense cannot end before it started.');
+		assertThrowsMessage(System.Label.ExpenseCannotEndBeforeStart);
 	}
 	
 	
@@ -229,7 +229,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense cannot end before it started.');		
+		assertThrowsMessage(System.Label.ExpenseCannotEndBeforeStart);		
 	}	
 
 	
@@ -255,7 +255,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Unknown location, please choose a location from the autocomplete drop-down list.');
+		assertThrowsMessage(System.Label.InvalidLocation);
 	}
 
 	
@@ -279,7 +279,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Unknown location, please choose a location from the autocomplete drop-down list.');
+		assertThrowsMessage(System.Label.InvalidLocation);
 	}	
 	
 	
@@ -303,7 +303,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Unknown location, please choose a location from the autocomplete drop-down list.');
+		assertThrowsMessage(System.Label.InvalidLocation);
 	}
 	
 	
@@ -329,8 +329,7 @@ private class ExpenseValidator_Test {
 									
 		// Verify	
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Return departure time is missing');
-		assertThrowsMessage('Return arrival time is missing.');
+		assertThrowsMessage(System.Label.YouMustEnterValue);
 	}				
 	
 	
@@ -357,7 +356,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+		assertThrowsMessage(System.Label.ExpensesDontOverlap);
 	}
 
 
@@ -382,7 +381,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+		assertThrowsMessage(System.Label.ExpensesDontOverlap);
 	}
 	
 	
@@ -407,7 +406,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+		assertThrowsMessage(System.Label.ExpensesDontOverlap);
 	}
 
 	
@@ -432,7 +431,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+		assertThrowsMessage(System.Label.ExpensesDontOverlap);
 	}
 
 
@@ -456,7 +455,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense overlaps with own round trip.');
+		assertThrowsMessage(System.Label.OutwardTripOverlapsWithReturnTrip);
 	}
 	
 	
@@ -481,7 +480,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+		assertThrowsMessage(System.Label.ExpensesDontOverlap);
 	}
 	
 	
@@ -506,7 +505,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+		assertThrowsMessage(System.Label.ExpensesDontOverlap);
 	}
 	
 	
@@ -531,7 +530,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+		assertThrowsMessage(System.Label.ExpensesDontOverlap);
 	}
 	
 	
@@ -557,7 +556,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null,expectedException);
-		assertThrowsMessage('Expense Amount cannot be negative.');
+		assertThrowsMessage(System.Label.ExpenseAmountCannotBeNegative);
 	}
 	
 	
@@ -581,7 +580,7 @@ private class ExpenseValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null,expectedException);
-		assertThrowsMessage('Expense Amount cannot be negative.');
+		assertThrowsMessage(System.Label.ExpenseAmountCannotBeNegative);
 	}
 	
 	

@@ -2,7 +2,7 @@ public with sharing class ExpenseCannotEndBeforeStart implements ExpenseRule {
     
  
     public void validate(List<SObject> records) {
-    	String errorMessage = 'Expense cannot end before it started.';
+    	String errorMessage = System.Label.ExpenseCannotEndBeforeStart;
 
     	for(Expense__c expense : (List<Expense__c>)records) {
     		

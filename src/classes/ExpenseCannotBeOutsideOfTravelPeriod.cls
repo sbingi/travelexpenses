@@ -1,10 +1,10 @@
 public with sharing class ExpenseCannotBeOutsideOfTravelPeriod implements ExpenseRule{     
      
-     private String errorMessage = 'Expense is outside of travel period.';
+     private String errorMessage = System.Label.ExpenseCannotBeOutsideOfTravelPeriod;
      private Travel__c travel;
      
      
-     // PUBLIC METHODS
+	// PUBLIC METHODS
      
     public void validate(List<SObject> records) {
     	List<Expense__c> expenses = (List<Expense__c>) records;

@@ -5,7 +5,8 @@ public with sharing class RidesCannotBeOutsideOfTravel implements LongDistanceRi
     
     public void validate(List<SObject> records) {
         List<LongDistanceRide__c> newRides = (List<LongDistanceRide__c>) records;
-        String errorMessage = 'Long Distance Ride is outside of travel period.';
+        
+        String errorMessage = System.Label.RidesCannotBeOutsideOfTravel;
         
         Map<Id,Travel__c> relevantTravels = queryRelevantTravelsByRentalVehicle(newRides);
                                                                    

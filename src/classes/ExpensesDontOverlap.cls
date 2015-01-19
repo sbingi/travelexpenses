@@ -14,10 +14,12 @@ public with sharing class ExpensesDontOverlap implements ExpenseRule {
 	        	List<Expense__c> movementExpenses = expensesByTravels.get(expense.mdr_Travel__c);
 	        	
 		        if(hasRoundTrip(expense) && overlapsWithRoundTrip(expense)) {
-					expense.addError('Expense overlaps with own round trip.');
+					expense.addError(System.Label.OutwardTripOverlapsWithReturnTrip);
 				}
 		        if(isOverlapping(expense, movementExpenses)) {
-		        	expense.addError('Expense overlaps with an existing movement( flight, train ride, private or company vehicle ride, rental vehicle ride).');
+					
+					// TODO: Show overlapping movement to User
+		        	expense.addError(System.Label.ExpensesDontOverlap);
 		        }
 	        }
     	}

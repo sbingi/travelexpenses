@@ -14,7 +14,7 @@ public with sharing class TravelsDontOverlap implements SaveTravelRule {
 	        for(Travel__c existing : existingTravelsOfSameUser) {
 				
 	            if( (travel.Id != existing.Id) && doOverlap(travel, existing)) {
-	                travel.addError('Travel overlaps with existing travel: ' + existing.Name);
+	                travel.addError(String.format(System.Label.TravelsDontOverlap, new List<String> { existing.Name }));
 	            }
 	        }
 		}

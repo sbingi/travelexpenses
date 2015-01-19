@@ -7,7 +7,7 @@ public with sharing class TravelCannotEndBeforeStart implements SaveTravelRule {
 			DateTime stop = travel.dtm_End__c;
 			
 	        if ( stop < start ) {
-				travel.dtm_End__c.addError('Your travel can not end before it started.');     
+				travel.dtm_End__c.addError(System.Label.TravelCannotEndBeforeStart);     
 	        }
 		}
     }

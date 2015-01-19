@@ -14,10 +14,12 @@ public with sharing class RidesDontOverlap implements LongDistanceRideRule {
 			List<LongDistanceRide__c> movements = movementsByTravel.get(travel);
 			
 			if(hasRoundTrip(ride) && overlapsWithRoundTrip(ride)) {
-				ride.addError('Long Distance Ride overlaps with own round trip.');
+				ride.addError(System.Label.OutwardTripOverlapsWithReturnTrip);
 			}
 			if(isOverlapping(ride, movements)) {
-				ride.addError('Long Distance Ride overlaps with an existing Long Distance Ride or Movement Expense.');
+				
+				// TODO: Show overlapping movement to User
+				ride.addError(System.Label.RidesDontOverlap);
 			}
 		}   
     }

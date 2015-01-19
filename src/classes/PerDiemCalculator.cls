@@ -34,20 +34,16 @@ public with sharing class PerDiemCalculator {
 	    	if(isShorterOrEqualEightHours()) {
 	    		newPerDiems.add(generateShortTravelPerDiem());
 	    	}
+	    	else if(isOvernightTravel()) {
+				newPerDiems.add(generateOverNightPerDiem());
+	    	}
 	    	else {
-	    		if(isOvernightTravel()) {
-					newPerDiems.add(generateOverNightPerDiem());
-	    		}
-	    		else {
-	    			newPerDiems.addAll(generatePerDiems());
-	    		}
+	    		newPerDiems.addAll(generatePerDiems());	
 	    	}
 	    	
 	    	insert newPerDiems;
     	}
-    	catch(Exception ignore) {
-    		// Note: If error occurs no calculation of Per Diems.
-    	}
+    	catch(Exception ignore) {}
     }
     
     

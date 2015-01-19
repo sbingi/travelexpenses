@@ -64,22 +64,42 @@ global virtual with sharing class TravelCtrlExt {
     }
     
     
-    public List<Expense__c> getExpensesGroupedByDate() {
-        List<Expense__c> result = new List<Expense__c>();
-        
-        if(!sortedExpenses.isEmpty()) {
-            Expense__c expense = sortedExpenses[0];
-            Expense__c emptyExpense = new Expense__c();
-            for(Expense__c e : sortedExpenses) {
-                if(e.dat_ExpenseDate__c != expense.dat_ExpenseDate__c) {
-                    result.add(emptyExpense);
-                    expense = e;    
-                }
-                result.add(e);
-            }
-        }
-    
-        return result;
+    public List<ExpenseElement> getExpenseElements() {
+    	List<ExpenseElement> results = new List<ExpenseElement>();
+    	List<ExpenseElement> elements = new List<ExpenseElement>();
+    	
+    	ExpenseElement element;
+    	if(!sortedExpenses.isEmpty()) {
+    		for(Expense__c e : sortedExpenses) {
+    			element = new ExpenseElement();
+    			
+    			element.day = e.dat_ExpenseDate__c.format();
+    			element.recordType = e.RecordType.Name;
+    			element.amount = e.CurrencyIsoCode + ' ' + e.cur_Amount__c;
+    			element.details = getDetails(e);
+    			element.id = e.id;
+    			
+    			elements.add(element);
+    			
+    			if(e.chk_RoundTrip__c) {
+    				element = new ExpenseElement();
+    			
+	    			element.day = e.dtm_ReturnDeparture__c.date().format();
+	    			element.recordType = e.RecordType.Name;
+	    			element.amount = '-';
+	    			element.details = 'From "' + e.txt_To__c + '" to "' + e.txt_From__c + '"';
+	    			element.id = e.id;
+	    			
+	    			elements.add(element);
+    			}
+    		}
+    	}
+    	
+    	elements.sort();
+    	
+    	results = insertBlancRows(elements);
+    	
+    	return results;
     }
     
     
@@ -173,6 +193,62 @@ global virtual with sharing class TravelCtrlExt {
     
     // PRIVATE METHODS
     
+    private String getDetails(Expense__c e) {
+    	String result = '';
+    	
+		if(e.RecordType.DeveloperName == 'Accommodation') {
+			result = e.txt_LodgingAdress__c;
+		} 
+		else if(e.RecordType.DeveloperName == 'CompanyVehicleRide') {
+			result = 'From "' + e.txt_From__c + '" to "' + e.txt_To__c + '"';
+		}
+		else if(e.RecordType.DeveloperName == 'Entertainment') {
+			result = e.txt_PlaceOfEntertainment__c;
+		}
+		else if(e.RecordType.DeveloperName == 'Flight') {
+			result = 'From "' + e.txt_From__c + '" to "' + e.txt_To__c + '"';
+		}
+		else if(e.RecordType.DeveloperName == 'Miscellaneous') {
+			result = e.txt_Reason__c;
+		}
+		else if(e.RecordType.DeveloperName == 'perDiem') {
+			result = e.lkp_Location__r.Name;
+		}
+		else if(e.RecordType.DeveloperName == 'PrivateVehicleRide') {
+			result = 'From "' + e.txt_From__c + '" to "' + e.txt_To__c + '"';
+		}
+		else if(e.RecordType.DeveloperName == 'RentalVehicle') {
+			result = e.dat_PickUpDate__c.format() + ' till ' + e.dat_ReturnDate__c.format();
+		}
+		else if(e.RecordType.DeveloperName == 'SeaTravel') {
+			result = 'From "' + e.txt_From__c + '" to "' + e.txt_To__c + '"';
+		}
+		else if(e.RecordType.DeveloperName == 'TrainRide') {
+			result = 'From "' + e.txt_From__c + '" to "' + e.txt_To__c + '"';
+		}    
+    	
+    	return result;
+    }
+    
+    private List<ExpenseElement> insertBlancRows(List<ExpenseElement> elements) {
+    	List<ExpenseElement> results = new List<ExpenseElement>();
+    	
+    	if(!elements.isEmpty()) {
+            ExpenseElement element = elements[0];
+            ExpenseElement emptyElement = new ExpenseElement();
+            for(ExpenseElement e : elements) {
+                if(e.day != element.day) {
+                    results.add(emptyElement);
+                    element = e;    
+                }
+                results.add(e);
+            }
+        }
+    	
+    	return results;
+    }
+    
+    
     private void checkIfTravelIsLocked() {
         Savepoint sp = Database.setSavepoint();
 
@@ -190,10 +266,12 @@ global virtual with sharing class TravelCtrlExt {
     
     
     private void sortExpenses() {
-        sortedExpenses = [SELECT Id, Name, RecordType.Name, cur_Amount__c, dtm_DepartureTime__c, 
-                                 dtm_ArrivalTime__c, dat_CheckInDate__c, dat_CheckOutDate__c, 
-                                 lkp_Location__c, CurrencyIsoCode, dat_ExpenseDate__c, mdr_Travel__c, 
-                                 pkl_Reimbursement__c,cur_OriginalAmount__c,
+        sortedExpenses = [SELECT Id, Name, RecordType.Name, RecordType.DeveloperName, cur_Amount__c, dtm_DepartureTime__c, 
+                                 dtm_ArrivalTime__c, dat_CheckInDate__c, dat_CheckOutDate__c, txt_Reason__c,
+                                 txt_LodgingAdress__c, txt_From__c, txt_To__c, txt_PlaceOfEntertainment__c, 
+                                 lkp_Location__c, CurrencyIsoCode, dat_ExpenseDate__c, mdr_Travel__c, dtm_ReturnDeparture__c,
+                                 pkl_Reimbursement__c,cur_OriginalAmount__c, lkp_Location__r.Name, chk_RoundTrip__c,
+                                 dat_PickUpDate__c, dat_ReturnDate__c,
                                  lkp_Location__r.cur_FullDailyRate__c,
                                  lkp_MealInvitation__r.lkp_Breakfast__c,lkp_MealInvitation__r.lkp_Breakfast__r.pct_FullDayAllowanceRate__c,
                                  lkp_MealInvitation__r.lkp_Lunch__c,lkp_MealInvitation__r.lkp_Lunch__r.pct_FullDayAllowanceRate__c,
@@ -233,5 +311,22 @@ global virtual with sharing class TravelCtrlExt {
             e = new Expense__c(cur_Amount__c = amountInEuro, dat_ExpenseDate__c = d, CurrencyIsoCode = 'EUR');
             dailyExpenses.add(e);
         }       
+    }
+    
+    // INNER CLASSES
+    
+    public class ExpenseElement implements Comparable {
+    	public String day { get; set; }
+    	public String recordType { get; set; }
+        public String amount { get; set; }
+        public String details { get; set; }
+        public Id id { get; set; }
+    	
+    	public Integer compareTo(Object compareTo) {
+	        ExpenseElement compareToEle = (ExpenseElement)compareTo;
+	        if (day == compareToEle.day) return 0;
+	        if (day > compareToEle.day) return 1;
+	        return -1;        
+    	}
     }
 }

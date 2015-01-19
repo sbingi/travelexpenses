@@ -134,7 +134,8 @@ private class TravelCtrlExt_Test {
         
         // Verify
         System.assertEquals(null,validationResult);
-        assertThrowsMessage('Your travel needs at least a movement expense on the first and last day.');
+        assertThrowsMessage(System.Label.TravelNeedsMovementOnFirstDay);
+        assertThrowsMessage(System.Label.TravelNeedsMovementOnLastDay);
     }
    
 
@@ -161,7 +162,7 @@ private class TravelCtrlExt_Test {
         
         // Verify
         System.assertEquals(null,validationResult); 
-        assertThrowsMessage('You forgot to state a movement between Stadt 2, Deutschland and Stadt 1, Spanien');               
+        assertThrowsMessage(String.format(System.Label.TravelHasNoMovementGaps, new List<String> {'Stadt 2, Deutschland', 'Stadt 1, Spanien'}));              
     }
    
     
@@ -189,8 +190,8 @@ private class TravelCtrlExt_Test {
         
         // Verify   
         System.assertEquals(null,validationResult); 
-        assertThrowsMessage('Your travel needs a movement expense on the first day.');
-        assertThrowsMessage('Your travel needs a movement expense on the last day.');
+        assertThrowsMessage(System.Label.TravelNeedsMovementOnFirstDay);
+        assertThrowsMessage(System.Label.TravelNeedsMovementOnLastDay);
     }
     
     

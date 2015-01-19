@@ -192,6 +192,23 @@ public with sharing class TravelBuilder {
 	}
 	
 	
+	public TravelBuilder addAccommodationWithBreakfastIncluded(Date checkIn, Date checkOut) {
+		Expense__c expense = createDefaultExpense();
+		expense.RecordTypeId = ExpenseType.getAccommodationRecordTypeId();
+		expense.cur_Amount__c = 80.00;
+		expense.txt_LodgingAdress__c = 'Hotel Adlon, Berlin, '+ defaultStart.Name;
+		expense.dat_CheckInDate__c = checkIn;
+		expense.dat_CheckOutDate__c = checkOut;
+		expense.lkp_LocationFrom__c = defaultStart.Id;
+		expense.lkp_Location__c = defaultStart.Id;
+		expense.chk_BreakfastIncluded__c = true;
+		
+		insert expense;
+		
+		return this;
+	}
+	
+	
 	public TravelBuilder addAccommodationWithoutLocation(Date checkIn, Date checkout) {
 		Expense__c expense = createDefaultExpense();
 		expense.RecordTypeId = ExpenseType.getAccommodationRecordTypeId();

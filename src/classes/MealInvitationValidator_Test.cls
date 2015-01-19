@@ -58,7 +58,7 @@ private class MealInvitationValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('The date has to be within the travel period.');
+		assertThrowsMessage(System.Label.MealInvitationCannotBeOutOfTravelPeriod);
 	}
 	
 	
@@ -83,7 +83,7 @@ private class MealInvitationValidator_Test {
 		
 		// Verify
 		System.assertNotEquals(null, expectedException);
-		assertThrowsMessage('There already exists a meal invitation for this date.');
+		assertThrowsMessage(System.Label.MealInvitationsCannotBeOnSameDay);
 	}
 	
 	

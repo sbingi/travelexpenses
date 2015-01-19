@@ -50,7 +50,7 @@ private class TravelValidator_Test {
         
         // Verify
         System.assertNotEquals(null, expectedException);
-        assertThrowsMessage('Your travel can not end before it started.');
+        assertThrowsMessage(System.Label.TravelCannotEndBeforeStart);
     }
     
     
@@ -86,7 +86,7 @@ private class TravelValidator_Test {
         
         // Verify
         System.assertNotEquals(null, expectedException);
-        assertThrowsMessage('Travel overlaps with existing travel: second Travel');
+        assertThrowsMessage(String.format(System.Label.TravelsDontOverlap, new List<String> { secondTravel.Name }));
     }
     
     

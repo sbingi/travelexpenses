@@ -6,10 +6,23 @@
     
         <apex:pageBlock id="pb1" mode="edit" title="Expense Edit">
                  
-            <apex:pageMessages />
+            <apex:pageMessages id="errormsg" />
             
             <apex:pageBlockButtons >
-                <apex:commandButton value="Save" action="{!doSaveAndRedirectToTravel}"/>
+                
+                <apex:actionStatus id="SaveButtonStatus">
+                    <apex:facet name="stop">
+                        <apex:outputPanel >
+                            <apex:commandButton action="{!doSaveAndRedirectToTravel}" value="Save" status="SaveButtonStatus" rerender="errormsg" />       
+                        </apex:outputPanel>
+                    </apex:facet>
+                    <apex:facet name="start">
+                        <apex:outputPanel >
+                            <apex:commandButton value="Saving..." disabled="true" />    
+                        </apex:outputPanel>
+                    </apex:facet>
+                </apex:actionStatus>
+             
                 <apex:commandButton value="Cancel" action="{!cancel}"/>                
             </apex:pageBlockButtons>
             
@@ -28,10 +41,11 @@
             <apex:pageBlockSection columns="1" id="pbsAccommodation" rendered="{!recordtypename == 'Accommodation'}" title="Accommodation">
                 <apex:outputField value="{!Expense__c.mdr_Travel__c}"/>
                     <apex:pageBlockSectionItem />               
-                <apex:inputField value="{!Expense__c.txt_LodgingAdress__c}" style="width:100%" id="accommodationLocation" required="true" />
+                <apex:inputField value="{!Expense__c.txt_LodgingAdress__c}" style="width:60%" id="accommodationLocation" required="true" />
                     <apex:pageBlockSectionItem />
                 <apex:inputField value="{!Expense__c.dat_CheckInDate__c}" required="true"/>
                 <apex:inputField value="{!Expense__c.dat_CheckOutDate__c}" required="true"/>
+                <apex:inputCheckbox value="{!Expense__c.chk_BreakfastIncluded__c}"/>
                     <apex:pageBlockSectionItem />
                 <apex:inputField value="{!Expense__c.cur_Amount__c}" required="true"/>
                 <apex:inputField value="{!Expense__c.CurrencyIsoCode}" required="true"/>
@@ -365,7 +379,7 @@
           var evt = (evt) ? evt : ((event) ? event : null); 
           var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
           if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
-        } 
+        }
         
     </script>
     

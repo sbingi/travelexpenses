@@ -4,7 +4,7 @@ public with sharing class RideCannotBeOutsideOfRental implements LongDistanceRid
 	// PUBLIC METHODS
 	
 	public void validate(List<SObject> records) {
-		String errorMessage = 'The Long Distance Ride cannot be outside of the rental period.';
+		String errorMessage = System.Label.RideCannotBeOutsideOfRental;
 
 		List<LongDistanceRide__c> newRides = (List<LongDistanceRide__c>) records;
 		Map<Id,Expense__c> relevantRentalVehicles = queryRelevantRentalCarsById(newRides);

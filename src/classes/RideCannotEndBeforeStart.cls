@@ -4,7 +4,7 @@ public with sharing class RideCannotEndBeforeStart implements LongDistanceRideRu
 	// PUBLIC METHODS
 	 
     public void validate(List<SObject> records) {
-    	String errorMessage = 'Long Distance Ride cannot end before it started.';
+    	String errorMessage = System.Label.RideCannotEndBeforeStart;
     	
     	for(LongDistanceRide__c ride : (List<LongDistanceRide__c>) records) {
     		DateTime start = ride.dtm_DepartureTime__c;

@@ -12,7 +12,7 @@ public class MealInvitationsCannotBeOnSameDay implements MealInvitationRule {
 			List<MealInvitation__c> invitations = invitationsByTravel.get(current.mdr_Travel__c);
 			
 			if(hasDateConflict(current, invitations)) {
-				current.dat_Day__c.addError('There already exists a meal invitation for this date.');
+				current.dat_Day__c.addError(System.Label.MealInvitationsCannotBeOnSameDay);
 			}
 		}						   							 								   							 		
 	}

@@ -19,18 +19,19 @@
             </apex:pageBlockSection>
                
             <apex:pageBlockSection collapsible="true" columns="1" title="Expenses" >
-                <apex:pageBlockTable value="{!expensesgroupedbydate}" var="expense">
-                    <apex:column headerValue="Expense Date" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}">
-                        <apex:outputField value="{!expense.dat_ExpenseDate__c}" />
+                <apex:pageBlockTable value="{!expenseelements}" var="expense">
+                    <apex:column value="{!expense.day}" headerValue="Expense Date" 
+                                 style="{!IF((expense.day == null), 'background-color:#FFF3E6', '')}"/>
+                    <apex:column value="{!expense.recordType}" headerValue="Expense Type"
+                                 style="{!IF((expense.day == null), 'background-color:#FFF3E6', '')}"/>
+                    <apex:column value="{!expense.amount}" headerValue="Amount"
+                                 style="{!IF((expense.day == null), 'background-color:#FFF3E6', '')}"/>
+                    <apex:column value="{!expense.details}" headerValue="Details"
+                                 style="{!IF((expense.day == null), 'background-color:#FFF3E6', '')}"/>
+                    <apex:column headerValue="More Details" style="{!IF((expense.day == null), 'background-color:#FFF3E6', '')}" >
+                        <apex:outputLink value="/{!expense.id}">{!IF((expense.day == null), '', 'Show more details')}</apex:outputLink>
                         <apex:outputText >&nbsp;</apex:outputText>
-                    </apex:column>
-                    <apex:column value="{!expense.RecordTypeId}" headerValue="Record Type" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>
-                    <apex:column value="{!expense.dtm_DepartureTime__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/> 
-                    <apex:column value="{!expense.dtm_ArrivalTime__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>  
-                    <apex:column value="{!expense.dat_CheckInDate__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>  
-                    <apex:column value="{!expense.dat_CheckOutDate__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/> 
-                    <apex:column value="{!expense.lkp_Location__c}" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>
-                    <apex:column value="{!expense.cur_Amount__c}" headerValue="Amount" style="{!IF((expense.dat_ExpenseDate__c == null), 'background-color:#FFF3E6', '')}"/>         
+                    </apex:column>   
                 </apex:pageBlockTable>
             </apex:pageBlockSection>
             

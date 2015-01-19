@@ -63,7 +63,7 @@
             
                 <br/><br/><br/>
                 
-                <h3> <apex:outputText value="Tages?bersicht"/> </h3>
+                <h3> <apex:outputText value="Tagesübersicht"/> </h3>
                 
                 <br/>
                     

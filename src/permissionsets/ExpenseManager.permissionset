@@ -9,6 +9,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>BreakfastInclusionHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>BreakfastInclusionHandler_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CompensationRateType</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -209,6 +217,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TravelRevalidator</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TravelRevalidator_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TravelValidator_Test</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -278,6 +294,11 @@
         <editable>false</editable>
         <field>Contact.Level__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Expense__c.chk_BreakfastIncluded__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -625,6 +646,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>html5datepickerBug</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>longDistanceRideEdit</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -765,6 +790,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>Datetimepicker_Bug</tab>
+        <visibility>None</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Travel_Overview</tab>
         <visibility>Available</visibility>
     </tabSettings>
@@ -819,6 +848,10 @@
     <userPermissions>
         <enabled>false</enabled>
         <name>ChatterFileLink</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>false</enabled>
+        <name>ChatterForSharePoint</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
@@ -1118,6 +1151,10 @@
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
+        <name>ManageSearchPromotionRules</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>false</enabled>
         <name>ManageSelfService</name>
     </userPermissions>
     <userPermissions>
@@ -1131,6 +1168,10 @@
     <userPermissions>
         <enabled>false</enabled>
         <name>ManageSynonyms</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>false</enabled>
+        <name>ManageTwoFactor</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
@@ -1151,6 +1192,10 @@
     <userPermissions>
         <enabled>false</enabled>
         <name>ModifyAllData</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>false</enabled>
+        <name>ModifySecureAgents</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
@@ -1231,6 +1276,10 @@
     <userPermissions>
         <enabled>false</enabled>
         <name>ViewEncryptedData</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>false</enabled>
+        <name>ViewEventLogFiles</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>

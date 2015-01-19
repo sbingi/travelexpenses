@@ -160,6 +160,9 @@
                 }
             }
         </script>
+        <script type="text/javascript"> 
+    		var numSubmits = 0; 
+    	</script>
     </c:visualstrapblock>
 
 </apex:component>

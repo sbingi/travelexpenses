@@ -14,12 +14,12 @@ public with sharing class TravelHasNoMovementGaps implements SubmitTravelRule {
 			if (movementExpenses != null) {
 				movementExpenses = createReturnTripsAndSortExpenses(movementExpenses);
 				
-				for(Integer i=0; i<(movementExpenses.size()-1) ;i++) {
+				for(Integer i=0; i<(movementExpenses.size()-1); i++) {
 					Expense__c expense1 = movementExpenses[i];
 					Expense__c expense2 = movementExpenses[i+1];
 					
 					if(isGap(expense1, expense2)) {
-						travel.addError('You forgot to state a movement between '+expense1.txt_To__c+' and '+expense2.txt_From__c);
+						travel.addError(String.format(System.Label.TravelHasNoMovementGaps, new List<String> {expense1.txt_To__c, expense2.txt_From__c}));
 					}
 				}
 			}

@@ -2,7 +2,7 @@ public with sharing class RideHasValidLocation implements LongDistanceRideRule {
 	
 	
 	public void validate(List<SObject> records) {
-		String errorMessage = 'Unknown location, please choose a location from the autocomplete drop-down list.';
+		String errorMessage = System.Label.InvalidLocation;
 		
     	for(LongDistanceRide__c ride : (List<LongDistanceRide__c>) records) {
     		

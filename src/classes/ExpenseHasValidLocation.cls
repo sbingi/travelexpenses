@@ -2,7 +2,7 @@ public with sharing class ExpenseHasValidLocation implements ExpenseRule{
 	    
     
     public void validate(List<SObject> records) {
-    	String errorMessage = 'Unknown location, please choose a location from the autocomplete drop-down list.';
+    	String errorMessage = System.Label.InvalidLocation;
 
     	for(Expense__c expense : (List<Expense__c>)records) {
 			

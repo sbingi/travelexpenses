@@ -12,7 +12,7 @@ public class MealInvitationCannotBeOutOfTravelPeriod implements MealInvitationRu
 			Travel__c travel = travels.get(invitation.mdr_Travel__c);
 			
 			if(isOutOfTravel(invitation.dat_Day__c,travel)) {
-				invitation.dat_Day__c.addError('The date has to be within the travel period.');
+				invitation.dat_Day__c.addError(System.Label.MealInvitationCannotBeOutOfTravelPeriod);
 			}
 		}
 	}
