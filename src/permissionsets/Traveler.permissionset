@@ -646,10 +646,6 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>html5datepickerBug</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>longDistanceRideEdit</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -788,10 +784,6 @@
     <tabSettings>
         <tab>CompensationRate__c</tab>
         <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>Datetimepicker_Bug</tab>
-        <visibility>None</visibility>
     </tabSettings>
     <tabSettings>
         <tab>Travel_Overview</tab>
