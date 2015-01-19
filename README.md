@@ -39,87 +39,8 @@ or
 
 
 ## Usage Examples ##
-Please see `components/tableGrid.component` for a detailed description of all attributes. The following examples should give 
-you enough information to get started.
 
-### TableGrid in a standalone Visualforce page
-
-> ![TableGrid in List mode with Customizations turned on](https://raw.github.com/Up2Go/TableGrid/master/resources/customizable.png)
-
-This  snippet is taken from the sample page `pages/tableGridStandalone.page`.
- 
-        <apex:page showHeader="false" sidebar="false"> 
-        	<apex:form >
-        		...
-			    <c:tableGrid type="Opportunity" 
-		        			 title="Opportunities"
-		                     fields="Name,StageName,Amount,CloseDate" 
-		                     sortBy="Name" 
-		                     image="/img/icon/hands24.png"
-		                     sortDescending="true"
-		                     mode="list"
-		                     customizeFields="true"
-		                     customizeFilter="true"
-		                     pageSize="5" />   
-		    	 ...
-		   	</apex:form>
-		</apex:page>
-         
-
-### TableGrid embedded into Standard Page Layouts
-
-> ![Two TableGrid instanced replacing Standard Related Lists in a Standard Page Layout](https://raw.github.com/Up2Go/TableGrid/master/resources/tableGrid_embedded.png)
-
-This  snippet is taken from the sample page `pages/tableGridRelatedList.page` and `pages/tableGridEmbedded.page`
-
-		<apex:page standardController="Account"> 
-		    <apex:form>
-		        ...
-		        
-		        <!-- Advanced Related list -->
-		        <c:tableGrid type="Contact" 
-		                     fields="Id, Name, Email, Birthdate" 
-		                     filter="AccountId = `{!Account.Id}`"
-		                     title="Contacts" 
-		                     gridPageId="readonly"
-		                     pageSize="5"
-		                     mode="list"/>
-		             
-		        <!-- Editable grid with customization turned on -->        
-		        <c:tableGrid type="Opportunity" 
-		                     fields="Name,StageName,Amount,CloseDate" 
-		                     filter="AccountId = `{!Account.Id}`"
-		                     sortBy="Name" 
-		                     sortDescending="true"
-		                     title="Opportunities" 
-		                     gridPageId="editable"
-		                     customizeFields="true"
-		                     customizeFilter="true"
-		                     pageSize="5"
-		                     mode="edit"/>  
-		                        
-		    	 ...
-		   	</apex:form>
-		</apex:page>
-
-
-### TableGrid as an Advanced Lookup Popup
-
-> ![TableGrid as an Advanced Lookup Popup](https://raw.github.com/Up2Go/TableGrid/master/resources/advancedLookup.png)
-
-This  snippet is taken from the sample page `pages/tableGridAdvancedLookup.page`.
-
-	<apex:page standardController="Contact">    
-	    <apex:form>
-	    	...
-		    <c:advancedLookup > 
-		        <apex:inputField value="{!Contact.AccountId}" label="" />
-		    </c:advancedLookup>
-		    ...
-		</apex:form>
-	</apex:page>
-    
- 
+- tbd
 
 ## Known Issues/Todos ##
 
