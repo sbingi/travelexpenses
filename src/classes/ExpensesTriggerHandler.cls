@@ -2,6 +2,7 @@ public with sharing class ExpensesTriggerHandler extends AbstractTriggerHandler{
 	
 	private List<Expense__c> newExpenses;
 	private List<Expense__c> oldExpenses;
+	private Map<Id, Expense__c> oldExpensesById;
 	
 	private RuleValidator validator;
 		
@@ -11,6 +12,7 @@ public with sharing class ExpensesTriggerHandler extends AbstractTriggerHandler{
 	public ExpensesTriggerHandler() {
 		newExpenses = filterOutPerDiems(Trigger.new);
 		oldExpenses = filterOutPerDiems(Trigger.old);
+		oldExpensesById = filterOutPerDiems(Trigger.oldMap);
 		
 		validator = new RuleValidator(RuleType.ExpenseRule);
 	}
@@ -22,6 +24,7 @@ public with sharing class ExpensesTriggerHandler extends AbstractTriggerHandler{
 		validator.validate(newExpenses);	
 			
 		populateFields(newExpenses);
+		manageBreakfastInclusionForInsert(newExpenses);
 	}
 	
 	
@@ -29,6 +32,12 @@ public with sharing class ExpensesTriggerHandler extends AbstractTriggerHandler{
 		validator.validate(newExpenses);		
 		
 		populateFields(newExpenses);
+		manageBreakfastInclusionForUpdate(newExpenses);
+	}
+	
+	
+	public override void onBeforeDelete() {
+		manageBreakfastInclusionForDelete(oldExpenses);
 	}
 	
 	
@@ -61,6 +70,19 @@ public with sharing class ExpensesTriggerHandler extends AbstractTriggerHandler{
 		}
 		
 		return results;
+	}
+	
+	
+	private Map<Id, Expense__c> filterOutPerDiems(Map<Id,SObject> oldExpenses) {
+		Map<Id, Expense__c> resultMap = new Map<Id, Expense__c>();
+		
+		if( oldExpenses != null && !oldExpenses.isEmpty()) {
+			for(Expense__c e : (List<Expense__c>)oldExpenses.values()) {
+				resultMap.put(e.Id, e);
+			}
+		}
+		
+		return resultMap;
 	}
 	
 	
@@ -131,5 +153,126 @@ public with sharing class ExpensesTriggerHandler extends AbstractTriggerHandler{
 		else if(ExpenseType.isCompanyVehicle(expense)) {			
 			expense.pkl_Reimbursement__c = 'The company paid for this.';
 		}
+	}
+	
+	
+	private void manageBreakfastInclusionForInsert(List<Expense__c> expenses) {
+		List<Expense__c> accommodations = findAccommodationsWithBreakfastIncluded(expenses);
+		Boolean includeBreakfast = true;
+		
+		if( !accommodations.isEmpty()) {
+			BreakfastInclusionHandler handler = new BreakfastInclusionHandler(accommodations);
+			handler.handleInclusion(includeBreakfast);
+		}
+	}
+	
+	
+	private void manageBreakfastInclusionForUpdate(List<Expense__c> expenses) {
+		List<Expense__c> accommodations = findAccommodationsWhichNeedHandler(expenses);
+		List<Expense__c> oldAccommodations = findAccommodationsWithRedundantInvitations(accommodations);
+		
+		if( !accommodations.isEmpty()) {
+			BreakfastInclusionHandler handler = new BreakfastInclusionHandler(accommodations);
+			handler.handleRedundantInvitations(oldAccommodations);
+			handler.handleInclusionForUpdate();
+		}
+	}
+	
+	
+	private void manageBreakfastInclusionForDelete(List<Expense__c> expenses) {
+		List<Expense__c> accommodations = findAccommodationsWithBreakfastIncluded(expenses);
+		Boolean includeBreakfast = false;
+		
+		if( !accommodations.isEmpty()) {
+			BreakfastInclusionHandler handler = new BreakfastInclusionHandler(accommodations);
+			handler.handleInclusion(includeBreakfast);
+		}
+	}
+	
+	
+	private List<Expense__c> findAccommodationsWithBreakfastIncluded(List<Expense__c> expenses) {
+		List<Expense__c> results = new List<Expense__c>();
+		
+		for(Expense__c a : onlyAccommodationsIn(expenses)) {
+			if(a.chk_BreakfastIncluded__c) {
+				results.add(a);
+			}
+		}
+		
+		return results;
+	}
+	
+	
+	private List<Expense__c> onlyAccommodationsIn(List<Expense__c> expenses) {
+		List<Expense__c> results = new List<Expense__c>();
+		
+		for(Expense__c e : expenses) {
+			if(ExpenseType.isAccommodation(e)) {
+				results.add(e);
+			}
+		}
+		
+		return results;
+	}
+	
+	
+	private List<Expense__c> findAccommodationsWhichNeedHandler(List<Expense__c> expenses) {
+		List<Expense__c> results = new List<Expense__c>();
+		
+		for(Expense__c updated : onlyAccommodationsIn(expenses)) {
+			Expense__c old = oldExpensesById.get(updated.Id);
+			
+			if(needsBreakfastInclusion(updated, old)) {
+				results.add(updated);
+			}
+		}
+		
+		return results;
+	}
+	
+	
+	private Boolean needsBreakfastInclusion(Expense__c updated, Expense__c old) {
+		Boolean result = (updated.chk_BreakfastIncluded__c && timePeriodChanged(updated, old))
+						 || breakfastIncludedChanged(updated, old);
+		
+		return result;
+	}
+	
+	
+	private Boolean timePeriodChanged(Expense__c updated, Expense__c old) {
+		Boolean result = (updated.dat_CheckInDate__c != old.dat_CheckInDate__c) 
+						 || (updated.dat_CheckOutDate__c != old.dat_CheckOutDate__c);
+		
+		return result;
+	}
+	
+	
+	private Boolean breakfastIncludedChanged(Expense__c updated, Expense__c old) {
+		Boolean result = (updated.chk_BreakfastIncluded__c != old.chk_BreakfastIncluded__c);
+		
+		return result;
+	}
+	
+	
+	private List<Expense__c> findAccommodationsWithRedundantInvitations(List<Expense__c> accommodations) {
+		List<Expense__c> results = new List<Expense__c>();
+		
+		for(Expense__c updated : accommodations) {
+			Expense__c old = oldExpensesById.get(updated.Id);
+			
+			if(timePeriodHasBeenReduced(updated, old)) {
+				results.add(old);
+			}
+		}
+		
+		return results;
+	}
+	
+	
+	private Boolean timePeriodHasBeenReduced(Expense__c updated, Expense__c old) {
+		Boolean result = (updated.dat_CheckInDate__c > old.dat_CheckInDate__c)
+						 || (updated.dat_CheckOutDate__c < old.dat_CheckOutDate__c);
+		
+		return result;
 	}
 }
