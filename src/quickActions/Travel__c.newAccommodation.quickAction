@@ -3,6 +3,7 @@
     <height>700</height>
     <icon>Icon_Accommodation</icon>
     <label>New Accommodation</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <page>newAccommodationAction</page>
     <type>VisualforcePage</type>
     <width>-100</width>

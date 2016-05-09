@@ -3,6 +3,7 @@
     <height>900</height>
     <icon>Icon_Flight</icon>
     <label>New Flight</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <page>newFlightAction</page>
     <type>VisualforcePage</type>
     <width>-100</width>

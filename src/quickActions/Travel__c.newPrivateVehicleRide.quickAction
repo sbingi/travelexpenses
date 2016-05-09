@@ -3,6 +3,7 @@
     <height>750</height>
     <icon>Icon_Vehicle</icon>
     <label>New Private Vehicle Ride</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <page>newPrivateVehicleRideAction</page>
     <type>VisualforcePage</type>
     <width>-100</width>

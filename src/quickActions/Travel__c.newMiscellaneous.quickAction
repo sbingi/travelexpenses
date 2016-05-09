@@ -3,6 +3,7 @@
     <height>700</height>
     <icon>Icon_Miscellaneous</icon>
     <label>New Miscellaneous</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <page>newMiscellaneousAction</page>
     <type>VisualforcePage</type>
     <width>-100</width>

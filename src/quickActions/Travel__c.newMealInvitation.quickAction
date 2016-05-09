@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
     <icon>Icon_MealInvitation</icon>
+    <optionsCreateFeedItem>true</optionsCreateFeedItem>
     <quickActionLayout>
         <layoutSectionStyle>TwoColumnsLeftToRight</layoutSectionStyle>
         <quickActionLayoutColumns>
@@ -41,7 +42,7 @@
         <quickActionLayoutColumns/>
     </quickActionLayout>
     <standardLabel>New</standardLabel>
-    <targetObject>UP2GO_ITE__MealInvitation__c</targetObject>
-    <targetParentField>UP2GO_ITE__mdr_Travel__c</targetParentField>
+    <targetObject>MealInvitation__c</targetObject>
+    <targetParentField>mdr_Travel__c</targetParentField>
     <type>Create</type>
 </QuickAction>

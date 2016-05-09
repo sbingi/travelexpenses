@@ -3,6 +3,7 @@
     <height>900</height>
     <icon>Icon_Train</icon>
     <label>New Train Ride</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <page>newTrainRideAction</page>
     <type>VisualforcePage</type>
     <width>-100</width>

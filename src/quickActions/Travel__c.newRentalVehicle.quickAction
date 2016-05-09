@@ -3,6 +3,7 @@
     <height>600</height>
     <icon>Icon_Vehicle</icon>
     <label>New Rental Vehicle</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <page>newRentalAction</page>
     <type>VisualforcePage</type>
     <width>-100</width>

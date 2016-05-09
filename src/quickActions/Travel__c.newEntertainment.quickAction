@@ -3,6 +3,7 @@
     <height>825</height>
     <icon>Icon_Entertainment</icon>
     <label>New Entertainment</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <page>newEntertainmentAction</page>
     <type>VisualforcePage</type>
     <width>-100</width>
