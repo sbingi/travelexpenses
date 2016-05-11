@@ -5,7 +5,7 @@
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
 </a>
 
-[Installation/Download](#installationdownload) | [Usage](#usage-examples) | [Know Issues/Todos](#known-issuestodos) | [Third Party Code](#third-party-code) | [Licence](#visualforce-tablegrid-license)
+[Installation/Download](#installationdownload) | [Screenshots](#screenshots) | [Know Issues/Todos](#known-issuestodos) | [Third Party Code](#third-party-code) | [Licence](#visualforce-tablegrid-license)
 
 TravelExpenses is a free, open-source Salesforce.com application, designed to simplify the reimbursement process of business travels. 
 There are two kinds of users, Travelers and Expense Managers.
@@ -41,9 +41,13 @@ or
 2. Deploy the Force.com metadata under the src folder to your destination org. You can deploy that using [Force.com Migration Tool](http://wiki.developerforce.com/index.php/Force.com_Migration_Tool) #or by using [Force.com IDE](http://wiki.developerforce.com/index.php/Force.com_IDE)
 
 
-## Usage Examples ##
+## Screenshots ##
 
-- tbd
+<img src="https://github.com/Up2Go/travelexpenses/blob/master/resources/Salesforce1%20-%20Publisher%20Action%20-%20New%20Flight%20-%20Airfare.png" width="200">
+
+<img src="https://github.com/Up2Go/travelexpenses/blob/master/resources/Salesforce1%20-%20Publisher%20Action%20-%20New%20Flight%20-%20Datetimepicker.png" width="200">
+
+<img src="https://github.com/Up2Go/travelexpenses/blob/master/resources/Salesforce1%20-%20Publisher%20Action%20-%20New%20Travel.png" width="200">
 
 ## Known Issues/Todos ##
 
