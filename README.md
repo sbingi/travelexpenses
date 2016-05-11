@@ -1,10 +1,5 @@
 # TravelExpenses #
 
-<a href="https://githubsfdeploy.herokuapp.com?owner=Up2Go&repo=travelexpenses">
-  <img alt="Deploy to Salesforce"
-       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
-</a>
-
 [Installation/Download](#installationdownload) | [Screenshots](#screenshots) | [Know Issues/Todos](#known-issuestodos) | [Third Party Code](#third-party-code) | [Licence](#visualforce-tablegrid-license)
 
 TravelExpenses is a free, open-source Salesforce.com application, designed to simplify the reimbursement process of business travels. 
@@ -33,7 +28,10 @@ TravelExpenses ist eine kostenlose "open-source" Salesforce.com Anwendung welche
 
 ## Installation/Download ##
 
-**[Directly deploy to your Salesforce org](https://githubsfdeploy.herokuapp.com/app/githubdeploy/Up2Go/travelexpenses)**
+<a href="https://githubsfdeploy.herokuapp.com?owner=Up2Go&repo=travelexpenses">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
+</a>
 
 or
 
