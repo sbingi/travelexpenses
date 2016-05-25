@@ -1,5 +1,13 @@
 # TravelExpenses for Salesforce.com #
 
+<a href="https://githubsfdeploy.herokuapp.com?owner=Up2Go&repo=travelexpenses">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
+</a>
+
+<a href="https://codeclimate.com/github/Up2Go/travelexpenses"><img src="https://codeclimate.com/github/Up2Go/travelexpenses/badges/gpa.svg" /></a>
+<a href="https://codeclimate.com/github/Up2Go/travelexpenses"><img src="https://codeclimate.com/github/Up2Go/travelexpenses/badges/issue_count.svg" /></a>
+
 [Installation/Download](#installationdownload) | [Screenshots](#screenshots) | [Know Issues/Todos](#known-issuestodos) | [Third Party Code](#third-party-code) | [Licence](#visualforce-tablegrid-license)
 
 TravelExpenses is a free, open-source Salesforce.com application, designed to simplify the reimbursement process of business travels. 
@@ -24,19 +32,6 @@ TravelExpenses ist eine kostenlose "open-source" Salesforce.com Anwendung welche
 - PDF generation
 - Complete integration of Salesforce Chatter
 - Adapted to the german tax law
-
-
-## Installation/Download ##
-
-<a href="https://githubsfdeploy.herokuapp.com?owner=Up2Go&repo=travelexpenses">
-  <img alt="Deploy to Salesforce"
-       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
-</a>
-
-or
-
-1. Grab the source code: `git clone https://github.com/Up2Go/travelexpenses.git`
-2. Deploy the Force.com metadata under the src folder to your destination org. You can deploy that using [Force.com Migration Tool](http://wiki.developerforce.com/index.php/Force.com_Migration_Tool) #or by using [Force.com IDE](http://wiki.developerforce.com/index.php/Force.com_IDE)
 
 
 ## Screenshots ##
