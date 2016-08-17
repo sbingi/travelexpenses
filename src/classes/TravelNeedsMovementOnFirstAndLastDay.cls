@@ -1,77 +1,75 @@
-public with sharing class TravelNeedsMovementOnFirstAndLastDay implements SubmitTravelRule {
+public class Check_Movement implements SubmitTravelRule {
+
+	global static final integer MAX_MOVEMENTS_PER_TRAVEL = 8;
+	global static Boolean flag = false;
 	
-	
-	// PUBLIC METHODS
+	//Must be global so custom  JAVASCRIPT button can call it!!!
+	// Peter: TODO Do we still have that button? Why not take an Apex button? 
+	global static Map<Id, Set<Date>> GetDatesMap(Date start, Date end, Date firstHotel, List<Id> ids, User usr) {
+		Map<Id, SET<Date>> themap = new Map<Id, Set<Date>>();
+		Set<Id> movRts = getMovRts();
+		
+	     for(Expense__c e : (List<Expense__c>)Database.query('select RecordTypeId, dtm_departuretime__c, dtm_arrivalTime__c, MDR_TRAVEL__c, CHK_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c from Expense__c where mdr_Travel__c IN :ids')) {
+			if(themap.get(e.MDR_TRAVEL__c) != null) themap.put(e.mdr_Travel__c, new Set<Date>());
+			Set<Date> expDts = themap.get(t);
+			if(ExpenseType.isRentalVehicle(e)){
+				List<LongDistanceRide__c> rides = [SELECT dtm_departuretime__c, dtm_arrivalTime__c, chk_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c
+											  	 from Long_Distance_Ride__c where  mdr_rentalvehicle__c=: e.id];
+				for(LongDistanceRide__c r:rides) 
+				{	expDts.add(r.dtm_DepartureTime__c.date());
+					expDts.add(r.dtm_ArrivalTime__c.date());
+					
+					if(r.size() > MAX_MOVEMENTS_PER_TRAVEL || flag == true)
+						break;// Had to add it for Bugfix 3452354
+					else if(r.chk_RoundTrip__c) {
+						expDts.add(r.dtm_ReturnDeparture__c.date());
+						expDts.add(r.dtm_ReturnArrival__c.date());
+					}
+					
+					
+					else if(!e.chk_RoundTrip__c) 
+							expDts.add(e.dtm_ReturnArrival__c.date());
+				}
+			}
+			else{
+				expDts.add(e.dtm_DepartureTime__c.date());
+				expDts.add(e.dtm_ArrivalTime__c.date());
+				
+				if(e.chk_RoundTrip__c){
+					expDts.add(e.dtm_ReturnDeparture__c.date());
+					expDts.add(e.dtm_ReturnArrival__c.date());
+				}	
+				else if(!e.chk_RoundTrip__c)  {
+					expDts.add(e.dtm_ReturnArrival__c.date());
+				}
+			}		  	
+		}
+		return themap;
+	}
+
+	private Set<Id> getMovRts() {
+		Set<Id> movRts = ExpenseType.getMovementRecordTypeIds();
+		movRts.add(ExpenseType.getRentalVehicleRecordTypeId());
+		return movRts;
+	}
 	
 	public void validate(List<SObject> records) {
 		List<Travel__c> newTravels = (List<Travel__c>) records;
 		
-		Map<Id, Set<Date>> datesWithMovements = queryDatesWithMovementExpenses(newTravels);
+		Map<Id, Set<Date>> datesWithMovements = GetDatesMap(newTravels);
 										
-		for(Travel__c travel : newTravels) {
-			Set<Date> dates = datesWithMovements.get(travel.Id);
+		for(Travel__c t : newTravels) {
+			Set<Date> dates = datesWithMovements.get(t.Id);
 			
-			Date firstDay = travel.dtm_Start__c.date();
-			Date lastDay = travel.dtm_End__c.date();
+			Date firstDay = t.dtm_Start__c.date();
+			Date lastDay = t.dtm_End__c.date();
 		
 			if(dates == null || !dates.contains(firstDay)) {
-				travel.addError(System.Label.TravelNeedsMovementOnFirstDay);
+				t.addError(System.Label.TravelNeedsMovementOnFirstDay);
 			}
 			if(dates == null || !dates.contains(lastDay)) {
-				travel.addError(System.Label.TravelNeedsMovementOnLastDay);
+				t.addError(System.Label.TravelNeedsMovementOnLastDay);
 			}
 		}
-	}
-	
-	
-	// PRIVATE METHODS
-	
-	private Map<Id, Set<Date>> queryDatesWithMovementExpenses(List<Travel__c> travels) {
-		Map<Id, Set<Date>> resultMap = new Map<Id, Set<Date>>();
-		
-		Set<Id> movementRecordTypeIds = ExpenseType.getMovementRecordTypeIds();
-		movementRecordTypeIds.add(ExpenseType.getRentalVehicleRecordTypeId());
-		
-		for(Expense__c expense : [SELECT RecordTypeId, dtm_DepartureTime__c, dtm_ArrivalTime__c, mdr_Travel__c,
-										 chk_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c,
-										 (SELECT dtm_DepartureTime__c, dtm_ArrivalTime__c,
-										 		 chk_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c
-										  FROM Long_Distance_Rides__r)
-								  FROM Expense__c
-								  WHERE RecordTypeId IN :movementRecordTypeIds
-								  AND mdr_Travel__c IN :travels]) {
-								  	
-			Id travel = expense.mdr_Travel__c;
-								  	
-			if( !resultMap.containsKey(travel)) {
-				resultMap.put(travel, new Set<Date>());
-			}
-			
-			Set<Date> expenseDates = resultMap.get(travel);
-			
-			if(ExpenseType.isRentalVehicle(expense)) {
-				
-				for(LongDistanceRide__c ride : expense.Long_Distance_Rides__r) {
-					expenseDates.add(ride.dtm_DepartureTime__c.date());
-					expenseDates.add(ride.dtm_ArrivalTime__c.date());
-					
-					if(ride.chk_RoundTrip__c) {
-						expenseDates.add(ride.dtm_ReturnDeparture__c.date());
-						expenseDates.add(ride.dtm_ReturnArrival__c.date());
-					}
-				}
-			}
-			else {
-				expenseDates.add(expense.dtm_DepartureTime__c.date());
-				expenseDates.add(expense.dtm_ArrivalTime__c.date());
-				
-				if(expense.chk_RoundTrip__c) {
-					expenseDates.add(expense.dtm_ReturnDeparture__c.date());
-					expenseDates.add(expense.dtm_ReturnArrival__c.date());
-				}		
-			}		  	
-		}
-		
-		return resultMap;
 	}
 }
