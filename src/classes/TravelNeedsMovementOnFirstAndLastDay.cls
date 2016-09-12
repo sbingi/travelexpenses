@@ -1,11 +1,11 @@
-global class Check_Movement implements SubmitTravelRule {
+public class Check_Movement implements SubmitTravelRule {
 
 	global static final integer MAX_MOVEMENTS_PER_TRAVEL = 8;
 	global static Boolean flag = false;
 	
 // Must be global so custom  JAVASCRIPT button can call it!!!
 // Peter: TODO Do we still have that button? Why not take an Apex button? 
-global static Map<Id, Set<Date>> GetDatesMap(Date start, Date end, Date firstHotel, List<Id> ids, User usr) {
+public static Map<Id, Set<Date>> GetDatesMap(Date start, Date end, Date firstHotel, List<Id> ids, User usr) {
 	Map<Id, SET<Date>> themap = new Map<Id, Set<Date>>();
 	Set<Id> movRts = getMovRts();
 	
