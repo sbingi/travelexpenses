@@ -1,11 +1,11 @@
-public class Check_Movement implements SubmitTravelRule {
+global class Check_Movement implements SubmitTravelRule {
 
 	global static final integer MAX_MOVEMENTS_PER_TRAVEL = 8;
 	global static Boolean flag = false;
 	
 // Must be global so custom  JAVASCRIPT button can call it!!!
 // Peter: TODO Do we still have that button? Why not take an Apex button? 
-public static Map<Id, Set<Date>> GetDatesMap(Date start, Date end, Date firstHotel, List<Id> ids, User usr) {
+global static Map<Id, Set<Date>> GetDatesMap(Date start, Date end, Date firstHotel, List<Id> ids, User usr) {
 	Map<Id, SET<Date>> themap = new Map<Id, Set<Date>>();
 	Set<Id> movRts = getMovRts();
 	
@@ -13,9 +13,9 @@ public static Map<Id, Set<Date>> GetDatesMap(Date start, Date end, Date firstHot
 		if(themap.get(e.MDR_TRAVEL__c) != null) themap.put(e.mdr_Travel__c, new Set<Date>());
 		
 		Set<Date> expDts = themap.get(t);
+		if(ExpenseType.isRentalVehicle(e)){
 			List<LongDistanceRide__c> rides = [SELECT dtm_departuretime__c, dtm_arrivalTime__c, chk_RoundTrip__c, dtm_ReturnDeparture__c, dtm_ReturnArrival__c
 										  	 from Long_Distance_Ride__c where  mdr_rentalvehicle__c=: e.id];
-		if(ExpenseType.isRentalVehicle(e)){
 			for(LongDistanceRide__c r:rides) 
 			{	expDts.add(r.dtm_DepartureTime__c.date());
 				expDts.add(r.dtm_ArrivalTime__c.date());
