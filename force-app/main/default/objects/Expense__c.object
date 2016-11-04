@@ -49,14 +49,6 @@
         <type>Default</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
-    <compactLayouts>
-        <fullName>ExpenseMobile</fullName>
-        <fields>RecordTypeId</fields>
-        <fields>mdr_Travel__c</fields>
-        <fields>dat_ExpenseDate__c</fields>
-        <label>Expense Mobile</label>
-    </compactLayouts>
     <deploymentStatus>Deployed</deploymentStatus>
     <deprecated>false</deprecated>
     <description>Contains informations about the expenses.</description>
@@ -533,7 +525,6 @@
     <recordTypes>
         <fullName>Accommodation</fullName>
         <active>true</active>
-        <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
         <description>Expense for accommodation costs</description>
         <label>Accommodation</label>
         <picklistValues>
@@ -555,7 +546,6 @@
     <recordTypes>
         <fullName>CompanyVehicleRide</fullName>
         <active>true</active>
-        <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
         <description>Expense for a journey with a company vehicle</description>
         <label>Company Vehicle Ride</label>
         <picklistValues>
@@ -577,7 +567,6 @@
     <recordTypes>
         <fullName>Entertainment</fullName>
         <active>true</active>
-        <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
         <description>Expense for food and service costs</description>
         <label>Entertainment</label>
         <picklistValues>
@@ -599,7 +588,6 @@
     <recordTypes>
         <fullName>Flight</fullName>
         <active>true</active>
-        <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
         <description>Expense for airtravel</description>
         <label>Flight</label>
         <picklistValues>
@@ -621,7 +609,6 @@
     <recordTypes>
         <fullName>Miscellaneous</fullName>
         <active>true</active>
-        <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
         <description>Other expenses, such as taxi, metro, gasoline costs or parking fee.</description>
         <label>Miscellaneous</label>
         <picklistValues>
@@ -643,7 +630,6 @@
     <recordTypes>
         <fullName>PrivateVehicleRide</fullName>
         <active>true</active>
-        <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
         <description>Expense for a journey with a private vehicle</description>
         <label>Private Vehicle Ride</label>
         <picklistValues>
@@ -665,7 +651,6 @@
     <recordTypes>
         <fullName>RentalVehicle</fullName>
         <active>true</active>
-        <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
         <description>Expense for renting a vehicle.</description>
         <label>Rental Vehicle</label>
         <picklistValues>
@@ -687,7 +672,6 @@
     <recordTypes>
         <fullName>SeaTravel</fullName>
         <active>true</active>
-        <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
         <description>Expense for a journey with a boat</description>
         <label>Sea Travel</label>
         <picklistValues>
@@ -709,7 +693,6 @@
     <recordTypes>
         <fullName>TrainRide</fullName>
         <active>true</active>
-        <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
         <description>Expense for travels by train</description>
         <label>Train Ride</label>
         <picklistValues>
@@ -731,7 +714,6 @@
     <recordTypes>
         <fullName>perDiem</fullName>
         <active>true</active>
-        <compactLayoutAssignment>ExpenseMobile</compactLayoutAssignment>
         <description>auto-generated Expense records for calculating the per diem allowance</description>
         <label>per Diem</label>
         <picklistValues>

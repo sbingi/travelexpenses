@@ -10,7 +10,7 @@ public with sharing class ExpenseType {
 		
 		for(RecordType rt : [SELECT Id, DeveloperName
 						 	 FROM RecordType
-						 	 WHERE SobjectType = 'UP2GO_ITE__Expense__c']) {
+						 	 WHERE SobjectType = 'Expense__c']) {
 			for(Type type : Type.values()) {
 				
 				if(type.name() == rt.DeveloperName) {

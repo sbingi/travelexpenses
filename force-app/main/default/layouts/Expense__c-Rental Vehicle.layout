@@ -79,7 +79,7 @@
             <quickActionName>FeedItem.ContentPost</quickActionName>
         </quickActionListItems>
         <quickActionListItems>
-            <quickActionName>UP2GO_ITE__Expense__c.newLongDistanceRide</quickActionName>
+            <quickActionName>Expense__c.newLongDistanceRide</quickActionName>
         </quickActionListItems>
     </quickActionList>
     <relatedLists>

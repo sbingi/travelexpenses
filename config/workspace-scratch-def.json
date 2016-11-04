@@ -1,10 +1,12 @@
 {
-  "Company": "Demo Company",
-  "Country": "US",
-  "LastName": "Demo",
-  "Email": "wade.wegner@salesforce.com",
-  "Edition": "Developer",
-  "OrgPreferences" : {
-    "S1DesktopEnabled" : true
-  }
+	"Company": "Up2Go International",
+	"Country": "US",
+	"LastName": "Sösemann",
+	"Email": "robert.soesemann@up2go.com",
+	"UserName": "rsoese@devpreview.scratch1",
+	"Edition": "Developer",
+	"Features": "MultiCurrency;AuthorApex",
+	"OrgPreferences": {
+		"ChatterEnabled": true
+	}
 }
