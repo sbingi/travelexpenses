@@ -5,9 +5,11 @@ engines:
     enabled: true
     config:
       extensions:
-      - .resource
+      - _js.resource
   csslint:
     enabled: true
+    extensions:
+      - _css.resource
 ratings:
   paths:
     - "**.cls"
