@@ -11,7 +11,7 @@
         $j(document).ready(function() {
              var approvalButton = $j('input.btn[name="piSubmit"]');
              var unlockButton = $j('input.btn[name="unlock"]');     
-             var submitButton = $j('input.btn[name="generateperdiemsandsubmittravel"]');
+             var submitButton = $j('input.btn[name="up2go_ite__generateperdiemsandsubmittravel"]');
              var recordId = getParameterByName('id');
                   
              disable( approvalButton );
