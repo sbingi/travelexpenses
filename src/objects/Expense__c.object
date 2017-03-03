@@ -23,10 +23,6 @@
         <type>Visualforce</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -418,24 +414,27 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Reimbursement</label>
-        <picklist>
-            <picklistValues>
-                <fullName>I paid for this, please reimburse me.</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>The company paid for this.</fullName>
-                <default>false</default>
-            </picklistValues>
-            <picklistValues>
-                <fullName>The customer paid for this.</fullName>
-                <default>false</default>
-            </picklistValues>
-            <sorted>false</sorted>
-        </picklist>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>I paid for this, please reimburse me.</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>The company paid for this.</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>The customer paid for this.</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>txa_Description__c</fullName>

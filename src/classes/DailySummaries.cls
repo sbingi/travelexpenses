@@ -168,21 +168,18 @@ public with sharing class DailySummaries {
 
         if(e.lkp_MealInvitation__r.lkp_Breakfast__c != null) {
             amount = e.lkp_MealInvitation__r.lkp_Breakfast__r.pct_FullDayAllowanceRate__c;
-
             element = createDeductionInfo(e,'> Gekürzt für Frühstück',amount);   
 
             results.add(element);
         }
         if(e.lkp_MealInvitation__r.lkp_Lunch__c != null) {
             amount = e.lkp_MealInvitation__r.lkp_Lunch__r.pct_FullDayAllowanceRate__c;
-
             element = createDeductionInfo(e,'> Gekürzt für Mittagessen',amount); 
 
             results.add(element);
         }
         if(e.lkp_MealInvitation__r.lkp_Dinner__c != null) {
             amount = e.lkp_MealInvitation__r.lkp_Dinner__r.pct_FullDayAllowanceRate__c;
-
             element = createDeductionInfo(e,'> Gekürzt für Abendessen',amount); 
 
             results.add(element);

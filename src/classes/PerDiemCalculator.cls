@@ -1,6 +1,6 @@
 public with sharing class PerDiemCalculator {
     
-    private  Travel__c travel;
+    private Travel__c travel;
     private CompensationRate__c currentLocation; 
     
     private List<Expense__c> movementExpenses;
@@ -34,16 +34,20 @@ public with sharing class PerDiemCalculator {
 	    	if(isShorterOrEqualEightHours()) {
 	    		newPerDiems.add(generateShortTravelPerDiem());
 	    	}
-	    	else if(isOvernightTravel()) {
-				newPerDiems.add(generateOverNightPerDiem());
-	    	}
 	    	else {
-	    		newPerDiems.addAll(generatePerDiems());	
+	    		if(isOvernightTravel()) {
+					newPerDiems.add(generateOverNightPerDiem());
+	    		}
+	    		else {
+	    			newPerDiems.addAll(generatePerDiems());
+	    		}
 	    	}
 	    	
 	    	insert newPerDiems;
     	}
-    	catch(Exception ignore) {}
+    	catch(Exception ignore) {
+    		// Note: If error occurs no calculation of Per Diems.
+    	}
     }
     
     

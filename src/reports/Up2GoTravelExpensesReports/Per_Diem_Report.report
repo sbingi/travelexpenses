@@ -14,6 +14,7 @@
     <filter>
         <criteriaItems>
             <column>Travel__c.Expenses__r$RecordType</column>
+            <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>Expense__c.perDiem</value>
         </criteriaItems>
