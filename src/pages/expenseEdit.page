@@ -265,8 +265,8 @@
         </apex:pageBlock>
         
     </apex:form>
-    
-    <script src="https://maps.googleapis.com/maps/api/js?language=en&sensor=false&libraries=places" type="text/javascript"></script>  
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwbCLCj5xSglAIzJh2vGbeNE1Gr8_Togw&language=en&libraries=places" type="text/javascript"></script>  
     <script type="text/javascript"> 
         
         google.maps.event.addDomListener(window, 'load', initialize);
