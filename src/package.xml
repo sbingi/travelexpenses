@@ -2,7 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Travel Expense App</fullName>
     <apiAccessLevel>Restricted</apiAccessLevel>
-    <namespacePrefix>UP2GO_ITE</namespacePrefix>
+    <namespacePrefix>Liraliram12</namespacePrefix>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
