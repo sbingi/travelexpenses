@@ -1,8 +1,8 @@
 # TravelExpenses for Salesforce.com #
 
-<a href="https://githubsfdeploy.herokuapp.com?owner=Up2Go&repo=travelexpenses">
+<a href="https://githubsfdeploy.herokuapp.com?owner=sbingi&repo=Travelexpenses&ref=master">
   <img alt="Deploy to Salesforce"
-       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
 
 <a href="https://codeclimate.com/github/Up2Go/travelexpenses"><img src="https://codeclimate.com/github/Up2Go/travelexpenses/badges/gpa.svg" /></a>
